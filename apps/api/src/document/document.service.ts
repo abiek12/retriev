@@ -33,7 +33,7 @@ class DocumentService {
 
     let embeddings;
     try {
-      embeddings = await embeddingProvider.embedDocumentChunks(chunks);
+      embeddings = await embeddingProvider.embedChunks(chunks);
     } catch (err) {
       console.log("Error while embedding doc: ", err);
       throw new Error("error while embeddings");

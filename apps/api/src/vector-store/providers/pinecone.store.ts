@@ -1,29 +1,32 @@
 import { env } from "../../config/env";
 import { IVectorStore } from "../vector-store.interface";
-import { Pinecone, Pinecone as PineconeClient } from "@pinecone-database/pinecone";
+import {
+  Pinecone,
+  Pinecone as PineconeClient,
+} from "@pinecone-database/pinecone";
 
 class PineconeStore implements IVectorStore {
   private pinecone = new Pinecone({
-    apiKey: env.pineconeApiKey
+    apiKey: env.pineconeApiKey,
   });
 
   private index = this.pinecone.index({
-    name: env.pineconeIndex
+    name: env.pineconeIndex,
   });
 
   async addDocuments(chunks: any[]): Promise<void> {
-    await this.index.upsert({records: chunks})
-  };
+    await this.index.upsert({ records: chunks });
+  }
 
-  async similaritySearch(query: number[]): Promise<any> {
+  async similaritySearch(query: number[], topK: number): Promise<any> {
     const response = await this.index.query({
       vector: query,
-      topK: 3,
-      includeMetadata: true
-    })
+      topK: topK,
+      includeMetadata: true,
+    });
 
-    return response.matches[0].id
-  };
-};
+    return response.matches[0].id;
+  }
+}
 
 export default PineconeStore;
