@@ -1,15 +1,20 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-import controller from "./document.controller";
 import { IndexDocumentDto } from "./dto/index-document.dto";
+import { documentController } from "./index";
 
 const router = new Hono();
 
-router.post("/index-file", zValidator("json", IndexDocumentDto), (c) =>
-  controller.indexFile(c),
+router.post(
+  "/index-file",
+  zValidator("json", IndexDocumentDto),
+  documentController.indexFile,
 );
-router.post("/index-text", zValidator("json", IndexDocumentDto), (c) =>
-  controller.indexText(c),
+
+router.post(
+  "/index-text",
+  zValidator("json", IndexDocumentDto),
+  documentController.indexText,
 );
 
 export default router;

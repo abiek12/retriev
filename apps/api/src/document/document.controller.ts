@@ -6,7 +6,7 @@ import DocumentService from "./document.service";
 class DocumentController {
   constructor(private documentService: DocumentService) {}
 
-  async indexFile(c: Context) {
+  indexFile = async (c: Context) => {
     const filePath = `${import.meta.dir}/../test.pdf`;
     const type = "file";
 
@@ -16,9 +16,9 @@ class DocumentController {
       success: true,
       message: "Document indexed successfully",
     });
-  }
+  };
 
-  async indexText(c: Context) {
+  indexText = async (c: Context) => {
     let body: IndexDocumentDtoType = await c.req.json();
     body.type = "text";
 
@@ -28,7 +28,7 @@ class DocumentController {
       success: true,
       message: "Document indexed successfully",
     });
-  }
+  };
 }
 
 export default DocumentController;

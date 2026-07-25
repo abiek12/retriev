@@ -1,6 +1,10 @@
+import { embeddingProvider, vectorStoreProvider } from "../app";
 import DocumentController from "./document.controller";
 import DocumentService from "./document.service";
 
-const documentService = new DocumentService();
+const documentService = new DocumentService(
+  embeddingProvider,
+  vectorStoreProvider,
+);
 
-const documentController = new DocumentController(documentService);
+export const documentController = new DocumentController(documentService);

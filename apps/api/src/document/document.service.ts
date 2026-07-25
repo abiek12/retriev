@@ -1,11 +1,8 @@
-import EmbeddingFactory from "../embeddings/embedding.factory";
 import { IEmbeddingsProvider } from "../embeddings/embedding.interface";
-import { EmbeddingsModelConfig } from "../embeddings/embedding.types";
-import { ChunkFile, filePrepareFactory } from "../prepare";
+import { ChunkFile } from "../prepare";
+import filePrepareFactory from "../prepare/loaders/file-loader-factory";
 import { FileTypes } from "../utils/enums";
-import VectorStoreFactory from "../vector-store/vector-store.factory";
 import { IVectorStore } from "../vector-store/vector-store.interface";
-import { VectorStoreConfig } from "../vector-store/vector-store.types";
 import { IndexDocumentDtoType } from "./dto/index-document.dto";
 
 class DocumentService {
@@ -14,7 +11,7 @@ class DocumentService {
     private vectorStoreProvider: IVectorStore,
   ) {}
 
-  async index(dto: IndexDocumentDtoType) {
+  index = async (dto: IndexDocumentDtoType) => {
     let content;
 
     switch (dto.type) {
@@ -60,7 +57,7 @@ class DocumentService {
     }
 
     return;
-  }
+  };
 }
 
 export default DocumentService;

@@ -3,10 +3,8 @@ import { IFileLoader } from "./prepare-loader.interface.ts";
 import PDFLoader from "./providers/pdf-loader";
 import TextLoader from "./providers/text-loader";
 
-export class filePrepareFactory {
-  private constructor() {}
-
-  public static createFileLoader(type: FileTypes): IFileLoader {
+class filePrepareFactory {
+  static createFileLoader(type: FileTypes): IFileLoader {
     switch (type) {
       case FileTypes.PDF:
         return new PDFLoader();
@@ -17,3 +15,5 @@ export class filePrepareFactory {
     }
   }
 }
+
+export default filePrepareFactory;
