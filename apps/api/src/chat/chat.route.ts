@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import controller from "./chat.controller";
+import { chatController } from "./index";
 
 const router = new Hono();
 
-router.post("/chat/messages", (c) => controller.chat(c));
+router.post("/chat/messages", chatController.chat);

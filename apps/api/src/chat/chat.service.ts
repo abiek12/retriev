@@ -1,5 +1,5 @@
 class ChatService {
-  async sendMessage(dto: any) {
+  chat = async (dto: any) => {
     // Save message
     // Retrieve history
     // Retrive rag context
@@ -12,7 +12,7 @@ class ChatService {
     // Save assistant message
 
     return;
-  }
+  };
 }
 
-export default new ChatService();
+export default ChatService;

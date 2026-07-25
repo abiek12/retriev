@@ -1,18 +1,20 @@
 import { Context } from "hono";
-import chatService from "./chat.service";
+import ChatService from "./chat.service";
 
 class ChatController {
-  async chat(c: Context) {
+  constructor(private readonly chatService: ChatService) {}
+
+  chat = async (c: Context) => {
     const body = await c.req.json();
 
-    const response = await chatService.sendMessage(body);
+    const response = await this.chatService.chat(body);
 
     return c.json({
       success: true,
       data: response,
       message: "Success",
     });
-  }
+  };
 }
 
-export default new ChatController();
+export default ChatController;
