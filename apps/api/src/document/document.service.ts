@@ -1,3 +1,4 @@
+import { embeddingProvider, vectorStoreProvider } from "../app";
 import EmbeddingFactory from "../embeddings/embedding.factory";
 import { EmbeddingsModelConfig } from "../embeddings/embedding.types";
 import { ChunkFile, filePrepareFactory } from "../prepare";
@@ -27,10 +28,6 @@ class DocumentService {
     const chunks = await contentSplitter.textSplitter(content);
 
     // Embeddings
-    const embeddingProvider = EmbeddingFactory.getInstance(
-      EmbeddingsModelConfig.OPENAI,
-    );
-
     let embeddings;
     try {
       embeddings = await embeddingProvider.embedChunks(chunks);
@@ -49,9 +46,6 @@ class DocumentService {
     }));
 
     // Store in vector store
-    const vectorStoreProvider = VectorStoreFactory.getInstance(
-      VectorStoreConfig.PINECONE,
-    );
     try {
       await vectorStoreProvider.addDocuments(vectors);
     } catch (err) {
