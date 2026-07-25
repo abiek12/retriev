@@ -3,7 +3,7 @@ import { EmbeddingsModelConfig } from "../embeddings/embedding.types";
 import VectorStoreFactory from "../vector-store/vector-store.factory";
 import { VectorStoreConfig } from "../vector-store/vector-store.types";
 
-export const bootStrap = () => {
+export const createInfrastructure = () => {
   const embeddingProvider = EmbeddingFactory.getInstance(
     EmbeddingsModelConfig.OPENAI,
   );
@@ -12,7 +12,8 @@ export const bootStrap = () => {
     VectorStoreConfig.PINECONE,
   );
 
-  const 
-
-  return { embeddingProvider, vectorStoreProvider };
+  return {
+    embeddingProvider,
+    vectorStoreProvider,
+  };  
 };

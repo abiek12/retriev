@@ -3,4 +3,6 @@ import { chatController } from "./index";
 
 const router = new Hono();
 
-router.post("/chat/messages", chatController.chat);
+router.post("/messages", chatController.chat);
+
+export default router;
