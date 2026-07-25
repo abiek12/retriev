@@ -1,4 +1,12 @@
+import { IEmbeddingsProvider } from "../embeddings/embedding.interface";
+import { IVectorStore } from "../vector-store/vector-store.interface";
+
 class ChatService {
+  constructor(
+    private embeddingProvider: IEmbeddingsProvider,
+    private vectorStoreProvider: IVectorStore,
+  ) {}
+
   chat = async (dto: any) => {
     // Save message
     // Retrieve history
