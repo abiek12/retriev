@@ -12,5 +12,7 @@ export const bootStrap = () => {
     VectorStoreConfig.PINECONE,
   );
 
+  const 
+
   return { embeddingProvider, vectorStoreProvider };
 };

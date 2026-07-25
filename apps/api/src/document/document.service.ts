@@ -1,13 +1,19 @@
-import { embeddingProvider, vectorStoreProvider } from "../app";
 import EmbeddingFactory from "../embeddings/embedding.factory";
+import { IEmbeddingsProvider } from "../embeddings/embedding.interface";
 import { EmbeddingsModelConfig } from "../embeddings/embedding.types";
 import { ChunkFile, filePrepareFactory } from "../prepare";
 import { FileTypes } from "../utils/enums";
 import VectorStoreFactory from "../vector-store/vector-store.factory";
+import { IVectorStore } from "../vector-store/vector-store.interface";
 import { VectorStoreConfig } from "../vector-store/vector-store.types";
 import { IndexDocumentDtoType } from "./dto/index-document.dto";
 
 class DocumentService {
+  constructor(
+    private embeddingProvider: IEmbeddingsProvider,
+    private vectorStoreProvider: IVectorStore,
+  ) {}
+
   async index(dto: IndexDocumentDtoType) {
     let content;
 
@@ -30,7 +36,7 @@ class DocumentService {
     // Embeddings
     let embeddings;
     try {
-      embeddings = await embeddingProvider.embedChunks(chunks);
+      embeddings = await this.embeddingProvider.embedChunks(chunks);
     } catch (err) {
       console.log("Error while embedding doc: ", err);
       throw new Error("error while embeddings");
@@ -47,7 +53,7 @@ class DocumentService {
 
     // Store in vector store
     try {
-      await vectorStoreProvider.addDocuments(vectors);
+      await this.vectorStoreProvider.addDocuments(vectors);
     } catch (err) {
       console.log("Error while store embeddings to store: ", err);
       throw new Error("Error while store embeddings to store");
@@ -57,4 +63,4 @@ class DocumentService {
   }
 }
 
-export default new DocumentService();
+export default DocumentService;

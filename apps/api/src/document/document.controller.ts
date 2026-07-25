@@ -1,13 +1,16 @@
 import type { Context } from "hono";
 import documentService from "./document.service";
 import { IndexDocumentDtoType } from "./dto/index-document.dto";
+import DocumentService from "./document.service";
 
 class DocumentController {
+  constructor(private documentService: DocumentService) {}
+
   async indexFile(c: Context) {
     const filePath = `${import.meta.dir}/../test.pdf`;
     const type = "file";
 
-    await documentService.index({ type, filePath });
+    await this.documentService.index({ type, filePath });
 
     return c.json({
       success: true,
@@ -19,7 +22,7 @@ class DocumentController {
     let body: IndexDocumentDtoType = await c.req.json();
     body.type = "text";
 
-    await documentService.index(body);
+    await this.documentService.index(body);
 
     return c.json({
       success: true,
@@ -28,4 +31,4 @@ class DocumentController {
   }
 }
 
-export default new DocumentController();
+export default DocumentController;
