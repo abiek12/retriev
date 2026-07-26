@@ -9,13 +9,12 @@ class ChatService {
   ) {}
 
   chat = async (dto: UserChatQueryType) => {
+    const { agentId, userQuery } = dto;
     // Save message
     // Retrieve history
 
     // Embed user query.
-    const embeddedQuery = await this.embeddingProvider.embedChunk(
-      dto.userQuery,
-    );
+    const embeddedQuery = await this.embeddingProvider.embedChunk(userQuery);
 
     // Retrive rag context
     const memoryContext = await this.vectorStoreProvider.similaritySearch(
@@ -24,6 +23,7 @@ class ChatService {
     );
 
     // Call LLM with all these context
+    
 
     // Receive chunks
     // Forward chunks immediately
