@@ -3,7 +3,7 @@ import { ITool } from "../tool.interface";
 import { env } from "../../config/env";
 
 class WebSearchTool implements ITool<{ query: string }, string> {
-  readonly name: string = "web_search";
+  readonly name: string = "webSearch";
   readonly description: string =
     "allows models to retrieve real-time information from the internet and supply answers with direct source citations.";
   private readonly tvly = tavily({ apiKey: env.tavilyApiKey });
