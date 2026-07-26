@@ -1,6 +1,6 @@
 import { ILlmProivder, ILlmRequest, ILlmResponse } from "../llm.interface";
 
-class GroqLlmProvider implements ILlmProivder {
+class GroqProvider implements ILlmProivder {
   generateChatCompletion(request: ILlmRequest): Promise<ILlmResponse> {
     return new Promise(() => {
       return {
@@ -11,4 +11,4 @@ class GroqLlmProvider implements ILlmProivder {
   }
 }
 
-export default GroqLlmProvider;
+export default GroqProvider;
