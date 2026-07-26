@@ -6,7 +6,7 @@ import { UserChatQueryDto } from "./dto/query-chat.dto";
 const router = new Hono();
 
 router.post(
-  "/messages",
+  "/message",
   zValidator("json", UserChatQueryDto),
   chatController.chat,
 );

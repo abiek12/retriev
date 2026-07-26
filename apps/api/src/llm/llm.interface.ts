@@ -1,8 +1,9 @@
 import { ToolCall } from "openai/resources/beta/threads/runs/steps";
 import { Tool } from "openai/resources/responses/responses";
+import { IRoles } from "./llm.types";
 
 export interface ILlmMessage {
-  role: "system" | "user" | "assistant" | "tool";
+  role: IRoles;
   content: string;
   toolCallId?: string;
   name?: string;
@@ -14,7 +15,7 @@ export interface ILlmRequest {
   tools?: Tool;
   stream?: boolean;
   responseFormat?: "text" | "json";
-  temperatur?: number;
+  temperature?: number;
   maxTokens?: number;
 }
 
