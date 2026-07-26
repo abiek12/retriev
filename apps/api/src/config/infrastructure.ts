@@ -1,5 +1,6 @@
 import EmbeddingFactory from "../embeddings/embedding.factory";
 import { EmbeddingsModelConfig } from "../embeddings/embedding.types";
+import { createToolRegistry } from "../tools";
 import VectorStoreFactory from "../vector-store/vector-store.factory";
 import { VectorStoreConfig } from "../vector-store/vector-store.types";
 
@@ -12,8 +13,14 @@ export const createInfrastructure = () => {
     VectorStoreConfig.PINECONE,
   );
 
+  const toolRegistry = createToolRegistry(
+    embeddingProvider,
+    vectorStoreProvider,
+  );
+
   return {
     embeddingProvider,
     vectorStoreProvider,
-  };  
+    toolRegistry,
+  };
 };

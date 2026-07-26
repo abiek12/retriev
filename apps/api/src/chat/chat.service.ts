@@ -1,29 +1,15 @@
-import { IEmbeddingsProvider } from "../embeddings/embedding.interface";
-import { IVectorStore } from "../vector-store/vector-store.interface";
+import ToolRegistry from "../tools/tool.registry";
 import { UserChatQueryType } from "./dto/query-chat.dto";
 
 class ChatService {
-  constructor(
-    private embeddingProvider: IEmbeddingsProvider,
-    private vectorStoreProvider: IVectorStore,
-  ) {}
+  constructor(private toolRegistry: ToolRegistry) {}
 
   chat = async (dto: UserChatQueryType) => {
     const { agentId, userQuery } = dto;
     // Save message
     // Retrieve history
 
-    // Embed user query.
-    const embeddedQuery = await this.embeddingProvider.embedChunk(userQuery);
-
-    // Retrive rag context
-    const memoryContext = await this.vectorStoreProvider.similaritySearch(
-      embeddedQuery,
-      5,
-    );
-
-    // Call LLM with all these context
-    
+    // Call LLM
 
     // Receive chunks
     // Forward chunks immediately
@@ -33,6 +19,11 @@ class ChatService {
     // Save assistant message
 
     return;
+  };
+
+  executeTool = async (toolName: string, args: unknown) => {
+    const tool = this.toolRegistry.get(toolName);
+    return await tool.execute(args);
   };
 }
 
