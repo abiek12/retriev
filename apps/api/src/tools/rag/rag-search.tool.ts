@@ -3,7 +3,7 @@ import { IVectorStore } from "../../vector-store/vector-store.interface";
 import { ITool } from "../tool.interface";
 
 class RagSearchTool implements ITool<{ query: string }, string[]> {
-  readonly name: string = "rag_search";
+  readonly name: string = "ragSearch";
   readonly description: string = "Searches indexed knowledge base.";
 
   constructor(

@@ -15,13 +15,11 @@ class GroqProvider implements ILlmProivder {
       temperature: request.temperature,
     });
 
-    const response = {
+    return {
       content: completion?.choices[0]?.message?.content,
       finishReason: completion?.choices[0]?.finish_reason,
       toolCalls: completion?.choices[0]?.message?.tool_calls,
     };
-
-    return response;
   }
 }
 

@@ -15,7 +15,7 @@ class ChatService {
     {
       type: "function",
       function: {
-        name: "web_search",
+        name: "webSearch",
         description:
           "Search the public internet for up-to-date or real-time information. Use this tool when the answer requires recent news, live data, current events, weather, sports scores, market prices, or information not available in the knowledge base.",
         parameters: {
@@ -28,14 +28,13 @@ class ChatService {
             },
           },
           required: ["query"],
-          additionalProperties: false,
         },
       },
     },
     {
       type: "function",
       function: {
-        name: "rag_search",
+        name: "ragSearch",
         description:
           "Search the application's private knowledge base and retrieve relevant documents. Use this tool only when answering questions about information contained in the indexed documents, company data, uploaded files, manuals, policies, or other internal knowledge.",
         parameters: {
@@ -48,7 +47,6 @@ class ChatService {
             },
           },
           required: ["query"],
-          additionalProperties: false,
         },
       },
     },
@@ -93,14 +91,13 @@ class ChatService {
       currentCount++;
 
       const res = await this.llmProvider.generateChatCompletion(request);
+
       request.messages.push({
         role: "assistant",
         content: res.content ?? "",
         toolCalls: res.toolCalls,
       });
 
-      console.log("llm response: ");
-      console.dir(res, { depth: 8 });
       const toolCallings = res.toolCalls;
       if (!toolCallings) {
         console.log("Completed!");
@@ -113,16 +110,13 @@ class ChatService {
         const functionParams = JSON.parse(tool.function.arguments);
 
         const toolRes = await this.executeTool(functionName, functionParams);
-        // console.log("tool response:", toolRes);
         request.messages.push({
-          content: JSON.stringify(toolRes),
           role: "tool",
+          content: JSON.stringify(toolRes),
           name: functionName,
           toolCallId: tool.id,
         });
       }
-
-      console.log("REQ:", request);
     }
   };
 }
