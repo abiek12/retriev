@@ -7,12 +7,12 @@ class GroqProvider implements ILlmProivder {
   private groq = new Groq({ apiKey: env.groqApiKey });
   async generateChatCompletion(request: ILlmRequest): Promise<ILlmResponse> {
     const completion = await this.groq.chat.completions.create({
+      model: request.model || "llama-3.1-8b-instant",
       messages: toGroqMessages(request.messages),
-      model: request.model,
-      tools: request.tools,
+      tools: request?.tools,
       tool_choice: "auto",
       stream: false,
-      temperature: request.temperature,
+      temperature: request?.temperature ?? 0.2,
     });
 
     return {
