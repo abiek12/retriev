@@ -1,7 +1,7 @@
 import { ILlmProivder, ILlmRequest } from "../llm/llm.interface";
 import ToolRegistry from "../tools/tool.registry";
 import { UserChatQueryType } from "./dto/query-chat.dto";
-import llmConfig from "../config/llm.config";
+import llmConfig, { MAX_RETRY } from "../config/llm.config";
 import { IRoles } from "../llm/llm.types";
 import { SYSTEM_PROMPT } from "../config/system-prompt";
 
@@ -28,13 +28,14 @@ class ChatService {
             },
           },
           required: ["query"],
+          additionalProperties: false,
         },
       },
     },
     {
       type: "function",
       function: {
-        name: "ragSearch",
+        name: "rag_search",
         description:
           "Search the application's private knowledge base and retrieve relevant documents. Use this tool only when answering questions about information contained in the indexed documents, company data, uploaded files, manuals, policies, or other internal knowledge.",
         parameters: {
@@ -47,6 +48,7 @@ class ChatService {
             },
           },
           required: ["query"],
+          additionalProperties: false,
         },
       },
     },
@@ -66,10 +68,6 @@ class ChatService {
 
   chat = async (dto: UserChatQueryType) => {
     const { agentId, userQuery } = dto;
-    this.baseMessage.push({
-      role: "user",
-      content: userQuery,
-    });
 
     const request: ILlmRequest = {
       messages: this.baseMessage,
@@ -81,9 +79,51 @@ class ChatService {
       temperature: llmConfig.temperature,
     };
 
-    const res = await this.llmProvider.generateChatCompletion(request);
+    request.messages.push({
+      role: "user",
+      content: userQuery,
+    });
 
-    return res;
+    let currentCount = 0;
+    while (true) {
+      if (currentCount > MAX_RETRY) {
+        console.log("Max retry exceeded!");
+        return "I could not find the result, please try again!";
+      }
+      currentCount++;
+
+      const res = await this.llmProvider.generateChatCompletion(request);
+      request.messages.push({
+        role: "assistant",
+        content: res.content ?? "",
+        toolCalls: res.toolCalls,
+      });
+
+      console.log("llm response: ");
+      console.dir(res, { depth: 8 });
+      const toolCallings = res.toolCalls;
+      if (!toolCallings) {
+        console.log("Completed!");
+        return res;
+      }
+
+      for (let tool of toolCallings) {
+        console.log("Tool calling!");
+        const functionName = tool.function.name;
+        const functionParams = JSON.parse(tool.function.arguments);
+
+        const toolRes = await this.executeTool(functionName, functionParams);
+        // console.log("tool response:", toolRes);
+        request.messages.push({
+          content: JSON.stringify(toolRes),
+          role: "tool",
+          name: functionName,
+          toolCallId: tool.id,
+        });
+      }
+
+      console.log("REQ:", request);
+    }
   };
 }
 

@@ -25,7 +25,7 @@ class PineconeStore implements IVectorStore {
       includeMetadata: true,
     });
 
-    return response.matches[0].id;
+    return response.matches[0].metadata;
   }
 }
 

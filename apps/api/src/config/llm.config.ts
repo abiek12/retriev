@@ -6,3 +6,5 @@ export default {
   temperature: 0,
   maxTokens: 2048,
 };
+
+export const MAX_RETRY = 10;

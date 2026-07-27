@@ -4,6 +4,7 @@ export interface ILlmMessage {
   role: IRoles;
   content: string;
   toolCallId?: string;
+  toolCalls?: any;
   name?: string;
 }
 

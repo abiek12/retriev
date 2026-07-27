@@ -1,26 +1,24 @@
 import { env } from "../../config/env";
+import { toGroqMessages } from "../../utils/helpers";
 import { ILlmProivder, ILlmRequest, ILlmResponse } from "../llm.interface";
 import Groq from "groq-sdk";
 
 class GroqProvider implements ILlmProivder {
   private groq = new Groq({ apiKey: env.groqApiKey });
   async generateChatCompletion(request: ILlmRequest): Promise<ILlmResponse> {
-    const { model, messages, tools, responseFormat } = request;
     const completion = await this.groq.chat.completions.create({
-      messages,
-      model,
-      tools,
+      messages: toGroqMessages(request.messages),
+      model: request.model,
+      tools: request.tools,
       tool_choice: "auto",
-      response_format: {
-        type: responseFormat == "json" ? "json_object" : "text",
-      },
+      stream: false,
+      temperature: request.temperature,
     });
-
-    // console.dir(completion, { depth: 5 });
 
     const response = {
       content: completion?.choices[0]?.message?.content,
       finishReason: completion?.choices[0]?.finish_reason,
+      toolCalls: completion?.choices[0]?.message?.tool_calls,
     };
 
     return response;
