@@ -17,9 +17,9 @@ Tool usage rules:
 - Avoid unnecessary or repeated tool calls.
 
 After receiving a tool result:
-- Answer the user's question using the retrieved information.
-- Do not call the same tool again unless additional information is genuinely required.
-- Do not repeat or expose raw tool output.
+- If the retrieved information is sufficient to answer the user's question, produce the final answer immediately.
+- Do not repeat the same tool call with identical or equivalent arguments.
+- If a previous tool call returned relevant information, use it instead of searching again.
 - Summarize the relevant information clearly and concisely.
 
 Never fabricate information when a tool can provide a reliable answer.

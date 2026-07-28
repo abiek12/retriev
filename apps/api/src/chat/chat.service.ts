@@ -1,7 +1,10 @@
 import { ILlmProivder, ILlmRequest } from "../llm/llm.interface";
 import ToolRegistry from "../tools/tool.registry";
 import { UserChatQueryType } from "./dto/query-chat.dto";
-import llmConfig, { MAX_RETRY } from "../config/llm.config";
+import llmConfig, {
+  MAX_RETRY,
+  TOOL_CALL_MAX_RETRY,
+} from "../config/llm.config";
 import { IRoles } from "../llm/llm.types";
 import { SYSTEM_PROMPT } from "../config/system-prompt";
 import { Tools } from "../utils/enums";
@@ -73,7 +76,7 @@ class ChatService {
     const { agentId, userQuery, reqTools } = dto;
     const availableTools = this.getAvailableTools(reqTools);
 
-    const request: ILlmRequest = {
+    const llmReqPayload: ILlmRequest = {
       messages: this.baseMessage,
       model: llmConfig.model,
       tools: availableTools,
@@ -83,22 +86,27 @@ class ChatService {
       temperature: llmConfig.temperature,
     };
 
-    request.messages.push({
+    llmReqPayload.messages.push({
       role: "user",
       content: userQuery,
     });
 
     let currentCount = 0;
+    let toolCallStatus = new Map<string, number>();
+
     while (true) {
-      if (currentCount > MAX_RETRY) {
+      if (currentCount >= MAX_RETRY) {
         console.log("Max retry exceeded!");
-        return "I could not find the result, please try again!";
+        return {
+          content: "I could not find the result, please try again!",
+          finishReason: "max_retry_exceeded",
+        };
       }
       currentCount++;
 
-      const res = await this.llmProvider.generateChatCompletion(request);
+      const res = await this.llmProvider.generateChatCompletion(llmReqPayload);
 
-      request.messages.push({
+      llmReqPayload.messages.push({
         role: "assistant",
         content: res.content ?? "",
         toolCalls: res.toolCalls,
@@ -111,17 +119,39 @@ class ChatService {
       }
 
       for (let tool of toolCallings) {
-        console.log("Tool calling!");
         const functionName = tool.function.name;
         const functionParams = JSON.parse(tool.function.arguments);
+        console.log("Tool calling!:", functionName);
 
         const toolRes = await this.executeTool(functionName, functionParams);
-        request.messages.push({
+        llmReqPayload.messages.push({
           role: "tool",
           content: JSON.stringify(toolRes),
           name: functionName,
           toolCallId: tool.id,
         });
+
+        // This check whether the tool calling limit is exceded.
+        const key = `${functionName}:${functionParams}`;
+        const count = toolCallStatus.get(key) ?? 0;
+        toolCallStatus.set(key, count + 1);
+
+        const currentCalls = toolCallStatus.get(key) ?? 0;
+        if (currentCalls >= TOOL_CALL_MAX_RETRY) {
+          llmReqPayload.messages.push({
+            role: "system",
+            content: `
+              Tool execution has finished.
+
+              No additional tools are available for this request.
+              Generate the final answer using only the information already provided by previous tool results and the conversation.
+
+              Do not ask for or attempt any further tool calls.
+              If the available information is insufficient, explain the limitation rather than speculating.
+              `.trim(),
+          });
+          llmReqPayload.tools = [];
+        }
       }
     }
   };
