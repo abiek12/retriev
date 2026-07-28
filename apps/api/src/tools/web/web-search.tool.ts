@@ -9,8 +9,6 @@ class WebSearchTool implements ITool<{ query: string }, string> {
   private readonly tvly = tavily({ apiKey: env.tavilyApiKey });
 
   async execute(args: { query: string }): Promise<string> {
-    console.log("Web search called!");
-
     const response = await this.tvly.search(args.query);
 
     return response.results.map((i) => i.content).join("\n\n");

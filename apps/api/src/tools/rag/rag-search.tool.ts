@@ -12,7 +12,6 @@ class RagSearchTool implements ITool<{ query: string }, string[]> {
   ) {}
 
   async execute(args: { query: string }): Promise<string[]> {
-    console.log("Rag called!");
     const embeddings = await this.embeddingProvider.embedChunk(args.query);
 
     const documents = await this.vectorStore.similaritySearch(embeddings, 5);
