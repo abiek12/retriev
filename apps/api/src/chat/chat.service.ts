@@ -4,6 +4,7 @@ import { UserChatQueryType } from "./dto/query-chat.dto";
 import llmConfig, { MAX_RETRY } from "../config/llm.config";
 import { IRoles } from "../llm/llm.types";
 import { SYSTEM_PROMPT } from "../config/system-prompt";
+import { Tools } from "../utils/enums";
 
 class ChatService {
   constructor(
@@ -15,7 +16,7 @@ class ChatService {
     {
       type: "function",
       function: {
-        name: "webSearch",
+        name: "webSearch" as Tools,
         description:
           "Search the public internet for up-to-date or real-time information. Use this tool when the answer requires recent news, live data, current events, weather, sports scores, market prices, or information not available in the knowledge base.",
         parameters: {
@@ -34,7 +35,7 @@ class ChatService {
     {
       type: "function",
       function: {
-        name: "ragSearch",
+        name: "ragSearch" as Tools,
         description:
           "Search the application's private knowledge base and retrieve relevant documents. Use this tool only when answering questions about information contained in the indexed documents, company data, uploaded files, manuals, policies, or other internal knowledge.",
         parameters: {
@@ -59,18 +60,23 @@ class ChatService {
     },
   ];
 
+  private getAvailableTools = (reqTools: Tools[]) => {
+    return this.tools.filter((tool) => reqTools.includes(tool.function.name));
+  };
+
   protected executeTool = async (toolName: string, args: unknown) => {
     const tool = this.toolRegistry.get(toolName);
     return await tool.execute(args);
   };
 
   chat = async (dto: UserChatQueryType) => {
-    const { agentId, userQuery } = dto;
+    const { agentId, userQuery, reqTools } = dto;
+    const availableTools = this.getAvailableTools(reqTools);
 
     const request: ILlmRequest = {
       messages: this.baseMessage,
       model: llmConfig.model,
-      tools: this.tools,
+      tools: availableTools,
       responseFormat: "json",
       stream: false,
       maxTokens: llmConfig.maxTokens,
