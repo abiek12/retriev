@@ -12,6 +12,7 @@ app.use(logger());
 
 // Cors
 app.use("*", cors());
+
 // Global exception handler
 app.onError(globalExceptionHandler);
 
