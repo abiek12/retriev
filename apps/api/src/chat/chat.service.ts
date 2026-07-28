@@ -1,6 +1,6 @@
 import { ILlmProivder, ILlmRequest } from "../llm/llm.interface";
 import ToolRegistry from "../tools/tool.registry";
-import { UserChatQueryType } from "./dto/query-chat.dto";
+import { UserChatReqType, UserChatResType } from "./dto/query-chat.dto";
 import llmConfig, {
   MAX_RETRY,
   TOOL_CALL_MAX_RETRY,
@@ -73,7 +73,7 @@ class ChatService {
     return await tool.execute(args);
   };
 
-  chat = async (dto: UserChatQueryType) => {
+  chat = async (dto: UserChatReqType): Promise<UserChatResType> => {
     const { agentId, userQuery, reqTools } = dto;
     const availableTools = this.getAvailableTools(reqTools);
 
