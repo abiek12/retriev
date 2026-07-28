@@ -8,6 +8,7 @@ import llmConfig, {
 import { IRoles } from "../llm/llm.types";
 import { SYSTEM_PROMPT } from "../config/system-prompt";
 import { Tools } from "../utils/enums";
+import { logger } from "../utils/logger";
 
 class ChatService {
   constructor(
@@ -114,14 +115,14 @@ class ChatService {
 
       const toolCallings = res.toolCalls;
       if (!toolCallings) {
-        console.log("Completed!");
+        logger.info("Request completed!");
         return res;
       }
 
       for (let tool of toolCallings) {
         const functionName = tool.function.name;
         const functionParams = JSON.parse(tool.function.arguments);
-        console.log("Tool calling!:", functionName);
+        logger.info(`${functionName} tool calling...!`);
 
         const toolRes = await this.executeTool(functionName, functionParams);
         llmReqPayload.messages.push({
