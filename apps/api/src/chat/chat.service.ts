@@ -41,7 +41,7 @@ class ChatService {
       function: {
         name: "ragSearch" as Tools,
         description:
-          "Search the application's private knowledge base and retrieve relevant documents. Use this tool only when answering questions about information contained in the indexed documents, company data, uploaded files, manuals, policies, or other internal knowledge.",
+          "Search Retriev's private knowledge base containing company documentation, uploaded files, policies, engineering guidelines, interview requirements, architecture, and internal documents. Always prefer this tool for questions about the company or its documentation.",
         parameters: {
           type: "object",
           properties: {
