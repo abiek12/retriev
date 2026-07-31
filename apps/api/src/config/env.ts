@@ -1,3 +1,5 @@
+import z from "zod";
+
 export const env = {
   // embedding models
   openApiKey: process.env.OPENAI_API_KEY!,
@@ -13,4 +15,19 @@ export const env = {
 
   // llm
   groqApiKey: process.env.GROQ_API_KEY!,
+
+  databaseUrl: process.env.DATABASE_URL!,
 };
+
+export const envDto = z.object({
+  openApiKey: z.string(),
+  embeddingProvider: z.string(),
+  embeddingModel: z.string(),
+  pineconeIndex: z.string(),
+  pineconeApiKey: z.string(),
+  tavilyApiKey: z.string(),
+  groqApiKey: z.string(),
+  databaseUrl: z.string(),
+});
+
+export type envTypes = z.infer<typeof envDto>;
