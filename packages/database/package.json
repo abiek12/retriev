@@ -8,9 +8,9 @@
     "./schema": "./src/schema/index.ts"
   },
   "scripts": {
-    "generate": "drizzle-kit generate",
-    "migrate": "drizzle-kit migrate",
-    "push": "drizzle-kit push",
+    "generate": "bun --env-file=../../.env drizzle-kit generate",
+    "migrate": "bun --env-file=../../.env drizzle-kit migrate",
+    "push": "bun --env-file=../../.env drizzle-kit push",
     "check": "tsc --noEmit"
   },
   "dependencies": {
