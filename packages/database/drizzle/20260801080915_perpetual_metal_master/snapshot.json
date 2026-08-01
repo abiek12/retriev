@@ -1,11 +1,29 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "1da66586-d2d4-4594-a0a9-4949d43140e3",
+  "id": "63f5ea73-d8b6-47f6-ad35-6b0654fc8b7d",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
   "ddl": [
+    {
+      "values": [
+        "admin",
+        "user"
+      ],
+      "name": "role",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": [
+        "active",
+        "inActive"
+      ],
+      "name": "user_status",
+      "entityType": "enums",
+      "schema": "public"
+    },
     {
       "isRlsEnabled": false,
       "name": "users",

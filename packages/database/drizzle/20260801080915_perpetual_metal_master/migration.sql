@@ -1,3 +1,5 @@
+CREATE TYPE "role" AS ENUM('admin', 'user');--> statement-breakpoint
+CREATE TYPE "user_status" AS ENUM('active', 'inActive');--> statement-breakpoint
 CREATE TABLE "users" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	"email" varchar(255) NOT NULL UNIQUE,
