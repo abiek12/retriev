@@ -442,9 +442,11 @@ Tasks
 - Package organization
 - Database package
 - Shared package
-- Better Auth integration
 - Supabase
 - Drizzle
+- Database design
+- Db schema
+- Better Auth integration
 - Environment management
 - Logging
 - GitHub release strategy

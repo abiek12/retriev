@@ -11,3 +11,4 @@ export const usersTable = pgTable("users", {
   role: roleEnum("role").default("user").notNull(),
   ...auditColumns,
 });
+  
