@@ -449,6 +449,7 @@ Tasks
 - Better Auth integration
 - Environment management
 - Logging
+- Frontend setup
 - GitHub release strategy
 
 ---
