@@ -28,16 +28,13 @@
         "@langchain/pinecone": "^1.0.3",
         "@langchain/textsplitters": "^1.0.1",
         "@pinecone-database/pinecone": "^8.0.0",
-        "drizzle-orm": "^1.0.0-rc.4",
         "hono": "^4.12.30",
         "openai": "^6.48.0",
         "pdf-parse": "^2.4.5",
-        "postgres": "^3.4.9",
       },
       "devDependencies": {
+        "@repo/database": "workspace:*",
         "@types/bun": "latest",
-        "drizzle-kit": "^1.0.0-rc.4",
-        "tsx": "^4.23.1",
       },
     },
     "apps/web": {
@@ -57,6 +54,21 @@
         "eslint": "^8.57.0",
         "typescript": "5.5.4",
         "vite": "^5.1.4",
+      },
+    },
+    "packages/database": {
+      "name": "@repo/database",
+      "version": "0.0.1",
+      "dependencies": {
+        "drizzle-orm": "^1.0.0-rc.4",
+        "postgres": "^3.4.9",
+        "zod": "^4.x",
+      },
+      "devDependencies": {
+        "@repo/typescript-config": "workspace:*",
+        "drizzle-kit": "^1.0.0-rc.4",
+        "tsx": "^4.23.1",
+        "typescript": "^5.x",
       },
     },
     "packages/eslint-config": {
@@ -267,6 +279,8 @@
     "@pinojs/redact": ["@pinojs/redact@0.4.0", "", {}, "sha512-k2ENnmBugE/rzQfEcdWHcCY+/FM3VLzH9cYEsbdsoqrvzAKRhUZeRNhAZvB8OitQJ1TBed3yqWtdjzS6wJKBwg=="],
 
     "@playwright/test": ["@playwright/test@1.61.1", "", { "dependencies": { "playwright": "1.61.1" }, "bin": { "playwright": "cli.js" } }, "sha512-8nKv6+0RJSL9FE4jYOEGXnPeM/Hg12qZpmqzZjRh3qM0Y7c3z1mrOTfFLids72RDQYVh9WpLEfR5WdpNX4fkig=="],
+
+    "@repo/database": ["@repo/database@workspace:packages/database"],
 
     "@repo/eslint-config": ["@repo/eslint-config@workspace:packages/eslint-config"],
 

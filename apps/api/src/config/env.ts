@@ -1,4 +1,25 @@
 import z from "zod";
+import { logger } from "../utils/logger";
+
+const envSchema = z.object({
+  DATABASE_URL: z.string().min(1),
+
+  OPENAI_API_KEY: z.string().min(1),
+  EMBEDDING_PROVIDER: z.string().min(1),
+  OPENAI_EMBEDDING_MODEL: z.string().min(1),
+
+  PINECONE_API_KEY: z.string().min(1),
+  PINECONE_INDEX: z.string().min(1),
+
+  TAVILY_API_KEY: z.string().min(1),
+  GROQ_API_KEY: z.string().min(1),
+});
+
+const parsedEnv = envSchema.parse(process.env);
+if (!parsedEnv) {
+  logger.error("Invalid environment variables");
+  throw new Error("Invalid environment variables");
+}
 
 export const env = {
   // embedding models
@@ -19,15 +40,4 @@ export const env = {
   databaseUrl: process.env.DATABASE_URL!,
 };
 
-export const envDto = z.object({
-  openApiKey: z.string(),
-  embeddingProvider: z.string(),
-  embeddingModel: z.string(),
-  pineconeIndex: z.string(),
-  pineconeApiKey: z.string(),
-  tavilyApiKey: z.string(),
-  groqApiKey: z.string(),
-  databaseUrl: z.string(),
-});
-
-export type envTypes = z.infer<typeof envDto>;
+export type Env = typeof env;
