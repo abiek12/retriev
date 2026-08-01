@@ -1,8 +1,11 @@
 {
+  "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
-    "strict": true,
+    "target": "ES2022",
+    "noEmit": true,
     "types": ["bun"],
     "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx"
-  }
+    "jsxImportSource": "hono/jsx",
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
 }

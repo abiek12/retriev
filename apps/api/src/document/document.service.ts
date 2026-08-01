@@ -3,7 +3,7 @@ import { ChunkFile } from "../prepare";
 import filePrepareFactory from "../prepare/loaders/file-loader-factory";
 import { FileTypes } from "../utils/enums";
 import { IVectorStore } from "../vector-store/vector-store.interface";
-import { IndexDocumentDtoType } from "./dto/index-document.dto";
+import type { IndexDocumentRequest } from "@repo/shared/contracts/document";
 
 class DocumentService {
   constructor(
@@ -11,7 +11,7 @@ class DocumentService {
     private vectorStoreProvider: IVectorStore,
   ) {}
 
-  index = async (dto: IndexDocumentDtoType) => {
+  index = async (dto: IndexDocumentRequest) => {
     let content;
 
     switch (dto.type) {

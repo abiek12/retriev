@@ -1,13 +1,14 @@
 import { ILlmProivder, ILlmRequest } from "../llm/llm.interface";
 import ToolRegistry from "../tools/tool.registry";
-import { UserChatReqType, UserChatResType } from "./dto/query-chat.dto";
+import type { ToolName, UserChatRequest, UserChatResponse } from "@repo/shared";
+import { Tool } from "@repo/shared";
 import llmConfig, {
   MAX_RETRY,
   TOOL_CALL_MAX_RETRY,
 } from "../config/llm.config";
 import { IRoles } from "../llm/llm.types";
 import { SYSTEM_PROMPT } from "../config/system-prompt";
-import { Tools } from "../utils/enums";
+
 import { logger } from "../utils/logger";
 
 class ChatService {
@@ -20,7 +21,7 @@ class ChatService {
     {
       type: "function",
       function: {
-        name: "webSearch" as Tools,
+        name: Tool.WEB_SEARCH,
         description:
           "Search the public internet for up-to-date or real-time information. Use this tool when the answer requires recent news, live data, current events, weather, sports scores, market prices, or information not available in the knowledge base.",
         parameters: {
@@ -39,7 +40,7 @@ class ChatService {
     {
       type: "function",
       function: {
-        name: "ragSearch" as Tools,
+        name: Tool.RAG,
         description:
           "Search Retriev's private knowledge base containing company documentation, uploaded files, policies, engineering guidelines, interview requirements, architecture, and internal documents. Always prefer this tool for questions about the company or its documentation.",
         parameters: {
@@ -64,7 +65,7 @@ class ChatService {
     },
   ];
 
-  private getAvailableTools = (reqTools: Tools[]) => {
+  private getAvailableTools = (reqTools: ToolName[]) => {
     return this.tools.filter((tool) => reqTools.includes(tool.function.name));
   };
 
@@ -73,7 +74,7 @@ class ChatService {
     return await tool.execute(args);
   };
 
-  chat = async (dto: UserChatReqType): Promise<UserChatResType> => {
+  chat = async (dto: UserChatRequest): Promise<UserChatResponse> => {
     const { agentId, userQuery, reqTools } = dto;
     const availableTools = this.getAvailableTools(reqTools);
 

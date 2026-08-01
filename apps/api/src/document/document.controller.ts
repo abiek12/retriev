@@ -1,6 +1,5 @@
 import type { Context } from "hono";
-import documentService from "./document.service";
-import { IndexDocumentDtoType } from "./dto/index-document.dto";
+import type { IndexDocumentRequest } from "@repo/shared/contracts/document";
 import DocumentService from "./document.service";
 
 class DocumentController {
@@ -19,9 +18,7 @@ class DocumentController {
   };
 
   indexText = async (c: Context) => {
-    let body: IndexDocumentDtoType = await c.req.json();
-    body.type = "text";
-
+    const body: IndexDocumentRequest = await c.req.json();
     await this.documentService.index(body);
 
     return c.json({

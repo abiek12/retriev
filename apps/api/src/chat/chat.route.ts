@@ -1,13 +1,13 @@
 import { Hono } from "hono";
 import { chatController } from "./index";
 import { zValidator } from "@hono/zod-validator";
-import { UserChatReqDto } from "./dto/query-chat.dto";
+import { userChatRequestSchema } from "@repo/shared/contracts/chat";
 
 const router = new Hono();
 
 router.post(
   "/message",
-  zValidator("json", UserChatReqDto),
+  zValidator("json", userChatRequestSchema),
   chatController.chat,
 );
 

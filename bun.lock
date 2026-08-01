@@ -28,13 +28,16 @@
         "@langchain/pinecone": "^1.0.3",
         "@langchain/textsplitters": "^1.0.1",
         "@pinecone-database/pinecone": "^8.0.0",
+        "@repo/shared": "workspace:*",
         "hono": "^4.12.30",
         "openai": "^6.48.0",
         "pdf-parse": "^2.4.5",
       },
       "devDependencies": {
         "@repo/database": "workspace:*",
+        "@repo/typescript-config": "workspace:*",
         "@types/bun": "latest",
+        "typescript": "^5.x",
       },
     },
     "apps/web": {
@@ -78,6 +81,17 @@
         "@typescript-eslint/eslint-plugin": "^7.1.0",
         "@typescript-eslint/parser": "^7.1.0",
         "eslint-config-prettier": "^9.1.0",
+      },
+    },
+    "packages/shared": {
+      "name": "@repo/shared",
+      "version": "0.0.1",
+      "dependencies": {
+        "zod": "^4.4.3",
+      },
+      "devDependencies": {
+        "@repo/typescript-config": "workspace:*",
+        "typescript": "^5.x",
       },
     },
     "packages/typescript-config": {
@@ -283,6 +297,8 @@
     "@repo/database": ["@repo/database@workspace:packages/database"],
 
     "@repo/eslint-config": ["@repo/eslint-config@workspace:packages/eslint-config"],
+
+    "@repo/shared": ["@repo/shared@workspace:packages/shared"],
 
     "@repo/typescript-config": ["@repo/typescript-config@workspace:packages/typescript-config"],
 

@@ -1,4 +1,7 @@
-import { ErrorResponse, SuccessResponse } from "./interfaces";
+import type {
+  ErrorResponse,
+  SuccessResponse,
+} from "@repo/shared/contracts/common";
 
 export class ApiResponse {
   static success<T>(data: T): SuccessResponse<T> {
