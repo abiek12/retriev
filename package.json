@@ -19,7 +19,10 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "migrate:": "bunx drizzle-kit generate"
+    "db:generate": "bun run --filter @repo/database generate",
+    "db:migrate": "bun run --filter @repo/database migrate",
+    "db:push": "bun run --filter @repo/database push",
+    "db:check": "bun run --filter @repo/database check"
   },
   "workspaces": [
     "apps/*",

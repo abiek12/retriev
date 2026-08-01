@@ -1,4 +1,4 @@
-import { pgEnum, pgTable, text, uuid, varchar } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
 import { roleEnum, userStatusEnum } from "./enum";
 import { auditColumns } from "./audit";
 

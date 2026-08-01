@@ -10,7 +10,8 @@
   "scripts": {
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
-    "push": "drizzle-kit push"
+    "push": "drizzle-kit push",
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "drizzle-orm": "^1.0.0-rc.4",
