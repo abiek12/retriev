@@ -22,3 +22,24 @@ export const providerEnum = pgEnum("provider", [
   "gemini",
 ]);
 export const agentStatusEnum = pgEnum("agent_status", ["active", "inactive"]);
+export const knowledgeBaseTypeEnum = pgEnum("knowledge_base_type", [
+  "text",
+  "file",
+  "web",
+  "youtube_video",
+]);
+export const knowledgeBaseStatusEnum = pgEnum("knowledge_base_status", [
+  "active",
+  "inactive",
+]);
+export const conversationStatusEnum = pgEnum("conversation_status", [
+  "active",
+  "inactive",
+  "archived",
+]);
+export const messageRoleEnum = pgEnum("message_role", [
+  "user",
+  "assistant",
+  "system",
+  "tool",
+]);
