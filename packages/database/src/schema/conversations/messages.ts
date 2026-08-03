@@ -1,11 +1,4 @@
-import {
-  integer,
-  pgTable,
-  text,
-  timestamp,
-  uuid,
-  varchar,
-} from "drizzle-orm/pg-core";
+import { integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { auditColumns } from "../common/audit";
 import { messageRoleEnum } from "../common/enum";
 
