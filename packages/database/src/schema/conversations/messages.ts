@@ -6,8 +6,8 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import { auditColumns } from "./audit";
-import { messageRoleEnum } from "./enum";
+import { auditColumns } from "../common/audit";
+import { messageRoleEnum } from "../common/enum";
 
 export const messagesTable = pgTable("messages", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),

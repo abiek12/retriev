@@ -1,5 +1,5 @@
 import { pgTable, text, uuid, varchar } from "drizzle-orm/pg-core";
-import { auditColumns } from "./audit";
+import { auditColumns } from "../common/audit";
 
 export const messageToolCallTable = pgTable("message_tool_calls", {
   id: uuid("id").primaryKey().notNull(),

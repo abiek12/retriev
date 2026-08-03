@@ -1,6 +1,6 @@
 import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
-import { roleEnum, userStatusEnum } from "./enum";
-import { auditColumns } from "./audit";
+import { roleEnum, userStatusEnum } from "../common/enum";
+import { auditColumns } from "../common/audit";
 
 export const usersTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),

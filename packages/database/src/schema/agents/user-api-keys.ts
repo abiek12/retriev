@@ -1,6 +1,6 @@
 import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
-import { auditColumns } from "./audit";
-import { providerEnum } from "./enum";
+import { auditColumns } from "../common/audit";
+import { providerEnum } from "../common/enum";
 
 export const userApiKeysTable = pgTable("user_api_keys", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),

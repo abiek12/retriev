@@ -1,5 +1,5 @@
 import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
-import { auditColumns } from "./audit";
+import { auditColumns } from "../common/audit";
 
 export const fileSourcesTable = pgTable("file_sources", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
