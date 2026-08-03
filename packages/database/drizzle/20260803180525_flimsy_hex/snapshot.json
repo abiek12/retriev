@@ -1,7 +1,7 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "c3efe613-fc1e-4e35-829d-e99ffb214270",
+  "id": "3fb2d9fd-00a6-488b-8133-f0defc52f2ed",
   "prevIds": [
     "63f5ea73-d8b6-47f6-ad35-6b0654fc8b7d"
   ],
@@ -102,7 +102,7 @@
     {
       "values": [
         "active",
-        "inActive"
+        "inactive"
       ],
       "name": "user_status",
       "entityType": "enums",
@@ -595,7 +595,7 @@
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "0",
       "generated": null,
       "identity": null,
       "name": "prompt_tokens",
@@ -608,7 +608,7 @@
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "0",
       "generated": null,
       "identity": null,
       "name": "completion_tokens",
@@ -816,7 +816,7 @@
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "''",
       "generated": null,
       "identity": null,
       "name": "summary",
@@ -838,7 +838,7 @@
       "table": "conversations"
     },
     {
-      "type": "timestamp",
+      "type": "timestamp with time zone",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
@@ -933,7 +933,7 @@
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "0",
       "generated": null,
       "identity": null,
       "name": "prompt_tokens",
@@ -946,7 +946,7 @@
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "0",
       "generated": null,
       "identity": null,
       "name": "completion_tokens",
@@ -998,7 +998,7 @@
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "gen_random_uuid()",
       "generated": null,
       "identity": null,
       "name": "id",

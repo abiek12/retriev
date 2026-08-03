@@ -48,8 +48,8 @@ CREATE TABLE "usage_logs" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	"user_id" uuid NOT NULL,
 	"agent_id" uuid NOT NULL,
-	"prompt_tokens" integer NOT NULL,
-	"completion_tokens" integer NOT NULL,
+	"prompt_tokens" integer DEFAULT 0 NOT NULL,
+	"completion_tokens" integer DEFAULT 0 NOT NULL,
 	"cost" numeric(12,8) NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
@@ -60,9 +60,9 @@ CREATE TABLE "conversations" (
 	"agent_id" uuid NOT NULL,
 	"user_id" uuid NOT NULL,
 	"title" varchar NOT NULL,
-	"summary" varchar NOT NULL,
+	"summary" varchar DEFAULT '' NOT NULL,
 	"status" "conversation_status" DEFAULT 'active'::"conversation_status" NOT NULL,
-	"last_messaged_at" timestamp DEFAULT now() NOT NULL,
+	"last_messaged_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
@@ -72,15 +72,15 @@ CREATE TABLE "messages" (
 	"conversation_id" uuid NOT NULL,
 	"content" text NOT NULL,
 	"role" "message_role" DEFAULT 'user'::"message_role" NOT NULL,
-	"prompt_tokens" integer NOT NULL,
-	"completion_tokens" integer NOT NULL,
+	"prompt_tokens" integer DEFAULT 0 NOT NULL,
+	"completion_tokens" integer DEFAULT 0 NOT NULL,
 	"parent_id" uuid,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "message_tool_calls" (
-	"id" uuid PRIMARY KEY,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	"message_id" uuid NOT NULL,
 	"tool_name" varchar NOT NULL,
 	"tool_call_id" varchar NOT NULL,
@@ -121,6 +121,12 @@ CREATE TABLE "text_sources" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+ALTER TABLE "users" ALTER COLUMN "status" SET DATA TYPE text;--> statement-breakpoint
+ALTER TABLE "users" ALTER COLUMN "status" DROP DEFAULT;--> statement-breakpoint
+DROP TYPE "user_status";--> statement-breakpoint
+CREATE TYPE "user_status" AS ENUM('active', 'inactive');--> statement-breakpoint
+ALTER TABLE "users" ALTER COLUMN "status" SET DATA TYPE "user_status" USING "status"::"user_status";--> statement-breakpoint
+ALTER TABLE "users" ALTER COLUMN "status" SET DEFAULT 'active'::"user_status";--> statement-breakpoint
 ALTER TABLE "agents" ADD CONSTRAINT "agents_user_id_users_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "user_api_keys" ADD CONSTRAINT "user_api_keys_user_id_users_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "audit_logs" ADD CONSTRAINT "audit_logs_user_id_users_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE;--> statement-breakpoint
