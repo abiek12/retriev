@@ -1,4 +1,11 @@
-import { pgTable, text, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+  integer,
+  numeric,
+  pgTable,
+  text,
+  uuid,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { agentStatusEnum, auditColumns, providerEnum } from "../common";
 import { usersTable } from "../auth";
 
@@ -15,8 +22,8 @@ export const agentsTable = pgTable("agents", {
   systemPrompt: text("system_prompt"),
   model: varchar("model"),
   provider: providerEnum("provider").default("openai"),
-  temperature: varchar("temperature"),
-  maxTokens: varchar("max_tokens"),
+  temperature: numeric("temperature", { precision: 3, scale: 2 }),
+  maxTokens: integer("max_tokens"),
   status: agentStatusEnum("status").default("active"),
   ...auditColumns,
 });

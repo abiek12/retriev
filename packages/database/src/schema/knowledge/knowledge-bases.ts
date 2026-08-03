@@ -8,15 +8,15 @@ import {
 
 export const knowledgeBasesTable = pgTable("knowledge_bases", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
-  isGlobal: boolean("is_global").notNull().default(false),
+  isGlobal: boolean("is_global").default(false),
   agentId: uuid("agent_id")
     .notNull()
     .references(() => agentsTable.id, {
       onDelete: "cascade",
     }),
-  type: knowledgeBaseTypeEnum("type").notNull().default("text"),
+  type: knowledgeBaseTypeEnum("type").default("text"),
   title: varchar("title").notNull(),
   description: varchar("description"),
-  status: knowledgeBaseStatusEnum("status").notNull().default("active"),
+  status: knowledgeBaseStatusEnum("status").default("active"),
   ...auditColumns,
 });

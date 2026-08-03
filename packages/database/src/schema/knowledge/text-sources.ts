@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { auditColumns } from "../common/audit";
 import { knowledgeBasesTable } from "./knowledge-bases";
 
@@ -9,6 +9,6 @@ export const textSourcesTable = pgTable("text_sources", {
     .references(() => knowledgeBasesTable.id, {
       onDelete: "cascade",
     }),
-  content: varchar("content", { length: 255 }),
+  content: text("content").notNull(),
   ...auditColumns,
 });
