@@ -15,8 +15,8 @@ export const usageLogsTable = pgTable("usage_logs", {
     .references(() => agentsTable.id, {
       onDelete: "cascade",
     }),
-  promptTokens: integer("prompt_tokens").notNull(),
-  completionTokens: integer("completion_tokens").notNull(),
+  promptTokens: integer("prompt_tokens").notNull().default(0),
+  completionTokens: integer("completion_tokens").notNull().default(0),
   cost: numeric("cost", { precision: 12, scale: 8 }).notNull(),
   ...auditColumns,
 });

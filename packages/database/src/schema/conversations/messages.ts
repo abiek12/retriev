@@ -12,8 +12,8 @@ export const messagesTable = pgTable("messages", {
     }),
   content: text("content").notNull(),
   role: messageRoleEnum("role").notNull().default("user"),
-  promptTokens: integer("prompt_tokens").notNull(),
-  completionTokens: integer("completion_tokens").notNull(),
+  promptTokens: integer("prompt_tokens").notNull().default(0),
+  completionTokens: integer("completion_tokens").notNull().default(0),
   parentId: uuid("parent_id").references((): AnyPgColumn => messagesTable.id, {
     onDelete: "set null",
   }),

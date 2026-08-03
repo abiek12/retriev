@@ -16,8 +16,12 @@ export const conversationsTable = pgTable("conversations", {
       onDelete: "cascade",
     }),
   title: varchar("title").notNull(),
-  summary: varchar("summary").notNull(),
+  summary: varchar("summary").notNull().default(""),
   status: conversationStatusEnum("status").default("active").notNull(),
-  lastMessagedAt: timestamp("last_messaged_at").notNull().defaultNow(),
+  lastMessagedAt: timestamp("last_messaged_at", {
+    withTimezone: true,
+  })
+    .notNull()
+    .defaultNow(),
   ...auditColumns,
 });

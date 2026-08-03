@@ -3,7 +3,7 @@ import { auditColumns } from "../common/audit";
 import { messagesTable } from "./messages";
 
 export const messageToolCallTable = pgTable("message_tool_calls", {
-  id: uuid("id").primaryKey().notNull(),
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
   messageId: uuid("message_id")
     .notNull()
     .references(() => messagesTable.id, {
