@@ -5,6 +5,7 @@ import { knowledgeBaseStatusEnum, knowledgeBaseTypeEnum } from "./enum";
 export const knowledgeBasesTable = pgTable("knowledge_bases", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   isGlobal: boolean("is_global").notNull().default(false),
+  agentId: uuid("agent_id").notNull(),
   type: knowledgeBaseTypeEnum("type").notNull().default("text"),
   title: varchar("title").notNull(),
   description: varchar("description"),
