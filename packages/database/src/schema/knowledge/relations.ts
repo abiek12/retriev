@@ -12,19 +12,19 @@ export const knowledgeBasesRelations = defineRelations(
     textSources: textSourcesTable,
   },
   (relations) => ({
-    knowledgeBases: {
+    knowledgeBase: {
       agent: relations.one.agents({
         from: relations.knowledgeBases.agentId,
         to: relations.agents.id,
       }),
     },
-    fileSources: {
+    fileSource: {
       knowledgeBase: relations.one.knowledgeBases({
         from: relations.fileSources.knowledgeBaseId,
         to: relations.knowledgeBases.id,
       }),
     },
-    textSources: {
+    textSource: {
       knowledgeBase: relations.one.knowledgeBases({
         from: relations.textSources.knowledgeBaseId,
         to: relations.knowledgeBases.id,

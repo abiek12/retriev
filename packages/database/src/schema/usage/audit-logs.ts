@@ -9,8 +9,8 @@ export const auditLogsTable = pgTable("audit_logs", {
     .references(() => usersTable.id, {
       onDelete: "cascade",
     }),
-  action: auditActionEnum("action").default("create"),
-  resourceType: resourceTypeEnum("resource_type").default("user"),
+  action: auditActionEnum("action").default("create").notNull(),
+  resourceType: resourceTypeEnum("resource_type").default("user").notNull(),
   resourceId: uuid("resource_id").notNull(),
   metadata: jsonb("metadata"),
   ipAddress: varchar("ip_address"),

@@ -11,7 +11,7 @@ export const messageRelations = defineRelations(
     agents: agentsTable,
     users: usersTable,
     messages: messagesTable,
-    messageTools: messageToolCallTable,
+    messageToolCalls: messageToolCallTable,
   },
   (relations) => ({
     conversations: {
@@ -33,13 +33,16 @@ export const messageRelations = defineRelations(
       parent: relations.one.messages({
         from: relations.messages.parentId,
         to: relations.messages.id,
+        alias: "parent_message",
       }),
-      children: relations.many.messages(),
-      messageTools: relations.many.messageTools(),
+      children: relations.many.messages({
+        alias: "parent_message",
+      }),
+      messageToolCalls: relations.many.messageToolCalls(),
     },
-    messageTools: {
+    messageToolCalls: {
       message: relations.one.messages({
-        from: relations.messageTools.messageId,
+        from: relations.messageToolCalls.messageId,
         to: relations.messages.id,
       }),
     },

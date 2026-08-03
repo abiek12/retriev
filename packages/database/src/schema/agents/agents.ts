@@ -21,9 +21,9 @@ export const agentsTable = pgTable("agents", {
   avatar: varchar("avatar"),
   systemPrompt: text("system_prompt"),
   model: varchar("model"),
-  provider: providerEnum("provider").default("openai"),
+  provider: providerEnum("provider").default("openai").notNull(),
   temperature: numeric("temperature", { precision: 3, scale: 2 }),
   maxTokens: integer("max_tokens"),
-  status: agentStatusEnum("status").default("active"),
+  status: agentStatusEnum("status").default("active").notNull(),
   ...auditColumns,
 });

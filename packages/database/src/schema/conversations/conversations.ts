@@ -17,7 +17,7 @@ export const conversationsTable = pgTable("conversations", {
     }),
   title: varchar("title").notNull(),
   summary: varchar("summary").notNull(),
-  status: conversationStatusEnum("status").default("active"),
+  status: conversationStatusEnum("status").default("active").notNull(),
   lastMessagedAt: timestamp("last_messaged_at").notNull().defaultNow(),
   ...auditColumns,
 });

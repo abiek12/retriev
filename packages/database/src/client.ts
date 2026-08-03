@@ -1,6 +1,5 @@
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
-import * as schema from "./schema";
 
 export const createDatabase = (connectionString: string) => {
   // Disable prefetch as it is not supported for "Transaction" pool mode

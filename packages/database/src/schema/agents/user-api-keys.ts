@@ -10,7 +10,7 @@ export const userApiKeysTable = pgTable("user_api_keys", {
     .references(() => usersTable.id, {
       onDelete: "cascade",
     }),
-  provider: providerEnum("provider").default("openai"),
+  provider: providerEnum("provider").default("openai").notNull(),
   encryptedKey: varchar("encrypted_key").notNull(),
   ...auditColumns,
 });

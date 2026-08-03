@@ -7,7 +7,7 @@ export const agentsRelations = defineRelations(
   {
     users: usersTable,
     agents: agentsTable,
-    userApiTokens: userApiKeysTable,
+    userApiKeys: userApiKeysTable,
   },
   (relations) => ({
     agents: {
@@ -18,13 +18,13 @@ export const agentsRelations = defineRelations(
     },
     userApiTokens: {
       owner: relations.one.users({
-        from: relations.userApiTokens.userId,
+        from: relations.userApiKeys.userId,
         to: relations.users.id,
       }),
     },
     users: {
       agents: relations.many.agents(),
-      userApiTokens: relations.many.userApiTokens(),
+      userApiTokens: relations.many.userApiKeys(),
     },
   }),
 );

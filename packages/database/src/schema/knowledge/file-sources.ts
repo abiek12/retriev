@@ -6,6 +6,7 @@ export const fileSourcesTable = pgTable("file_sources", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   knowledgeBaseId: uuid("knowledge_base_id")
     .notNull()
+    .unique()
     .references(() => knowledgeBasesTable.id, {
       onDelete: "cascade",
     }),
