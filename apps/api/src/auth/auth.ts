@@ -1,9 +1,9 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { Database } from "@repo/database";
+import database from "../database";
 
 export const auth = betterAuth({
-  database: drizzleAdapter(Database, {
+  database: drizzleAdapter(database, {
     provider: "pg",
   }),
 });
