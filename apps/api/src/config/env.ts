@@ -13,6 +13,13 @@ const envSchema = z.object({
 
   TAVILY_API_KEY: z.string().min(1),
   GROQ_API_KEY: z.string().min(1),
+
+  GOOGLE_CLIENT_ID: z.string().min(1),
+  GOOGLE_CLIENT_SECRET: z.string().min(1),
+  GITHUB_CLIENT_ID: z.string().min(1),
+  GITHUB_CLIENT_SECRET: z.string().min(1),
+
+  CLIENT_URL: z.string().min(1),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
@@ -52,6 +59,15 @@ export const env = {
 
   // llm
   groqApiKey: values.GROQ_API_KEY,
+
+  // social providers
+  googleClientId: values.GOOGLE_CLIENT_ID,
+  googleClientSecret: values.GOOGLE_CLIENT_SECRET,
+  githubClientId: values.GITHUB_CLIENT_ID,
+  githubClientSecret: values.GITHUB_CLIENT_SECRET,
+
+  // client url
+  clientUrl: values.CLIENT_URL,
 };
 
 export type Env = typeof env;

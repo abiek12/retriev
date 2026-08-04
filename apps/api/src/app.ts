@@ -4,6 +4,7 @@ import chatRoutes from "./chat/chat.route";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import globalExceptionHandler from "./middlewares/execption-handler.middleware";
+import authRoute from "./auth/auth.route";
 
 const app = new Hono();
 
@@ -23,5 +24,6 @@ app.get("/", (c) => {
 // Register routes
 app.route("/documents", documentRoutes);
 app.route("/chat", chatRoutes);
+app.route("/auth", authRoute);
 
 export default app;
