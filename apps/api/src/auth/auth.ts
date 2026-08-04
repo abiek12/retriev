@@ -4,6 +4,7 @@ import database from "../database";
 import { env } from "../config/env";
 
 export const auth = betterAuth({
+  basePath: "/auth",
   database: drizzleAdapter(database, {
     provider: "pg",
   }),
