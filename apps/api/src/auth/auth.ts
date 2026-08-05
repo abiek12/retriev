@@ -6,6 +6,11 @@ import * as schema from "@repo/database/schema";
 
 export const auth = betterAuth({
   basePath: "/auth",
+  advanced: {
+    database: {
+      generateId: "uuid",
+    },
+  },
   database: drizzleAdapter(database, {
     provider: "pg",
     schema,
