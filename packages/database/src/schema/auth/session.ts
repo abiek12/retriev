@@ -6,10 +6,10 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
-import { usersTable } from "./users";
+import { user } from "./users";
 import { auditColumns } from "../common";
 
-export const sessionTable = pgTable(
+export const session = pgTable(
   "session",
   {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -19,7 +19,7 @@ export const sessionTable = pgTable(
     userAgent: text("user_agent"),
     userId: uuid("user_id")
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade" }),
+      .references(() => user.id, { onDelete: "cascade" }),
     ...auditColumns,
   },
   (table) => [index("session_userId_idx").on(table.userId)],

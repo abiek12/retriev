@@ -1,18 +1,18 @@
 import { pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { auditColumns, conversationStatusEnum } from "../common";
-import { agentsTable } from "../agents";
-import { usersTable } from "../auth";
+import { agent } from "../agents";
+import { user } from "../auth";
 
-export const conversationsTable = pgTable("conversations", {
+export const conversation = pgTable("conversations", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   agentId: uuid("agent_id")
     .notNull()
-    .references(() => agentsTable.id, {
+    .references(() => agent.id, {
       onDelete: "cascade",
     }),
   userId: uuid("user_id")
     .notNull()
-    .references(() => usersTable.id, {
+    .references(() => user.id, {
       onDelete: "cascade",
     }),
   title: varchar("title").notNull(),

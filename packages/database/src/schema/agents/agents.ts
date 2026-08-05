@@ -7,13 +7,13 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { agentStatusEnum, auditColumns, providerEnum } from "../common";
-import { usersTable } from "../auth";
+import { user } from "../auth";
 
-export const agentsTable = pgTable("agents", {
+export const agent = pgTable("agents", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   userId: uuid("user_id")
     .notNull()
-    .references(() => usersTable.id, {
+    .references(() => user.id, {
       onDelete: "cascade",
     }),
   name: varchar("name").notNull(),

@@ -1,12 +1,12 @@
 import { jsonb, pgTable, uuid, varchar } from "drizzle-orm/pg-core";
 import { auditActionEnum, auditColumns, resourceTypeEnum } from "../common";
-import { usersTable } from "../auth";
+import { user } from "../auth";
 
-export const auditLogsTable = pgTable("audit_logs", {
+export const auditLog = pgTable("audit_logs", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   userId: uuid("user_id")
     .notNull()
-    .references(() => usersTable.id, {
+    .references(() => user.id, {
       onDelete: "cascade",
     }),
   action: auditActionEnum("action").default("create").notNull(),

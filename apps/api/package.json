@@ -6,6 +6,7 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
+    "@better-auth/drizzle-adapter": "^1.7.0-rc.4",
     "@langchain/community": "^1.1.29",
     "@langchain/core": "^1.2.3",
     "@langchain/openai": "^1.5.5",
@@ -13,7 +14,7 @@
     "@langchain/textsplitters": "^1.0.1",
     "@pinecone-database/pinecone": "^8.0.0",
     "@repo/shared": "workspace:*",
-    "better-auth": "^1.6.25",
+    "better-auth": "^1.7.0-rc.4",
     "hono": "^4.12.30",
     "openai": "^6.48.0",
     "pdf-parse": "^2.4.5"

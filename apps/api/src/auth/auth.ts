@@ -1,12 +1,14 @@
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { betterAuth } from "better-auth/minimal";
+import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import database from "../database";
 import { env } from "../config/env";
+import * as schema from "@repo/database/schema";
 
 export const auth = betterAuth({
   basePath: "/auth",
   database: drizzleAdapter(database, {
     provider: "pg",
+    schema,
   }),
   emailAndPassword: {
     enabled: true,

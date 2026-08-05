@@ -1,18 +1,18 @@
 import { integer, numeric, pgTable, uuid } from "drizzle-orm/pg-core";
 import { auditColumns } from "../common";
-import { usersTable } from "../auth";
-import { agentsTable } from "../agents";
+import { user } from "../auth";
+import { agent } from "../agents";
 
-export const usageLogsTable = pgTable("usage_logs", {
+export const usageLog = pgTable("usage_logs", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   userId: uuid("user_id")
     .notNull()
-    .references(() => usersTable.id, {
+    .references(() => user.id, {
       onDelete: "cascade",
     }),
   agentId: uuid("agent_id")
     .notNull()
-    .references(() => agentsTable.id, {
+    .references(() => agent.id, {
       onDelete: "cascade",
     }),
   promptTokens: integer("prompt_tokens").notNull().default(0),

@@ -1,13 +1,13 @@
 import { bigint, pgTable, uuid, varchar } from "drizzle-orm/pg-core";
 import { auditColumns } from "../common/audit";
-import { knowledgeBasesTable } from "./knowledge-bases";
+import { knowledgeBase } from "./knowledge-bases";
 
-export const fileSourcesTable = pgTable("file_sources", {
+export const fileSource = pgTable("file_sources", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   knowledgeBaseId: uuid("knowledge_base_id")
     .notNull()
     .unique()
-    .references(() => knowledgeBasesTable.id, {
+    .references(() => knowledgeBase.id, {
       onDelete: "cascade",
     }),
   fileName: varchar("file_name").notNull(),

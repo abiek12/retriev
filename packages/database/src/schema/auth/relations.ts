@@ -1,15 +1,15 @@
 import { defineRelations } from "drizzle-orm";
-import { usersTable } from "./users";
-import { sessionTable } from "./session";
-import { accountTable } from "./account";
-import { verificationTable } from "./verification";
+import { user } from "./users";
+import { session } from "./session";
+import { account } from "./account";
+import { verification } from "./verification";
 
 export const authRelations = defineRelations(
   {
-    users: usersTable,
-    sessions: sessionTable,
-    accounts: accountTable,
-    verification: verificationTable,
+    users: user,
+    sessions: session,
+    accounts: account,
+    verification,
   },
   (relations) => ({
     sessions: {

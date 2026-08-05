@@ -1,17 +1,17 @@
 import { defineRelations } from "drizzle-orm";
-import { conversationsTable } from "./conversations";
-import { agentsTable } from "../agents";
-import { usersTable } from "../auth";
-import { messageToolCallTable } from "./message-tool-call";
-import { messagesTable } from "./messages";
+import { conversation } from "./conversations";
+import { agent } from "../agents";
+import { user } from "../auth";
+import { messageToolCall } from "./message-tool-call";
+import { message } from "./messages";
 
 export const messageRelations = defineRelations(
   {
-    conversations: conversationsTable,
-    agents: agentsTable,
-    users: usersTable,
-    messages: messagesTable,
-    messageToolCalls: messageToolCallTable,
+    conversations: conversation,
+    agents: agent,
+    users: user,
+    messages: message,
+    messageToolCalls: messageToolCall,
   },
   (relations) => ({
     conversations: {

@@ -1,13 +1,13 @@
 import { defineRelations } from "drizzle-orm";
-import { usersTable } from "../auth";
-import { agentsTable } from "./agents";
-import { userApiKeysTable } from "./user-api-keys";
+import { user } from "../auth";
+import { agent } from "./agents";
+import { userApiKey } from "./user-api-keys";
 
 export const agentsRelations = defineRelations(
   {
-    users: usersTable,
-    agents: agentsTable,
-    userApiKeys: userApiKeysTable,
+    users: user,
+    agents: agent,
+    userApiKeys: userApiKey,
   },
   (relations) => ({
     agents: {

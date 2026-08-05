@@ -1,8 +1,8 @@
 import { index, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
-import { usersTable } from "./users";
+import { user } from "./users";
 import { auditColumns } from "../common";
 
-export const accountTable = pgTable(
+export const account = pgTable(
   "account",
   {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -10,7 +10,7 @@ export const accountTable = pgTable(
     providerId: text("provider_id").notNull(),
     userId: uuid("user_id")
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade" }),
+      .references(() => user.id, { onDelete: "cascade" }),
     accessToken: text("access_token"),
     refreshToken: text("refresh_token"),
     idToken: text("id_token"),

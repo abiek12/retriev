@@ -1,12 +1,12 @@
 import { pgTable, text, uuid, varchar } from "drizzle-orm/pg-core";
 import { auditColumns } from "../common/audit";
-import { messagesTable } from "./messages";
+import { message } from "./messages";
 
-export const messageToolCallTable = pgTable("message_tool_calls", {
+export const messageToolCall = pgTable("message_tool_calls", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   messageId: uuid("message_id")
     .notNull()
-    .references(() => messagesTable.id, {
+    .references(() => message.id, {
       onDelete: "cascade",
     }),
   toolName: varchar("tool_name").notNull(),

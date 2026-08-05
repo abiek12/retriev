@@ -1,15 +1,15 @@
 import { defineRelations } from "drizzle-orm";
-import { knowledgeBasesTable } from "./knowledge-bases";
-import { agentsTable } from "../agents";
-import { fileSourcesTable } from "./file-sources";
-import { textSourcesTable } from "./text-sources";
+import { knowledgeBase } from "./knowledge-bases";
+import { agent } from "../agents";
+import { fileSource } from "./file-sources";
+import { textSource } from "./text-sources";
 
 export const knowledgeBasesRelations = defineRelations(
   {
-    knowledgeBases: knowledgeBasesTable,
-    agents: agentsTable,
-    fileSources: fileSourcesTable,
-    textSources: textSourcesTable,
+    knowledgeBases: knowledgeBase,
+    agents: agent,
+    fileSources: fileSource,
+    textSources: textSource,
   },
   (relations) => ({
     knowledgeBases: {

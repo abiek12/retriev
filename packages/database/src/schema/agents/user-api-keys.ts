@@ -1,13 +1,13 @@
 import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
 import { auditColumns } from "../common/audit";
 import { providerEnum } from "../common/enum";
-import { usersTable } from "../auth";
+import { user } from "../auth";
 
-export const userApiKeysTable = pgTable("user_api_keys", {
+export const userApiKey = pgTable("user_api_keys", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   userId: uuid("user_id")
     .notNull()
-    .references(() => usersTable.id, {
+    .references(() => user.id, {
       onDelete: "cascade",
     }),
   provider: providerEnum("provider").default("openai").notNull(),
