@@ -6,8 +6,8 @@ import { logger } from "hono/logger";
 import globalExceptionHandler from "./middlewares/execption-handler.middleware";
 import authRoute from "./auth/auth.route";
 
-const app = new Hono();
-const api = new Hono();
+// Initialize the main application and set the global prefix
+const app = new Hono().basePath("/api/v1");
 
 // Apply the logger globally to all routes
 app.use(logger());
@@ -22,12 +22,9 @@ app.get("/", (c) => {
   return c.text("Hono server is running!");
 });
 
-// Register all API routes
-api.route("/auth", authRoute);
-api.route("/chat", chatRoutes);
-api.route("/documents", documentRoutes);
-
-// Mount versioned API
-app.route("/api/v1", api);
+// Register routes
+app.route("/documents", documentRoutes);
+app.route("/chat", chatRoutes);
+app.route("/auth", authRoute);
 
 export default app;
