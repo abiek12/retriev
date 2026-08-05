@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth/minimal";
 import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
-import database from "../database";
+import { db } from "../database";
 import { env } from "../config/env";
 import * as schema from "@repo/database/schema";
 
@@ -11,7 +11,7 @@ export const auth = betterAuth({
       generateId: "uuid",
     },
   },
-  database: drizzleAdapter(database, {
+  database: drizzleAdapter(db, {
     provider: "pg",
     schema,
   }),
