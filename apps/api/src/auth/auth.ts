@@ -5,7 +5,7 @@ import { env } from "../config/env";
 import * as schema from "@repo/database/schema";
 
 export const auth = betterAuth({
-  basePath: "/auth",
+  basePath: "api/v1/auth",
   advanced: {
     database: {
       generateId: "uuid",
