@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import "./style.css";
+import "@/styles/style.css";
 import { Button } from "@/components/ui/button";
 
 const App = () => (
