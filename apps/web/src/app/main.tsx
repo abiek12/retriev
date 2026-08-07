@@ -2,8 +2,9 @@ import { createRoot } from "react-dom/client";
 import "@/styles/style.css";
 import Providers from "./providers";
 import { StrictMode } from "react";
+import App from "./App";
 
-const App = () => (
+const Root = () => (
   <StrictMode>
     <Providers>
       <App />
@@ -11,4 +12,4 @@ const App = () => (
   </StrictMode>
 );
 
-createRoot(document.getElementById("app")!).render(<App />);
+createRoot(document.getElementById("root")!).render(<Root />);
