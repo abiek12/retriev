@@ -1,4 +1,5 @@
 import { PublicLayout } from "@/layouts/PublicLayout";
+import { LandingPage } from "@/pages/LandingPage";
 import { RouteObject } from "react-router-dom";
 
 export const publicRoutes: RouteObject = {
@@ -6,7 +7,7 @@ export const publicRoutes: RouteObject = {
   children: [
     {
       path: "/",
-      element: <PublicLayout />,
+      element: <LandingPage />,
     },
   ],
 };
