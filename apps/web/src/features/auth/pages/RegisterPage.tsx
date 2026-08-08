@@ -1,11 +1,9 @@
 import RegisterCard from "../components/RegisterCard";
 
-const RegisterPage = () => {
+export const RegisterPage = () => {
   return (
     <div>
       <RegisterCard />
     </div>
   );
 };
-
-export default RegisterPage;
