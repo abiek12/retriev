@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import ThemeProvider from "@/components/providers/theme-provider";
+import ThemeProvider from "@/components/providers/ThemeProvider";
 
 const Providers = ({ children }: PropsWithChildren) => (
   <ThemeProvider

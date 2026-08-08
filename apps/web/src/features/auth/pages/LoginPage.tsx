@@ -1,5 +1,5 @@
 import LoginCard from "../components/LoginCard";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/authClient";
 
 export const LoginPage = () => {
   console.log(authClient);
