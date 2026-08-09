@@ -1,11 +1,11 @@
-import LoginCard from "../components/LoginCard";
+import LoginForm from "../components/LoginForm";
 import { authClient } from "@/lib/authClient";
 
 export const LoginPage = () => {
   console.log(authClient);
   return (
     <div>
-      <LoginCard />
+      <LoginForm />
     </div>
   );
 };

@@ -1,0 +1,180 @@
+import { Controller, useForm } from "react-hook-form";
+import { loginSchema, LoginRequest } from "@repo/shared/contracts";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/authClient";
+
+const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [authError, setAuthError] = useState<string | null | undefined>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const form = useForm<LoginRequest>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      rememberMe: true,
+    },
+  });
+
+  const handleFormSubmit = async (data: LoginRequest) => {
+    setAuthError(null);
+    setIsLoading(true);
+
+    try {
+      const { error } = await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+        rememberMe: data.rememberMe,
+      });
+
+      if (error) {
+        setAuthError(error.message);
+        return;
+      }
+    } catch (error) {
+      setAuthError("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSocialLogin = () => {
+    try {
+    } catch (error) {
+    } finally {
+    }
+  };
+
+  return (
+    <div>
+      {/* Header */}
+      <div className="header">
+        <h1>Retriev</h1>
+        <p>Welcome Back</p>
+      </div>
+
+      {/* Form */}
+      <form onSubmit={form.handleSubmit(handleFormSubmit)}>
+        {/* Email */}
+        <Controller
+          name="email"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <input
+                {...field}
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                autoComplete="email"
+                disabled={isLoading}
+                aria-invalid={fieldState.invalid}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        {/* Password */}
+        <Controller
+          name="password"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel htmlFor="password">Password</FieldLabel>
+
+              <div className="relative">
+                <input
+                  {...field}
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="********"
+                  autoComplete="current-password"
+                  disabled={isLoading}
+                  aria-invalid={fieldState.invalid}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? (
+                    <EyeOff className="size-4" />
+                  ) : (
+                    <Eye className="size-4" />
+                  )}
+                </button>
+              </div>
+
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        <div className="flex items-center justify-between">
+          {/*Remember me*/}
+          <Controller
+            name="rememberMe"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  id="remember-me"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  className="cursor-pointer"
+                  // disabled={}
+                />
+
+                <FieldLabel htmlFor="password">Remember me</FieldLabel>
+              </div>
+            )}
+          />
+
+          {/*Forgot Password*/}
+          <Controller
+            name="password"
+            control={form.control}
+            render={() => (
+              <Link
+                to="/forgot-password"
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                Forgot Password?
+              </Link>
+            )}
+          />
+        </div>
+
+        {/* Authentication Error */}
+        {authError && (
+          <div
+            role="alert"
+            className="rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive"
+          >
+            {authError}
+          </div>
+        )}
+
+        {/* Login button */}
+        <Button
+          type="submit"
+          className="w-full cursor-pointer"
+          disabled={isLoading}
+        >
+          {isLoading ? "Loging in..." : "Login"}
+        </Button>
+      </form>
+    </div>
+  );
+};
+
+export default LoginForm;

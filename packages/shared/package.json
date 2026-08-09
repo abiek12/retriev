@@ -6,9 +6,6 @@
   "exports": {
     ".": "./src/index.ts",
     "./contracts": "./src/contracts/index.ts",
-    "./contracts/chat": "./src/contracts/chat/index.ts",
-    "./contracts/document": "./src/contracts/document/index.ts",
-    "./contracts/common": "./src/contracts/common/index.ts",
     "./constants": "./src/constants/index.ts"
   },
   "scripts": {
