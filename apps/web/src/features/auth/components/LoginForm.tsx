@@ -47,10 +47,19 @@ const LoginForm = () => {
     }
   };
 
-  const handleSocialLogin = (provider: "google" | "github") => {
+  const handleSocialLogin = async (provider: "google" | "github") => {
+    setAuthError(null);
     try {
+      await authClient.signIn.social({
+        provider,
+        callbackURL: `${import.meta.env.VITE_CLIENT_URL}/dashboard`,
+      });
     } catch (error) {
-    } finally {
+      setAuthError(
+        `Unable to continue with ${
+          provider === "google" ? "Google" : "GitHub"
+        }.`,
+      );
     }
   };
 
