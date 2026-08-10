@@ -5,6 +5,7 @@ import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import globalExceptionHandler from "./middlewares/execption-handler.middleware";
 import authRoute from "./auth/auth.route";
+import { env } from "./config/env";
 
 // Initialize the main application and set the global prefix
 const app = new Hono().basePath("/api/v1");
@@ -13,7 +14,13 @@ const app = new Hono().basePath("/api/v1");
 app.use(logger());
 
 // Cors
-app.use("*", cors());
+app.use(
+  "*",
+  cors({
+    origin: env.clientUrl,
+    credentials: true,
+  }),
+);
 
 // Global exception handler
 app.onError(globalExceptionHandler);

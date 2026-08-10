@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-import { indexDocumentSchema } from "@repo/shared/contracts/document";
+import { indexDocumentSchema } from "@repo/shared/contracts";
 import { documentController } from "./index";
 
 const router = new Hono();

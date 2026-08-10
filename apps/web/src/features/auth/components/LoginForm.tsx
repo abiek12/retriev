@@ -40,6 +40,7 @@ const LoginForm = () => {
         return;
       }
     } catch (error) {
+      console.log("Error from auth:", error);
       setAuthError("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);

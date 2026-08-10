@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { chatController } from "./index";
 import { zValidator } from "@hono/zod-validator";
-import { userChatRequestSchema } from "@repo/shared/contracts/chat";
+import { userChatRequestSchema } from "@repo/shared/contracts";
 
 const router = new Hono();
 
