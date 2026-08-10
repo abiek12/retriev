@@ -8,6 +8,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/authClient";
+import { GoogleLogoIcon, GithubLogoIcon } from "@phosphor-icons/react";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -45,7 +46,7 @@ const LoginForm = () => {
     }
   };
 
-  const handleSocialLogin = () => {
+  const handleSocialLogin = (provider: "google" | "github") => {
     try {
     } catch (error) {
     } finally {
@@ -104,7 +105,7 @@ const LoginForm = () => {
                   autoComplete="current-password"
                   disabled={isLoading}
                   aria-invalid={fieldState.invalid}
-                  className="p-2"
+                  className="p-2 focus:outline-none"
                 />
                 <button
                   type="button"
@@ -178,6 +179,40 @@ const LoginForm = () => {
           {isLoading ? "Loging in..." : "Login"}
         </Button>
       </form>
+
+      {/* Divider */}
+      <div className="my-6 flex items-center gap-3">
+        <div className="h-px flex-1 bg-border" />
+
+        <span className="text-xs text-muted-foreground">Or continue with</span>
+
+        <div className="h-px flex-1 bg-border" />
+      </div>
+
+      {/* Social Login */}
+      <div className="space-y-3">
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full cursor-pointer"
+          disabled={isLoading}
+          onClick={() => handleSocialLogin("google")}
+        >
+          <GoogleLogoIcon size={32} weight="bold" />
+          Continue with Google
+        </Button>
+
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full cursor-pointer"
+          disabled={isLoading}
+          onClick={() => handleSocialLogin("github")}
+        >
+          <GithubLogoIcon size={32} weight="bold" />
+          Continue with GitHub
+        </Button>
+      </div>
     </div>
   );
 };
