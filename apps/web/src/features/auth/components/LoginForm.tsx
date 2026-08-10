@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/authClient";
 import { GoogleLogoIcon, GithubLogoIcon } from "@phosphor-icons/react";
+import { Spinner } from "@/components/ui/spinner";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -186,7 +187,14 @@ const LoginForm = () => {
           className="w-full cursor-pointer my-2 py-5"
           disabled={isLoading}
         >
-          {isLoading ? "Loging in..." : "Login"}
+          {isLoading ? (
+            <div className="flex items-center justify-between gap-2">
+              <Spinner />
+              <p>logging in</p>
+            </div>
+          ) : (
+            "Login"
+          )}
         </Button>
       </form>
 
