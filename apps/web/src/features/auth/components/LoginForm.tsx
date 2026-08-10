@@ -173,7 +173,7 @@ const LoginForm = () => {
         {/* Login button */}
         <Button
           type="submit"
-          className="w-full cursor-pointer my-4"
+          className="w-full cursor-pointer my-2 py-5"
           disabled={isLoading}
         >
           {isLoading ? "Loging in..." : "Login"}
@@ -194,7 +194,7 @@ const LoginForm = () => {
         <Button
           type="button"
           variant="outline"
-          className="w-full cursor-pointer"
+          className="w-full cursor-pointer py-4"
           disabled={isLoading}
           onClick={() => handleSocialLogin("google")}
         >
@@ -205,13 +205,24 @@ const LoginForm = () => {
         <Button
           type="button"
           variant="outline"
-          className="w-full cursor-pointer"
+          className="w-full cursor-pointer py-4"
           disabled={isLoading}
           onClick={() => handleSocialLogin("github")}
         >
           <GithubLogoIcon size={32} weight="bold" />
           Continue with GitHub
         </Button>
+
+        {/* Register */}
+        <p className="mt-7 text-center text-sm text-muted-foreground">
+          Don't have an account?{" "}
+          <Link
+            to="/register"
+            className="font-medium text-foreground hover:underline"
+          >
+            Create account
+          </Link>
+        </p>
       </div>
     </div>
   );
