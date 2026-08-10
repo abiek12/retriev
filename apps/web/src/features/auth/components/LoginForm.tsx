@@ -53,15 +53,18 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
+    <div className="w-full max-w-md min-w-md rounded-xl border bg-background p-8 shadow-sm">
       {/* Header */}
-      <div className="header">
-        <h1>Retriev</h1>
-        <p>Welcome Back</p>
+      <div className="text-center mb-8">
+        <h1 className="text-2xl font-semibold tracking-tight">Retriev</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Welcome Back</p>
       </div>
 
       {/* Form */}
-      <form onSubmit={form.handleSubmit(handleFormSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(handleFormSubmit)}
+        className="space-y-5"
+      >
         {/* Email */}
         <Controller
           name="email"
@@ -77,6 +80,7 @@ const LoginForm = () => {
                 autoComplete="email"
                 disabled={isLoading}
                 aria-invalid={fieldState.invalid}
+                className="p-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-0"
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
@@ -91,7 +95,7 @@ const LoginForm = () => {
             <Field>
               <FieldLabel htmlFor="password">Password</FieldLabel>
 
-              <div className="relative">
+              <div className="relative border border-gray-300 rounded-sm focus:outline-none focus:ring-0">
                 <input
                   {...field}
                   id="password"
@@ -100,6 +104,7 @@ const LoginForm = () => {
                   autoComplete="current-password"
                   disabled={isLoading}
                   aria-invalid={fieldState.invalid}
+                  className="p-2"
                 />
                 <button
                   type="button"
@@ -119,7 +124,7 @@ const LoginForm = () => {
           )}
         />
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between my-4">
           {/*Remember me*/}
           <Controller
             name="rememberMe"
@@ -167,7 +172,7 @@ const LoginForm = () => {
         {/* Login button */}
         <Button
           type="submit"
-          className="w-full cursor-pointer"
+          className="w-full cursor-pointer my-4"
           disabled={isLoading}
         >
           {isLoading ? "Loging in..." : "Login"}
