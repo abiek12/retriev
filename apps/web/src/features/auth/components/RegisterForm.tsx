@@ -17,6 +17,7 @@ const RegisterCard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null | undefined>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<RegisterRequest>({
     resolver: zodResolver(registerRequestSchema),
@@ -188,15 +189,17 @@ const RegisterCard = () => {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="********"
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   disabled={isLoading}
                   aria-invalid={fieldState.invalid}
                   className="p-2 focus:outline-none"
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  onClick={() => setShowPassword((value) => !value)}
+                  disabled={isLoading}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
                 >
                   {showPassword ? (
                     <EyeOff className="size-4" />
@@ -213,29 +216,35 @@ const RegisterCard = () => {
 
         {/* Confirm Password */}
         <Controller
-          name="password"
+          name="confirmPassword"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field>
-              <FieldLabel htmlFor="password">Confirm Password</FieldLabel>
+              <FieldLabel htmlFor="confirm-password">
+                Confirm Password
+              </FieldLabel>
 
               <div className="relative border border-gray-300 rounded-sm focus:outline-none focus:ring-0">
                 <input
                   {...field}
-                  id="password"
-                  type={showPassword ? "text" : "password"}
+                  id="confirm-password"
+                  type={showConfirmPassword ? "text" : "password"}
                   placeholder="********"
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   disabled={isLoading}
                   aria-invalid={fieldState.invalid}
                   className="p-2 focus:outline-none"
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  onClick={() => setShowConfirmPassword((value) => !value)}
+                  disabled={isLoading}
+                  aria-label={
+                    showConfirmPassword ? "Hide password" : "Show password"
+                  }
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
                 >
-                  {showPassword ? (
+                  {showConfirmPassword ? (
                     <EyeOff className="size-4" />
                   ) : (
                     <Eye className="size-4" />
