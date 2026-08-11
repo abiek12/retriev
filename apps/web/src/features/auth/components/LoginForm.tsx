@@ -158,7 +158,7 @@ const LoginForm = () => {
                   checked={field.value}
                   onCheckedChange={field.onChange}
                   className="cursor-pointer"
-                  // disabled={}
+                  disabled={isLoading}
                 />
 
                 <FieldLabel htmlFor="password">Remember me</FieldLabel>

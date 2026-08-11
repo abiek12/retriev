@@ -1,13 +1,22 @@
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Spinner } from "@/components/ui/spinner";
 import { authClient } from "@/lib/authClient";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { GithubLogoIcon } from "@phosphor-icons/react";
+import { GoogleLogoIcon } from "@phosphor-icons/react";
 import { RegisterRequest, registerSchema } from "@repo/shared/contracts";
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 const RegisterCard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null | undefined>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<RegisterRequest>({
     resolver: zodResolver(registerSchema),
@@ -53,8 +62,226 @@ const RegisterCard = () => {
   };
 
   return (
-    <div>
-      <h1>Register</h1>
+    <div className="w-full max-w-md min-w-md rounded-xl border bg-background p-8 shadow-sm space-y-8">
+      {/* Header */}
+      <div className="text-center">
+        <h1 className="text-2xl font-semibold tracking-tight">Retriev</h1>
+        {/* sub-title */}
+        <div className="my-4 space-y-2">
+          <h2 className="text-2xl font-medium tracking-tight">
+            Create your workspace
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Setup your AI environment in seconds
+          </p>
+        </div>
+      </div>
+
+      {/* Social Login */}
+      <div className="space-y-3">
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full cursor-pointer py-4"
+          disabled={isLoading}
+          onClick={() => handleSocialLogin("google")}
+        >
+          <GoogleLogoIcon size={32} weight="bold" />
+          Continue with Google
+        </Button>
+
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full cursor-pointer py-4"
+          disabled={isLoading}
+          onClick={() => handleSocialLogin("github")}
+        >
+          <GithubLogoIcon size={32} weight="bold" />
+          Continue with GitHub
+        </Button>
+      </div>
+
+      {/* Divider */}
+      <div className="my-6 flex items-center gap-3">
+        <div className="h-px flex-1 bg-border" />
+
+        <span className="text-xs text-muted-foreground">
+          Or register with email
+        </span>
+
+        <div className="h-px flex-1 bg-border" />
+      </div>
+
+      {/* Form */}
+      <form
+        onSubmit={form.handleSubmit(handleFormSubmit)}
+        className="space-y-5"
+      >
+        {/* Username */}
+        <Controller
+          name="name"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel htmlFor="username">Username</FieldLabel>
+              <input
+                {...field}
+                id="username"
+                type="text"
+                placeholder="John Doe"
+                autoComplete="username"
+                disabled={isLoading}
+                aria-invalid={fieldState.invalid}
+                className="p-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-0"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        {/* Email */}
+        <Controller
+          name="email"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <input
+                {...field}
+                id="email"
+                type="email"
+                placeholder="johndoe@example.com"
+                autoComplete="email"
+                disabled={isLoading}
+                aria-invalid={fieldState.invalid}
+                className="p-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-0"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        {/* Password */}
+        <Controller
+          name="password"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel htmlFor="password">Password</FieldLabel>
+
+              <div className="relative border border-gray-300 rounded-sm focus:outline-none focus:ring-0">
+                <input
+                  {...field}
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="********"
+                  autoComplete="current-password"
+                  disabled={isLoading}
+                  aria-invalid={fieldState.invalid}
+                  className="p-2 focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? (
+                    <EyeOff className="size-4" />
+                  ) : (
+                    <Eye className="size-4" />
+                  )}
+                </button>
+              </div>
+
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        {/* Confirm Password */}
+        <Controller
+          name="password"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel htmlFor="password">Confirm Password</FieldLabel>
+
+              <div className="relative border border-gray-300 rounded-sm focus:outline-none focus:ring-0">
+                <input
+                  {...field}
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="********"
+                  autoComplete="current-password"
+                  disabled={isLoading}
+                  aria-invalid={fieldState.invalid}
+                  className="p-2 focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? (
+                    <EyeOff className="size-4" />
+                  ) : (
+                    <Eye className="size-4" />
+                  )}
+                </button>
+              </div>
+
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        {/* Terms of services and privacy policy accept */}
+        <div className="flex gap-3 items-center my-4">
+          <Checkbox
+            id="remember-me"
+            className="cursor-pointer"
+            disabled={isLoading}
+          />
+          <p className="text-center text-sm text-muted-foreground">
+            I accept the
+            <Link
+              to="/terms-of-service"
+              className="font-medium text-foreground hover:underline px-1"
+            >
+              Terms of Service
+            </Link>
+            and Privacy Policy.
+          </p>
+        </div>
+
+        {/* Register button */}
+        <Button
+          type="submit"
+          className="w-full cursor-pointer my-2 py-5"
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <div className="flex items-center justify-between gap-2">
+              <Spinner />
+              <p>Creating...</p>
+            </div>
+          ) : (
+            "Create Account"
+          )}
+        </Button>
+      </form>
+
+      {/* Login redirect */}
+      <p className="mt-7 text-center text-sm text-muted-foreground">
+        Already have an account?{" "}
+        <Link
+          to="/login"
+          className="font-medium text-foreground hover:underline"
+        >
+          Log in
+        </Link>
+      </p>
     </div>
   );
 };
