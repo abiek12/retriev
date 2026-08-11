@@ -25,12 +25,24 @@ const RegisterCard = () => {
       name: "",
       password: "",
       confirmPassword: "",
+      acceptTerms: false,
     },
   });
 
   const handleFormSubmit = async (data: RegisterRequest) => {
     setIsLoading(true);
     try {
+      const { error } = await authClient.signUp.email({
+        email: data.email,
+        name: data.name,
+        password: data.confirmPassword,
+        callbackURL: `${import.meta.env.VITE_CLIENT_URL}/dashboard`,
+      });
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
       setError("Something went wrong. Please try again.");
@@ -237,23 +249,43 @@ const RegisterCard = () => {
         />
 
         {/* Terms of services and privacy policy accept */}
-        <div className="flex gap-3 items-center my-4">
-          <Checkbox
-            id="remember-me"
-            className="cursor-pointer"
-            disabled={isLoading}
-          />
-          <p className="text-center text-sm text-muted-foreground">
-            I accept the
-            <Link
-              to="/terms-of-service"
-              className="font-medium text-foreground hover:underline px-1"
-            >
-              Terms of Service
-            </Link>
-            and Privacy Policy.
-          </p>
-        </div>
+        <Controller
+          name="acceptTerms"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <div className="flex items-start gap-2">
+                <Checkbox
+                  id="accept-terms"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  disabled={isLoading}
+                  aria-invalid={fieldState.invalid}
+                />
+
+                <label
+                  htmlFor="accept-terms"
+                  className="cursor-pointer text-sm text-muted-foreground"
+                >
+                  I accept the{" "}
+                  <Link to="/terms" className="text-foreground hover:underline">
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    to="/privacy"
+                    className="text-foreground hover:underline"
+                  >
+                    Privacy Policy
+                  </Link>
+                  .
+                </label>
+              </div>
+
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
         {/* Register button */}
         <Button

@@ -35,6 +35,7 @@ const LoginForm = () => {
         email: data.email,
         password: data.password,
         rememberMe: data.rememberMe,
+        callbackURL: `${import.meta.env.VITE_CLIENT_URL}/dashboard`,
       });
 
       if (error) {
