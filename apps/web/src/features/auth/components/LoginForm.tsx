@@ -51,7 +51,7 @@ const LoginForm = () => {
   };
 
   const handleSocialLogin = async (provider: "google" | "github") => {
-    setAuthError(null);
+    setIsLoading(true);
     try {
       const { error } = await authClient.signIn.social({
         provider,
@@ -69,6 +69,8 @@ const LoginForm = () => {
           provider === "google" ? "Google" : "GitHub"
         }.`,
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
