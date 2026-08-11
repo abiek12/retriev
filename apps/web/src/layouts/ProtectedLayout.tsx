@@ -1,20 +1,18 @@
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { Navigate, Outlet } from "react-router-dom";
 
-export const AuthLayout = () => {
+const ProtectedLayout = () => {
   const { isAuthenticated, isLoading } = useCurrentUser();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
   }
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-6">
-      <Outlet />
-    </div>
-  );
+  return <Outlet />;
 };
+
+export default ProtectedLayout;

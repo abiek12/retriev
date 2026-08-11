@@ -1,6 +1,6 @@
 import { authClient } from "@/lib/authClient";
 
-export const useCurrentUser = async () => {
+export const useCurrentUser = () => {
   const { data: session, isPending, error } = authClient.useSession();
 
   return {
