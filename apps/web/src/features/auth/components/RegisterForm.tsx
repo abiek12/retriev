@@ -6,7 +6,7 @@ import { authClient } from "@/lib/authClient";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GithubLogoIcon } from "@phosphor-icons/react";
 import { GoogleLogoIcon } from "@phosphor-icons/react";
-import { RegisterRequest, registerSchema } from "@repo/shared/contracts";
+import { RegisterRequest, registerRequestSchema } from "@repo/shared/contracts";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -19,7 +19,7 @@ const RegisterCard = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<RegisterRequest>({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(registerRequestSchema),
     defaultValues: {
       email: "",
       name: "",

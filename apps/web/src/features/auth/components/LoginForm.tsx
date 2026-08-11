@@ -1,5 +1,5 @@
 import { Controller, useForm } from "react-hook-form";
-import { loginSchema, LoginRequest } from "@repo/shared/contracts";
+import { loginRequestSchema, LoginRequest } from "@repo/shared/contracts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Link } from "react-router-dom";
@@ -18,7 +18,7 @@ const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<LoginRequest>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(loginRequestSchema),
     defaultValues: {
       email: "",
       password: "",
