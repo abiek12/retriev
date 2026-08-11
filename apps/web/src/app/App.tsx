@@ -1,5 +1,6 @@
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import ThemeProvider from "@/components/providers/ThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 import { routes } from "@/routes";
 import { RouterProvider } from "react-router-dom";
 
@@ -13,6 +14,7 @@ const App = () => {
         disableTransitionOnChange
       >
         <RouterProvider router={routes} />
+        <Toaster />
       </ThemeProvider>
     </QueryProvider>
   );

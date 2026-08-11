@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/authClient";
 import { GoogleLogoIcon, GithubLogoIcon } from "@phosphor-icons/react";
 import { Spinner } from "@/components/ui/spinner";
+import { toast } from "sonner";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -40,8 +41,9 @@ const LoginForm = () => {
         setAuthError(error.message);
         return;
       }
-    } catch (error) {
-      console.log("Error from auth:", error);
+      toast.success("Welcome back!");
+    } catch (error: any) {
+      toast.error("Something went wrong. Please try again.");
       setAuthError("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
@@ -51,11 +53,17 @@ const LoginForm = () => {
   const handleSocialLogin = async (provider: "google" | "github") => {
     setAuthError(null);
     try {
-      await authClient.signIn.social({
+      const { error } = await authClient.signIn.social({
         provider,
         callbackURL: `${import.meta.env.VITE_CLIENT_URL}/dashboard`,
       });
-    } catch (error) {
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+    } catch (error: any) {
+      toast.error("Unable to continue with social login.");
       setAuthError(
         `Unable to continue with ${
           provider === "google" ? "Google" : "GitHub"
