@@ -20,7 +20,7 @@ const ProtectedLayout = () => {
       <div className="flex min-w-0 flex-1 flex-col">
         <AppHeader />
 
-        <main className="min-h-0 flex-1">
+        <main className="min-h-0 flex-1 px-8">
           <Outlet />
         </main>
       </div>
