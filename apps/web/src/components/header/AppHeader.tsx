@@ -1,6 +1,6 @@
 export const AppHeader = () => {
   return (
-    <div>
+    <div className="w-full bg-yellow-200 h-20 flex justify-between items-center">
       <div className="right-section">
         <input type="search" placeholder="Search knowledge base" />
       </div>

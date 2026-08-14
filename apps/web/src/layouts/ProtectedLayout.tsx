@@ -15,10 +15,15 @@ const ProtectedLayout = () => {
   }
 
   return (
-    <div>
-      <AppHeader />
+    <div className="flex h-screen bg-background">
       <AppSidebar />
-      <Outlet />
+      <div className="flex min-w-0 flex-1 flex-col">
+        <AppHeader />
+
+        <main className="min-h-0 flex-1">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };
