@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
+import { authClient } from "@/lib/authClient";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   forgotPasswordSchema,
@@ -10,6 +11,7 @@ import { MoveLeft } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 export const ForgotPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,8 +22,30 @@ export const ForgotPassword = () => {
     },
   });
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (data: ForgotPasswordRequest) => {
     // Send reset link to mail
+    setIsLoading(true);
+    try {
+      const { error } = await authClient.requestPasswordReset({
+        email: data.email,
+        redirectTo: "/reset-password",
+      });
+
+      if (error) {
+        toast.error(error.message ?? "Unable to send password reset email.");
+
+        return;
+      }
+
+      setIsLoading(true);
+
+      toast.success("Password reset email sent.");
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
