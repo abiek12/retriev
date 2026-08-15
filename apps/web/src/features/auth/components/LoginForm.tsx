@@ -76,7 +76,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md min-w-md rounded-xl border bg-background p-8 shadow-sm">
+    <div className="w-full max-w-md min-w-md rounded-xl border bg-surface-container-lowest p-8 shadow-sm">
       {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-2xl font-semibold tracking-tight">Retriev</h1>
