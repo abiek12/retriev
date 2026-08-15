@@ -1,4 +1,4 @@
-import { Bell, CircleHelp, Search, Square, SquareMenu } from "lucide-react";
+import { Bell, CircleHelp, Search, SquareMenu } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { UserMenu } from "./UserMenu";
