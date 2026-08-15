@@ -81,7 +81,7 @@ const RegisterCard = () => {
         <h1 className="text-2xl font-semibold tracking-tight">Retriev</h1>
         {/* sub-title */}
         <div className="my-4 space-y-2">
-          <h2 className="text-2xl font-medium tracking-tight">
+          <h2 className="text-xl font-medium tracking-tight">
             Create your workspace
           </h2>
           <p className="text-sm text-muted-foreground">
