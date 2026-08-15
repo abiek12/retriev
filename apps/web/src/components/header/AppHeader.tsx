@@ -1,6 +1,7 @@
 import { Bell, CircleHelp, Search, Square, SquareMenu } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { UserMenu } from "./UserMenu";
 
 export const AppHeader = () => {
   return (
@@ -50,6 +51,7 @@ export const AppHeader = () => {
           </Button>
 
           {/* Drop down menu */}
+          <UserMenu />
         </div>
       </div>
     </header>

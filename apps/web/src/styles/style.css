@@ -38,6 +38,32 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
+  /* Surface */
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+
+  /* Surface content */
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+
+  /* Inverse surface */
+  --color-inverse-surface: var(--inverse-surface);
+  --color-inverse-on-surface: var(--inverse-on-surface);
+
+  /* Outline */
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+
+  /* Surface tint */
+  --color-surface-tint: var(--surface-tint);
+
   /* Sidebar */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
@@ -72,57 +98,78 @@
 }
 
 :root {
-  /* Base */
+  /* =========================================================
+     * Semantic Theme
+     * ========================================================= */
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
 
-  /* Card */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
 
-  /* Popover */
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
 
-  /* Primary */
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
 
-  /* Secondary */
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
 
-  /* Muted */
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
 
-  /* Accent */
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
 
-  /* Destructive */
   --destructive: oklch(0.577 0.245 27.325);
 
-  /* Borders and inputs */
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
 
-  /* Charts */
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  /* =========================================================
+     * Retriev Surface System
+     *
+     * Based on the Retriev Alpha design system.
+     * ========================================================= */
 
-  /* Retriev brand */
+  --surface: #f8f9fa;
+  --surface-dim: #d9dadb;
+  --surface-bright: #f8f9fa;
+
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f3f4f5;
+  --surface-container: #edeeef;
+  --surface-container-high: #e7e8e9;
+  --surface-container-highest: #e1e3e4;
+
+  --on-surface: #191c1d;
+  --on-surface-variant: #45464c;
+
+  --inverse-surface: #2e3132;
+  --inverse-on-surface: #f0f1f2;
+
+  --outline: #76777d;
+  --outline-variant: #c6c6cd;
+
+  --surface-tint: #575e70;
+
+  /* =========================================================
+     * Retriev Brand
+     * ========================================================= */
+
   --brand-primary: #111827;
   --brand-secondary: #6b7280;
   --brand-tertiary: #231604;
   --brand-neutral: #f9fafb;
 
-  /* Sidebar */
-  --sidebar: oklch(0.985 0 0);
+  /* =========================================================
+     * Sidebar
+     * ========================================================= */
+
+  --sidebar: #ffffff;
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
@@ -131,55 +178,88 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* Global radius */
-  --radius: 0.625rem;
-}
+  /* =========================================================
+     * Charts
+     * ========================================================= */
 
-.dark {
-  /* Base */
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-
-  /* Card */
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-
-  /* Popover */
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-
-  /* Primary */
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-
-  /* Secondary */
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-
-  /* Muted */
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-
-  /* Accent */
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-
-  /* Destructive */
-  --destructive: oklch(0.704 0.191 22.216);
-
-  /* Borders and inputs */
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-
-  /* Charts */
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
 
-  /* Sidebar */
+  /* =========================================================
+     * Radius
+     * ========================================================= */
+
+  --radius: 0.625rem;
+}
+
+.dark {
+  /* =========================================================
+     * Semantic Theme
+     * ========================================================= */
+
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+
+  --destructive: oklch(0.704 0.191 22.216);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+
+  /* =========================================================
+     * Dark Surface System
+     *
+     * The supplied Retriev design system defines the light
+     * surface palette only. These values map the surface
+     * hierarchy onto the existing dark semantic theme.
+     * ========================================================= */
+
+  --surface: oklch(0.145 0 0);
+  --surface-dim: oklch(0.11 0 0);
+  --surface-bright: oklch(0.205 0 0);
+
+  --surface-container-lowest: oklch(0.145 0 0);
+  --surface-container-low: oklch(0.17 0 0);
+  --surface-container: oklch(0.205 0 0);
+  --surface-container-high: oklch(0.23 0 0);
+  --surface-container-highest: oklch(0.269 0 0);
+
+  --on-surface: oklch(0.985 0 0);
+  --on-surface-variant: oklch(0.708 0 0);
+
+  --inverse-surface: oklch(0.985 0 0);
+  --inverse-on-surface: oklch(0.145 0 0);
+
+  --outline: oklch(0.556 0 0);
+  --outline-variant: oklch(1 0 0 / 15%);
+
+  --surface-tint: oklch(0.708 0 0);
+
+  /* =========================================================
+     * Sidebar
+     * ========================================================= */
+
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -189,9 +269,20 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 
+  /* =========================================================
+     * Charts
+     * ========================================================= */
+
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+
   /*
-     * Brand colors remain unchanged in dark mode.
-     * They represent Retriev's visual identity rather than UI semantics.
+     * Brand colors intentionally remain unchanged in dark mode.
+     * They represent Retriev's visual identity rather than
+     * semantic UI surfaces.
      */
 }
 
@@ -200,11 +291,15 @@
     @apply border-border outline-ring/50;
   }
 
-  body {
-    @apply bg-background text-foreground;
-  }
-
   html {
     @apply font-sans;
+  }
+
+  body {
+    @apply min-h-screen bg-surface text-on-surface;
+  }
+
+  #root {
+    @apply min-h-screen;
   }
 }
