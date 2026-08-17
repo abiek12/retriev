@@ -18,6 +18,20 @@ export const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // Password rules
+  const PASSWORD_MIN_LENGTH = 8;
+  const passwordRequirements = {
+    minLength: (password: string) => password.length >= PASSWORD_MIN_LENGTH,
+
+    hasNumber: (password: string) => /\d/.test(password),
+
+    hasSpecialCharacter: (password: string) => /[^A-Za-z0-9]/.test(password),
+
+    hasUpperAndLowerCase: (password: string) =>
+      /[a-z]/.test(password) && /[A-Z]/.test(password),
+  };
+
+  // Form
   const form = useForm<ResetPasswordRequest>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
@@ -41,6 +55,9 @@ export const ResetPassword = () => {
       setIsLoading(false);
     }
   };
+
+  const password = form.watch("password");
+  const confirmPassword = form.watch("confirmPassword");
 
   return (
     <div className="w-full max-w-md min-w-md rounded-xl border bg-surface-container-lowest p-8 shadow-sm">
