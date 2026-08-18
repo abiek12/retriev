@@ -1,3 +1,4 @@
+import { PasswordRequirements } from "@/components/common/PasswordRequirement";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
@@ -22,11 +23,8 @@ export const ResetPassword = () => {
   const PASSWORD_MIN_LENGTH = 8;
   const passwordRequirements = {
     minLength: (password: string) => password.length >= PASSWORD_MIN_LENGTH,
-
     hasNumber: (password: string) => /\d/.test(password),
-
     hasSpecialCharacter: (password: string) => /[^A-Za-z0-9]/.test(password),
-
     hasUpperAndLowerCase: (password: string) =>
       /[a-z]/.test(password) && /[A-Z]/.test(password),
   };
@@ -58,6 +56,18 @@ export const ResetPassword = () => {
 
   const password = form.watch("password");
   const confirmPassword = form.watch("confirmPassword");
+
+  const passwordValidation = {
+    minLength: passwordRequirements.minLength(password),
+    hasNumber: passwordRequirements.hasNumber(password),
+    hasSpecialCharacter: passwordRequirements.hasSpecialCharacter(password),
+    hasUpperAndLowerCase: passwordRequirements.hasUpperAndLowerCase(password),
+  };
+  const isPasswordValid =
+    passwordValidation.minLength &&
+    passwordValidation.hasNumber &&
+    passwordValidation.hasSpecialCharacter &&
+    passwordValidation.hasUpperAndLowerCase;
 
   return (
     <div className="w-full max-w-md min-w-md rounded-xl border bg-surface-container-lowest p-8 shadow-sm">
@@ -118,6 +128,35 @@ export const ResetPassword = () => {
             </Field>
           )}
         />
+
+        {/* Password validations */}
+        <div className="rounded-md border bg-surface-container-low p-3">
+          <p className="mb-3 text-xs font-medium uppercase tracking-wide">
+            Password Requirements
+          </p>
+
+          <div className="space-y-2">
+            <PasswordRequirements valid={passwordValidation.minLength}>
+              At least 8 characters long
+            </PasswordRequirements>
+
+            <PasswordRequirements valid={passwordValidation.hasNumber}>
+              Contains at least one number
+            </PasswordRequirements>
+
+            <PasswordRequirements
+              valid={passwordValidation.hasSpecialCharacter}
+            >
+              Contains at least one special character
+            </PasswordRequirements>
+
+            <PasswordRequirements
+              valid={passwordValidation.hasUpperAndLowerCase}
+            >
+              Contains uppercase and lowercase letters
+            </PasswordRequirements>
+          </div>
+        </div>
 
         {/* Confirm Password */}
         <Controller
