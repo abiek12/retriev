@@ -20,6 +20,10 @@ const envSchema = z.object({
   GITHUB_CLIENT_SECRET: z.string().min(1),
 
   CLIENT_URL: z.string().min(1),
+  BASE_URL: z.string().min(1),
+
+  BETTER_AUTH_API_KEY: z.string().min(1),
+  BETTER_AUTH_URL: z.string().min(1),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
@@ -68,6 +72,12 @@ export const env = {
 
   // client url
   clientUrl: values.CLIENT_URL,
+
+  // Server base url
+  baseUrl: values.BASE_URL,
+
+  betterAuthSecret: values.BETTER_AUTH_API_KEY,
+  betterAuthUrl: values.BETTER_AUTH_URL,
 };
 
 export type Env = typeof env;

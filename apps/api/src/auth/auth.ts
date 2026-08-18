@@ -3,6 +3,7 @@ import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { db } from "../database";
 import { env } from "../config/env";
 import * as schema from "@repo/database/schema";
+import { emailSender } from "../lib/email-sender";
 
 export const auth = betterAuth({
   basePath: "api/v1/auth",
@@ -18,22 +19,39 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    revokeSessionsOnPasswordReset: true,
     sendResetPassword: async ({ user, url, token }, request) => {
-      console.log("Password reset requested for:", user.email);
-      console.log("Password reset URL:", url);
+      await emailSender.send({
+        template: "reset-password",
+        to: user.email,
+        variables: {
+          resetLink: url || `${env.clientUrl}/verify?token=${token}`,
+          userEmail: user.email,
+          userName: user.name,
+          appName: "Retriev",
+          expirationMinutes: "60",
+        },
+      });
     },
     onPasswordReset: async ({ user }, request) => {
-      // your logic here
       console.log(`Password for user ${user.email} has been reset.`);
     },
   },
   emailVerification: {
+    sendOnSignUp: true,
     sendVerificationEmail: async ({ user, url, token }, request) => {
-      // void sendEmail({
-      //   to: user.email,
-      //   subject: "Verify your email address",
-      //   text: `Click the link to verify your email: ${url}`,
-      // });
+      await emailSender.send({
+        template: "verify-email",
+        to: user.email,
+        variables: {
+          verificationUrl: url || `${env.clientUrl}/verify?token=${token}`,
+          userEmail: user.email,
+          verificationCode: "123456", // Optional: for code-based verification
+          userName: user.email, // Optional
+          appName: "Retriev", // Optional
+          expirationMinutes: "60", // Optional
+        },
+      });
     },
   },
   socialProviders: {

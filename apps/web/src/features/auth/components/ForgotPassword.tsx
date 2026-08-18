@@ -28,7 +28,7 @@ export const ForgotPassword = () => {
     try {
       const { error } = await authClient.requestPasswordReset({
         email: data.email,
-        redirectTo: "/reset-password",
+        redirectTo: `${import.meta.env.VITE_CLIENT_URL}/reset-password`,
       });
 
       if (error) {
