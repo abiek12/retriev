@@ -31,17 +31,32 @@ const LoginForm = () => {
     setIsLoading(true);
 
     try {
-      const { error } = await authClient.signIn.email({
-        email: data.email,
-        password: data.password,
-        rememberMe: data.rememberMe,
-        callbackURL: `${import.meta.env.VITE_CLIENT_URL}/dashboard`,
-      });
+      const { error } = await authClient.signIn.email(
+        {
+          email: data.email,
+          password: data.password,
+          rememberMe: data.rememberMe,
+          callbackURL: `${import.meta.env.VITE_CLIENT_URL}/dashboard`,
+        },
+        {
+          onError: (ctx) => {
+            // Handle the error
+            setAuthError(ctx.error.message);
+            if (ctx.error.status === 403) {
+              toast.error("Please verify your email address");
+            }
+            //you can also show the original error message
+            toast.error(ctx.error.message);
+          },
+        },
+      );
 
       if (error) {
         setAuthError(error.message);
+        toast.error(error.message);
         return;
       }
+
       toast.success("Welcome back!");
     } catch (error: any) {
       toast.error("Something went wrong. Please try again.");
