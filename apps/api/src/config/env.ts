@@ -22,8 +22,14 @@ const envSchema = z.object({
   CLIENT_URL: z.string().min(1),
   BASE_URL: z.string().min(1),
 
-  BETTER_AUTH_API_KEY: z.string().min(1),
+  BETTER_AUTH_SECRET: z.string().min(1),
   BETTER_AUTH_URL: z.string().min(1),
+
+  BETTER_AUTH_API_URL: z.string().min(1),
+  BETTER_AUTH_API_KEY: z.string().min(1),
+  BETTER_AUTH_DASH_URL: z.string().min(1),
+  BETTER_AUTH_IDENTIFY_URL: z.string().min(1),
+  RESEND_API_KEY: z.string().min(1),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
@@ -78,6 +84,11 @@ export const env = {
 
   betterAuthSecret: values.BETTER_AUTH_API_KEY,
   betterAuthUrl: values.BETTER_AUTH_URL,
+  betterAuthApiUrl: values.BETTER_AUTH_API_URL,
+  betterAuthApiKey: values.BETTER_AUTH_API_KEY,
+  betterAuthDashUrl: values.BETTER_AUTH_DASH_URL,
+  betterAuthIdentityUrl: values.BETTER_AUTH_IDENTIFY_URL,
+  resendApiKey: values.RESEND_API_KEY,
 };
 
 export type Env = typeof env;

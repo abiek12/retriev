@@ -1,17 +1,27 @@
 import { betterAuth } from "better-auth/minimal";
+import { dash, sentinel } from "@better-auth/infra";
 import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { db } from "../database";
 import { env } from "../config/env";
 import * as schema from "@repo/database/schema";
-import { emailSender } from "../lib/email-sender";
+import { emailSender } from "../lib/email/email-sender";
 
 export const auth = betterAuth({
-  basePath: "api/v1/auth",
+  basePath: "/api/v1/auth",
   advanced: {
     database: {
       generateId: "uuid",
     },
   },
+  plugins: [
+    dash({
+      apiKey: env.betterAuthApiKey,
+      apiUrl: env.betterAuthDashUrl,
+    }),
+    sentinel({
+      apiKey:
+    }),
+  ],
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,
@@ -21,6 +31,10 @@ export const auth = betterAuth({
     requireEmailVerification: true,
     revokeSessionsOnPasswordReset: true,
     sendResetPassword: async ({ user, url, token }, request) => {
+      console.log("reset pwd invoked:");
+      console.log(user);
+      console.log(url);
+      console.log(token);
       await emailSender.send({
         template: "reset-password",
         to: user.email,
