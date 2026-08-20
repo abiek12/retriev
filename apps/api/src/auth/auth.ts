@@ -4,7 +4,7 @@ import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { db } from "../database";
 import { env } from "../config/env";
 import * as schema from "@repo/database/schema";
-import { emailSender } from "../lib/email/email-sender";
+import { emailService } from "../lib/email";
 
 export const auth = betterAuth({
   basePath: "/api/v1/auth",
@@ -32,20 +32,11 @@ export const auth = betterAuth({
     revokeSessionsOnPasswordReset: true,
     sendResetPassword: async ({ user, url, token }, request) => {
       console.log("reset pwd invoked:");
-      console.log(user);
-      console.log(url);
-      console.log(token);
-      await emailSender.send({
-        template: "reset-password",
-        to: user.email,
-        variables: {
-          resetLink: url || `${env.clientUrl}/verify?token=${token}`,
-          userEmail: user.email,
-          userName: user.name,
-          appName: "Retriev",
-          expirationMinutes: "60",
-        },
-      });
+      await emailService.sendPasswordResetEmail({
+        email: user.email,
+        name: user.name,
+        resetUrl: url,
+      })
     },
     onPasswordReset: async ({ user }, request) => {
       console.log(`Password for user ${user.email} has been reset.`);
@@ -54,18 +45,11 @@ export const auth = betterAuth({
   emailVerification: {
     sendOnSignUp: true,
     sendVerificationEmail: async ({ user, url, token }, request) => {
-      await emailSender.send({
-        template: "verify-email",
-        to: user.email,
-        variables: {
-          verificationUrl: url || `${env.clientUrl}/verify?token=${token}`,
-          userEmail: user.email,
-          verificationCode: "123456", // Optional: for code-based verification
-          userName: user.email, // Optional
-          appName: "Retriev", // Optional
-          expirationMinutes: "60", // Optional
-        },
-      });
+      await emailService.sendVerificationEmail({
+        email: user.email,
+        name: user.name,
+        verificationUrl: url
+      })
     },
   },
   socialProviders: {
