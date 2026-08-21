@@ -1,12 +1,13 @@
 {
   "name": "api",
   "scripts": {
-    "dev": "bun --env-file=../../.env run --hot src/index.ts",
+    "dev": "bun run --hot src/index.ts",
     "start": "bun run src/index.ts",
     "check": "tsc --noEmit"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.0-rc.4",
+    "@better-auth/infra": "^0.4.0",
     "@langchain/community": "^1.1.29",
     "@langchain/core": "^1.2.3",
     "@langchain/openai": "^1.5.5",
@@ -17,7 +18,8 @@
     "better-auth": "^1.7.0-rc.4",
     "hono": "^4.12.30",
     "openai": "^6.48.0",
-    "pdf-parse": "^2.4.5"
+    "pdf-parse": "^2.4.5",
+    "resend": "^6.21.0"
   },
   "devDependencies": {
     "@repo/database": "workspace:*",
