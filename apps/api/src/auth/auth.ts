@@ -18,9 +18,6 @@ export const auth = betterAuth({
       apiKey: env.betterAuthApiKey,
       apiUrl: env.betterAuthDashUrl,
     }),
-    sentinel({
-      apiKey:
-    }),
   ],
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -36,7 +33,7 @@ export const auth = betterAuth({
         email: user.email,
         name: user.name,
         resetUrl: url,
-      })
+      });
     },
     onPasswordReset: async ({ user }, request) => {
       console.log(`Password for user ${user.email} has been reset.`);
@@ -45,11 +42,12 @@ export const auth = betterAuth({
   emailVerification: {
     sendOnSignUp: true,
     sendVerificationEmail: async ({ user, url, token }, request) => {
+      console.log("Inoked verification mail!");
       await emailService.sendVerificationEmail({
         email: user.email,
         name: user.name,
-        verificationUrl: url
-      })
+        verificationUrl: url,
+      });
     },
   },
   socialProviders: {
