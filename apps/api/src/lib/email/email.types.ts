@@ -15,10 +15,12 @@ export interface PasswordResetEmailData {
   email: string;
   name?: string | null;
   resetUrl: string;
+  token: string;
 }
 
 export interface VerificationEmailData {
   email: string;
   name?: string | null;
   verificationUrl: string;
+  token: string;
 }

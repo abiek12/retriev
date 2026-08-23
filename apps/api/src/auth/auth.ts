@@ -33,6 +33,7 @@ export const auth = betterAuth({
         email: user.email,
         name: user.name,
         resetUrl: url,
+        token
       });
     },
     onPasswordReset: async ({ user }, request) => {
@@ -47,6 +48,7 @@ export const auth = betterAuth({
         email: user.email,
         name: user.name,
         verificationUrl: url,
+        token
       });
     },
   },

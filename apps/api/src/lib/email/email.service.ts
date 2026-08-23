@@ -1,3 +1,4 @@
+import { env } from "../../config/env";
 import {
   EmailProvider,
   PasswordResetEmailData,
@@ -11,13 +12,16 @@ export class EmailService {
     email,
     name,
     resetUrl,
+    token,
   }: PasswordResetEmailData): Promise<void> {
+    const clientActionUrl = `${env.clientUrl}/verify-email?token=${encodeURIComponent(token)}`;
+
     await this.provider.send({
       to: email,
       templateId: "password-reset",
       templateVariables: {
-        currentYear: 2026,
-        resetLink: resetUrl,
+        currentYear: "2026",
+        resetLink: clientActionUrl,
         userName: name || "User",
       },
     });
@@ -27,13 +31,16 @@ export class EmailService {
     email,
     name,
     verificationUrl,
+    token,
   }: VerificationEmailData): Promise<void> {
+    const clientActionUrl = `${env.clientUrl}/verify-email?token=${encodeURIComponent(token)}`;
+
     await this.provider.send({
       to: email,
       templateId: "email-verification",
       templateVariables: {
-        currentYear: 2026,
-        verificationUrl: verificationUrl,
+        currentYear: "2026",
+        verificationUrl: clientActionUrl,
         userName: name || "User",
       },
     });
