@@ -16,11 +16,16 @@ export const VerifyEmailPage = () => {
     }
 
     const verify = async () => {
-      const { error } = await authClient.verifyEmail({
-        query: {
-          token,
+      const { error } = await authClient.verifyEmail(
+        {
+          query: {
+            token,
+          },
         },
-      });
+        {
+          disableSignal: true,
+        },
+      );
 
       if (error) {
         console.log("Error on email verification:", error);
