@@ -9,9 +9,9 @@ import {
   resetPasswordSchema,
 } from "@repo/shared/contracts";
 import { Eye, EyeOff, MoveLeft } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 export const ResetPassword = () => {
@@ -19,6 +19,8 @@ export const ResetPassword = () => {
   const [error, setError] = useState<string | null | undefined>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
 
   // Form
   const form = useForm<ResetPasswordRequest>({
@@ -29,6 +31,12 @@ export const ResetPassword = () => {
       token: "",
     },
   });
+
+  useEffect(() => {
+    if (token) {
+      form.setValue("token", token);
+    }
+  }, [token, form]);
 
   const password = form.watch("password");
   const confirmPassword = form.watch("confirmPassword");

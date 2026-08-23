@@ -10,12 +10,16 @@ export class ResendEmailProvider implements EmailProvider {
   }
 
   async send(options: SendEmailOptions): Promise<void> {
+    if (!options.templateId || !options.templateVariables) {
+      throw new Error(`Failed to send email, missing template details!`);
+    }
     const { error } = await this.resend.emails.send({
-      from: env.resendFromEmail,
+      from: `Retriev <${env.resendFromEmail}>`,
       to: options.to,
-      subject: options.subject,
-      html: options.html,
-      text: options.text,
+      template: {
+        id: options.templateId,
+        variables: options.templateVariables,
+      },
     });
 
     if (error) {

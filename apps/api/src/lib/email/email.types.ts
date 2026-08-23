@@ -1,8 +1,10 @@
 export type SendEmailOptions = {
   to: string;
-  subject: string;
-  html: string;
-  text: string;
+  templateId?: string;
+  templateVariables?: Record<string, string | number>;
+  subject?: string;
+  html?: string;
+  text?: string;
 };
 
 export interface EmailProvider {
@@ -13,10 +15,12 @@ export interface PasswordResetEmailData {
   email: string;
   name?: string | null;
   resetUrl: string;
+  token: string;
 }
 
 export interface VerificationEmailData {
   email: string;
   name?: string | null;
   verificationUrl: string;
+  token: string;
 }
