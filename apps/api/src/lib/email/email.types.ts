@@ -1,8 +1,10 @@
 export type SendEmailOptions = {
   to: string;
-  subject: string;
-  html: string;
-  text: string;
+  templateId?: string;
+  templateVariables?: Record<string, string | number>;
+  subject?: string;
+  html?: string;
+  text?: string;
 };
 
 export interface EmailProvider {
