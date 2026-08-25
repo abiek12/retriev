@@ -1,20 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Check, Loader2, TriangleAlert } from "lucide-react";
 import { EmailVerificationStatus } from "../types/auth";
-import { useCurrentUser } from "../hooks/useCurrentUser";
 import { Link } from "react-router-dom";
 
 export const EmailVeificationResult = (props) => {
   const status = props.status as EmailVerificationStatus;
-  const { isAuthenticated, isLoading } = useCurrentUser();
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-surface flex items-center justify-center px-4">
-        <Loader2 className="animate-spin size-12" />
-      </div>
-    );
-  }
+  const isAuthenticated = props.isAuthenticated;
 
   return (
     <main className="min-h-screen bg-surface flex items-center justify-center px-4">

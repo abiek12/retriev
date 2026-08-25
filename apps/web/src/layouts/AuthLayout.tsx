@@ -11,7 +11,9 @@ export const AuthLayout = () => {
     </div>;
   }
 
-  if (isAuthenticated) {
+  const isEmailVerificationPage = location.pathname === "/verify-email/confirm";
+
+  if (isAuthenticated && !isEmailVerificationPage) {
     return <Navigate to="/dashboard" replace />;
   }
 

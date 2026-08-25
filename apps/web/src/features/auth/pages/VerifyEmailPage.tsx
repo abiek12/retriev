@@ -8,6 +8,7 @@ export const VerifyEmailPage = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const [status, setStatus] = useState<EmailVerificationStatus>("loading");
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (!token) {
@@ -27,6 +28,10 @@ export const VerifyEmailPage = () => {
         },
       );
 
+      // Get the freshly-created session
+      const { data: session } = await authClient.getSession();
+      setIsAuthenticated(!!session);
+
       if (error) {
         console.log("Error on email verification:", error);
         setStatus("error");
@@ -37,16 +42,9 @@ export const VerifyEmailPage = () => {
     };
 
     verify();
-  }, [token]);
+  }, [token]);  
 
-  switch (status) {
-    case "loading":
-      return <EmailVeificationResult status={status} />;
-    case "error":
-      return <EmailVeificationResult status={status} />;
-    case "success":
-      return <EmailVeificationResult status={status} />;
-    default:
-      return <EmailVeificationResult status={status} />;
-  }
+  return (
+    <EmailVeificationResult status={status} isAuthenticated={isAuthenticated} />
+  );
 };
