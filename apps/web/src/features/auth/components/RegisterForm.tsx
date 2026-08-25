@@ -10,7 +10,7 @@ import { RegisterRequest, registerRequestSchema } from "@repo/shared/contracts";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const RegisterCard = () => {
@@ -18,6 +18,7 @@ const RegisterCard = () => {
   const [error, setError] = useState<string | null | undefined>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm<RegisterRequest>({
     resolver: zodResolver(registerRequestSchema),
@@ -44,6 +45,8 @@ const RegisterCard = () => {
         toast.error(error.message);
         return;
       }
+
+      navigate("/verify-email");
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
       setError("Something went wrong. Please try again.");

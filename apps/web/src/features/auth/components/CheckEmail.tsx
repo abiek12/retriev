@@ -22,10 +22,16 @@ export const CheckEmail = () => {
         <p className="mt-1 text-sm font-medium text-foreground">{email}</p>
 
         <Button className="mt-6 w-full py-5 cursor-pointer">
-          Open Mail App
+          <a
+            href="https://mail.google.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open Mail App
+          </a>
         </Button>
 
-        <div className="mt-4 flex items-center justify-center gap-3 text-xs">
+        {/*<div className="mt-4 flex items-center justify-center gap-3 text-xs">
           <button className="text-muted-foreground hover:text-foreground cursor-pointer">
             Resend email
           </button>
@@ -35,7 +41,7 @@ export const CheckEmail = () => {
           <button className="text-muted-foreground hover:text-foreground cursor-pointer">
             Change email
           </button>
-        </div>
+        </div>*/}
 
         <p className="mt-6 text-xs leading-5 text-muted-foreground">
           Didn't receive the email? Check your spam folder or contact support if
