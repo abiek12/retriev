@@ -7,8 +7,8 @@ export const CheckEmail = () => {
     <main className="min-h-screen bg-surface flex items-center justify-center px-4">
       <div className="w-full max-w-md rounded-xl border border-border bg-surface-container-lowest p-8 text-center">
         {/* Icon */}
-        <div className="mx-auto flex size-10 items-center justify-center rounded-full bg-surface-container">
-          <Mail className="size-5 text-on-surface" />
+        <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-surface-container">
+          <Mail className="size-6 text-on-surface" />
         </div>
 
         <h1 className="mt-5 font-heading text-2xl font-semibold tracking-tight">

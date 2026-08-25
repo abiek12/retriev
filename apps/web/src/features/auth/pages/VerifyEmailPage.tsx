@@ -1,6 +1,7 @@
 import { authClient } from "@/lib/authClient";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { EmailVeificationResult } from "../components/EmailVerificationResult";
 
 export const VerifyEmailPage = () => {
   const [searchParams] = useSearchParams();
@@ -41,12 +42,12 @@ export const VerifyEmailPage = () => {
 
   switch (status) {
     case "loading":
-      return <div>Loading...</div>;
+      return <EmailVeificationResult status={status} />;
     case "error":
-      return <div>Error while verifying email</div>;
+      return <EmailVeificationResult status={status} />;
     case "success":
-      return <div>Email verified!</div>;
+      return <EmailVeificationResult status={status} />;
     default:
-      return <div>Go to login page</div>;
+      return <EmailVeificationResult status={status} />;
   }
 };
