@@ -33,7 +33,7 @@ export const auth = betterAuth({
         email: user.email,
         name: user.name,
         resetUrl: url,
-        token
+        token,
       });
     },
     onPasswordReset: async ({ user }, request) => {
@@ -42,13 +42,14 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendOnSignUp: true,
+    autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url, token }, request) => {
       console.log("Inoked verification mail!");
       await emailService.sendVerificationEmail({
         email: user.email,
         name: user.name,
         verificationUrl: url,
-        token
+        token,
       });
     },
   },
