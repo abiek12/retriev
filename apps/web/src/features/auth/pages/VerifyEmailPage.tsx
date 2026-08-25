@@ -2,13 +2,12 @@ import { authClient } from "@/lib/authClient";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { EmailVeificationResult } from "../components/EmailVerificationResult";
+import { EmailVerificationStatus } from "../types/auth";
 
 export const VerifyEmailPage = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
-  const [status, setStatus] = useState<"loading" | "success" | "error">(
-    "loading",
-  );
+  const [status, setStatus] = useState<EmailVerificationStatus>("loading");
 
   useEffect(() => {
     if (!token) {
