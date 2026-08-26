@@ -14,7 +14,7 @@ export class EmailService {
     resetUrl,
     token,
   }: PasswordResetEmailData): Promise<void> {
-    const clientActionUrl = `${env.clientUrl}/verify-email?token=${encodeURIComponent(token)}`;
+    const clientActionUrl = `${env.clientUrl}/reset-password?token=${encodeURIComponent(token)}`;
 
     await this.provider.send({
       to: email,
@@ -33,7 +33,7 @@ export class EmailService {
     verificationUrl,
     token,
   }: VerificationEmailData): Promise<void> {
-    const clientActionUrl = `${env.clientUrl}/reset-password?token=${encodeURIComponent(token)}`;
+    const clientActionUrl = `${env.clientUrl}/verify-email/confirm?token=${encodeURIComponent(token)}`;
 
     await this.provider.send({
       to: email,

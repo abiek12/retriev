@@ -4,6 +4,8 @@ import { ForgotPasswordPage } from "@/features/auth/pages/ForgotPasswordPage";
 import { ResetPasswordPage } from "@/features/auth/pages/ResetPasswordPage";
 import { LoginPage } from "@/features/auth/pages/LoginPage";
 import { RegisterPage } from "@/features/auth/pages/RegisterPage";
+import { VerifyEmailPage } from "@/features/auth/pages/VerifyEmailPage";
+import { CheckEmailPage } from "@/features/auth/pages/CheckEmailPage";
 
 export const authRoutes: RouteObject = {
   element: <AuthLayout />,
@@ -23,6 +25,14 @@ export const authRoutes: RouteObject = {
     {
       path: "/reset-password",
       element: <ResetPasswordPage />,
+    },
+    {
+      path: "/verify-email",
+      element: <CheckEmailPage />,
+    },
+    {
+      path: "/verify-email/confirm",
+      element: <VerifyEmailPage />,
     },
   ],
 };

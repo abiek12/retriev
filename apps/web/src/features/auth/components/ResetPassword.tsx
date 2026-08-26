@@ -11,7 +11,7 @@ import {
 import { Eye, EyeOff, MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 export const ResetPassword = () => {
@@ -21,6 +21,7 @@ export const ResetPassword = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
+  const navigate = useNavigate();
 
   // Form
   const form = useForm<ResetPasswordRequest>({
@@ -78,6 +79,8 @@ export const ResetPassword = () => {
       });
 
       toast.success("Password reset email sent.");
+
+      navigate("/login");
     } catch (error) {
       console.error("Forgot password error:", error);
       toast.error("Something went wrong. Please try again.");
