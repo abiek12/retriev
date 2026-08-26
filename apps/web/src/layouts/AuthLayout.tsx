@@ -15,14 +15,12 @@ export const AuthLayout = () => {
 
   const isEmailVerificationPage = location.pathname === "/verify-email/confirm";
 
+  // Verification callback must have a token.
   if (isEmailVerificationPage && !token) {
-    if (isAuthenticated) {
-      return <Navigate to="/dashboard" replace />;
-    } else {
-      return <Navigate to="/login" replace />;
-    }
+    return <Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />;
   }
 
+  // Authenticated users should not access normal auth pages.
   if (isAuthenticated && !isEmailVerificationPage) {
     return <Navigate to="/dashboard" replace />;
   }

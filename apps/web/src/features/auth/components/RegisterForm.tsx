@@ -46,7 +46,9 @@ const RegisterCard = () => {
         return;
       }
 
-      navigate("/verify-email");
+      navigate("/verify-email", {
+        state: { email: data.email },
+      });
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
       setError("Something went wrong. Please try again.");

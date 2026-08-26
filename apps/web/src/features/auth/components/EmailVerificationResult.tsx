@@ -37,19 +37,23 @@ export const EmailVeificationResult = (props) => {
         </p>
 
         {isAuthenticated ? (
-          <Button
-            disabled={status === "error" || status === "loading"}
-            className="mt-8 w-full py-5 cursor-pointer"
-          >
-            <Link to="/dashboard">Continue to Dashboard</Link>
-          </Button>
+          <Link to="/dashboard">
+            <Button
+              disabled={status === "error" || status === "loading"}
+              className="mt-8 w-full py-5 cursor-pointer"
+            >
+              Continue to Dashboard
+            </Button>
+          </Link>
         ) : (
-          <Button
-            disabled={status === "error" || status === "loading"}
-            className="mt-8 w-full py-5 cursor-pointer"
-          >
-            <Link to="/login">Continue to Login</Link>
-          </Button>
+          <Link to="/login">
+            <Button
+              disabled={status === "error" || status === "loading"}
+              className="mt-8 w-full py-5 cursor-pointer"
+            >
+              Continue to Login
+            </Button>
+          </Link>
         )}
       </div>
     </main>

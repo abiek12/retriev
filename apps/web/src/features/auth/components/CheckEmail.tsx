@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Mail } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 export const CheckEmail = () => {
-  const email = "testing@gmail.com";
+  const location = useLocation();
+  const email = location.state?.email;
+
   return (
     <main className="min-h-screen bg-surface flex items-center justify-center px-4">
       <div className="w-full max-w-md rounded-xl border border-border bg-surface-container-lowest p-8 text-center">
@@ -21,15 +24,15 @@ export const CheckEmail = () => {
 
         <p className="mt-1 text-sm font-medium text-foreground">{email}</p>
 
-        <Button className="mt-6 w-full py-5 cursor-pointer">
-          <a
-            href="https://mail.google.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+        <a
+          href="https://mail.google.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button className="mt-6 w-full py-5 cursor-pointer">
             Open Mail App
-          </a>
-        </Button>
+          </Button>
+        </a>
 
         {/*<div className="mt-4 flex items-center justify-center gap-3 text-xs">
           <button className="text-muted-foreground hover:text-foreground cursor-pointer">
