@@ -1,9 +1,11 @@
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { Loader2 } from "lucide-react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useSearchParams } from "react-router-dom";
 
 export const AuthLayout = () => {
   const { isAuthenticated, isLoading } = useCurrentUser();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
 
   if (isLoading) {
     <div className="min-h-screen bg-surface flex items-center justify-center px-4">
@@ -12,6 +14,14 @@ export const AuthLayout = () => {
   }
 
   const isEmailVerificationPage = location.pathname === "/verify-email/confirm";
+
+  if (isEmailVerificationPage && !token) {
+    if (isAuthenticated) {
+      return <Navigate to="/dashboard" replace />;
+    } else {
+      return <Navigate to="/login" replace />;
+    }
+  }
 
   if (isAuthenticated && !isEmailVerificationPage) {
     return <Navigate to="/dashboard" replace />;
