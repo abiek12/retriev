@@ -168,7 +168,7 @@ const LoginForm = () => {
           <Controller
             name="rememberMe"
             control={form.control}
-            render={({ field, fieldState }) => (
+            render={({ field }) => (
               <div className="flex items-center gap-2">
                 <Checkbox
                   id="remember-me"

@@ -15,7 +15,7 @@ import { toast } from "sonner";
 
 const RegisterCard = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null | undefined>(null);
+  const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
@@ -30,6 +30,8 @@ const RegisterCard = () => {
       acceptTerms: false,
     },
   });
+
+  console.log(error);
 
   const handleFormSubmit = async (data: RegisterRequest) => {
     setIsLoading(true);

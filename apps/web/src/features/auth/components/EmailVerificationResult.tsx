@@ -3,10 +3,15 @@ import { Check, Loader2, TriangleAlert } from "lucide-react";
 import { EmailVerificationStatus } from "../types/auth";
 import { Link } from "react-router-dom";
 
-export const EmailVeificationResult = (props) => {
-  const status = props.status as EmailVerificationStatus;
-  const isAuthenticated = props.isAuthenticated;
+type EmailVerificationResultProps = {
+  status: EmailVerificationStatus;
+  isAuthenticated: boolean;
+};
 
+export const EmailVeificationResult = ({
+  status,
+  isAuthenticated,
+}: EmailVerificationResultProps) => {
   return (
     <main className="min-h-screen bg-surface flex items-center justify-center px-4">
       <div className="w-full max-w-md min-w-md rounded-xl border border-border bg-surface-container-lowest px-8 py-14 text-center">

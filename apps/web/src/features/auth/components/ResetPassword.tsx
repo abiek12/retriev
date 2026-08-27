@@ -16,7 +16,7 @@ import { toast } from "sonner";
 
 export const ResetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null | undefined>(null);
+  const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [searchParams] = useSearchParams();
@@ -33,6 +33,8 @@ export const ResetPassword = () => {
     },
   });
 
+  console.log(error);
+
   useEffect(() => {
     if (token) {
       form.setValue("token", token);
@@ -40,7 +42,7 @@ export const ResetPassword = () => {
   }, [token, form]);
 
   const password = form.watch("password");
-  const confirmPassword = form.watch("confirmPassword");
+  // const confirmPassword = form.watch("confirmPassword");
 
   // Password rules
   const PASSWORD_MIN_LENGTH = 8;

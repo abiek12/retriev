@@ -42,9 +42,12 @@ export const VerifyEmailPage = () => {
     };
 
     verify();
-  }, [token]);  
+  }, [token]);
 
   return (
-    <EmailVeificationResult status={status} isAuthenticated={isAuthenticated} />
+    <EmailVeificationResult
+      status={status}
+      isAuthenticated={!!isAuthenticated}
+    />
   );
 };
