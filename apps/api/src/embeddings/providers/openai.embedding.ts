@@ -1,4 +1,3 @@
-import { OpenAIEmbeddings } from "@langchain/openai";
 import { IEmbeddingsProvider } from "../embedding.interface";
 import OpenAI from "openai";
 import { env } from "../../config/env";

@@ -2,10 +2,10 @@
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "strict": true,
-    "skipLibCheck": true,
+    "noEmit": true,
+    "types": ["bun"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
 }
