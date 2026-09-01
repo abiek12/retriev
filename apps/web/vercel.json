@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/v1/auth/:path*",
-      "destination": "https://retriev-n9td.onrender.com/api/v1/auth/:path*"
+      "source": "/api/:path*",
+      "destination": "https://retriev-n9td.onrender.com/api/:path*"
     }
   ]
 }
