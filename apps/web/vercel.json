@@ -3,6 +3,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://retriev-n9td.onrender.com/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
