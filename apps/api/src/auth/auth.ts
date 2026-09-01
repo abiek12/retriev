@@ -8,6 +8,7 @@ import { emailService } from "../lib/email";
 
 export const auth = betterAuth({
   basePath: "/api/v1/auth",
+  secret: env.betterAuthSecret,
   advanced: {
     database: {
       generateId: "uuid",

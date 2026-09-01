@@ -83,7 +83,7 @@ export const env = {
   // Server base url
   baseUrl: values.BASE_URL,
 
-  betterAuthSecret: values.BETTER_AUTH_API_KEY,
+  betterAuthSecret: values.BETTER_AUTH_SECRET,
   betterAuthUrl: values.BETTER_AUTH_URL,
   betterAuthApiUrl: values.BETTER_AUTH_API_URL,
   betterAuthApiKey: values.BETTER_AUTH_API_KEY,
