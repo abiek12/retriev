@@ -4,6 +4,7 @@ import { ConversationsPage } from "@/pages/ConversationsPage";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { IntegrationsPage } from "@/pages/IntegrationsPage";
 import { KnowledgeBasePage } from "@/pages/KnowledgeBasePage";
+import { SettingsPage } from "@/pages/SettingsPage";
 import { UsagePage } from "@/pages/UsagePage";
 import type { RouteObject } from "react-router-dom";
 
@@ -33,6 +34,10 @@ export const protectedRoutes: RouteObject = {
     {
       path: "/integrations",
       element: <IntegrationsPage />,
+    },
+    {
+      path: "/settings",
+      element: <SettingsPage />,
     },
   ],
 };
