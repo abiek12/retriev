@@ -34,10 +34,6 @@ const navigation = [
     label: "Integrations",
     icon: Puzzle,
   },
-  {
-    label: "Settings",
-    icon: Settings,
-  },
 ];
 
 export const AppSidebar = () => {
@@ -63,6 +59,13 @@ export const AppSidebar = () => {
           </div>
         ))}
       </nav>
+
+      <div className="mt-auto">
+        <div className="cursor-pointer flex gap-3 p-3 items-center justify-start rounded-sm text-sidebar-accent-foreground hover:bg-sidebar-accent">
+          <Settings className="size-5 shrink-0" strokeWidth={1.8} />
+          <span>Settings</span>
+        </div>
+      </div>
     </div>
   );
 };
