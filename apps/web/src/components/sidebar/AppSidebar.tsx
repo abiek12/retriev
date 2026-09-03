@@ -12,11 +12,11 @@ const navigation = [
   {
     label: "Dashboard",
     icon: LayoutDashboard,
+    active: true,
   },
   {
     label: "Agents",
     icon: Bot,
-    active: true,
   },
   {
     label: "Knowledge Base",
