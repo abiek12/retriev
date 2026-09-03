@@ -7,32 +7,38 @@ import {
   Puzzle,
   Settings,
 } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 const navigation = [
   {
     label: "Dashboard",
     icon: LayoutDashboard,
-    active: true,
+    path: "/dashboard",
   },
   {
     label: "Agents",
     icon: Bot,
+    path: "/agent",
   },
   {
     label: "Knowledge Base",
     icon: Database,
+    path: "/knowledge-base",
   },
   {
     label: "Conversations",
     icon: MessageSquare,
+    path: "/conversations",
   },
   {
     label: "Usage",
     icon: BarChart3,
+    path: "/usage",
   },
   {
     label: "Integrations",
     icon: Puzzle,
+    path: "/integrations",
   },
 ];
 
@@ -88,26 +94,38 @@ export const AppSidebar = () => {
       </div>
 
       <nav className="my-6 flex flex-col gap-1">
-        {navigation.map(({ label, icon: Icon, active }) => (
-          <div
+        {navigation.map(({ label, icon: Icon, path }) => (
+          <NavLink
+            to={path}
             key={label}
-            className={`flex gap-3 items-center justify-start p-3 cursor-pointer rounded-sm transition-colors ${
-              active
-                ? "bg-surface-dim text-sidebar-accent-foreground"
-                : "text-sidebar-foreground hover:bg-sidebar-accent"
-            }`}
+            className={({ isActive }) =>
+              `flex gap-3 items-center justify-start p-3 cursor-pointer rounded-sm transition-colors ${
+                isActive
+                  ? "bg-surface-dim text-sidebar-accent-foreground"
+                  : "text-sidebar-foreground hover:bg-sidebar-accent"
+              }`
+            }
           >
             <Icon className="size-5 shrink-0" strokeWidth={1.8} />
             <span>{label}</span>
-          </div>
+          </NavLink>
         ))}
       </nav>
 
       <div className="mt-auto">
-        <div className="cursor-pointer flex gap-3 p-3 items-center justify-start rounded-sm text-sidebar-accent-foreground hover:bg-sidebar-accent">
+        <NavLink
+          to={"/settings"}
+          className={({ isActive }) =>
+            `cursor-pointer flex gap-3 p-3 items-center justify-start rounded-sm text-sidebar-accent-foreground ${
+              isActive
+                ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                : "text-sidebar-foreground hover:bg-sidebar-accent"
+            }`
+          }
+        >
           <Settings className="size-5 shrink-0" strokeWidth={1.8} />
           <span>Settings</span>
-        </div>
+        </NavLink>
       </div>
     </div>
   );
