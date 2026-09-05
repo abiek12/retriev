@@ -1,13 +1,19 @@
+import { AgentResponseDto } from "@repo/shared/contracts";
 import { MoreHorizontal } from "lucide-react";
 
-export const AgentCard = () => {
+export const AgentCard = ({ agent }: { agent: AgentResponseDto }) => {
   return (
     <div className="group relative flex min-h-52 w-full flex-col rounded-lg border bg-card p-4 transition-colors hover:border-ring cursor-pointer">
       {/* Header */}
       <div className="flex items-center justify-between">
         {/* Agent icon */}
         <div className="flex size-9 items-center justify-center rounded-sm bg-surface-container-high text-sm font-medium">
-          CS
+          {agent.name
+            .split(" ")
+            .map((word) => word[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase()}
         </div>
 
         {/* Status + Actions */}
@@ -23,7 +29,7 @@ export const AgentCard = () => {
           >
             <span className="size-1.5 rounded-full bg-green-500" />
 
-            <span className="text-foreground">Live</span>
+            <span className="text-foreground">{agent.status}</span>
           </div>
 
           {/* Actions */}
@@ -51,12 +57,11 @@ export const AgentCard = () => {
       {/* Details */}
       <div className="mt-4 flex flex-1 flex-col">
         <h2 className="text-xl font-semibold tracking-tight cursor-pointer">
-          Customer Support
+          {agent.name}
         </h2>
 
         <p className="mt-1 line-clamp-2 text-sm leading-5 text-muted-foreground">
-          Handles tier 1 support inquiries and routes complex issues to human
-          agents...
+          {agent.description}
         </p>
       </div>
 
@@ -65,7 +70,7 @@ export const AgentCard = () => {
         <div className="flex items-center justify-between text-xs">
           <span className="text-muted-foreground">Updated</span>
 
-          <span>2 hours ago</span>
+          <span>{agent.updatedAt}</span>
         </div>
       </div>
     </div>

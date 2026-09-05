@@ -59,9 +59,9 @@ export const AppSidebar = () => {
                 <path
                   d="M -10 60 L 46 60 A 14 14 0 0 1 60 74 L 60 130"
                   stroke="black"
-                  stroke-width="7"
+                  strokeWidth="7"
                   fill="none"
-                  stroke-linecap="butt"
+                  strokeLinecap="butt"
                 />
               </mask>
             </defs>

@@ -1,5 +1,6 @@
+import { AgentResponseDto } from "@repo/shared/contracts";
 
-export const mockAgents: Agent[] = [
+export const mockAgents: AgentResponseDto[] = [
   {
     id: "a1b2c3d4-e5f6-4a7b-8c9d-000000000001",
     name: "Customer Support",
@@ -47,3 +48,8 @@ export const mockAgents: Agent[] = [
     updatedAt: "2026-08-31T10:00:00.000Z",
   },
 ];
+
+export const getMockAgents = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  return mockAgents;
+};
