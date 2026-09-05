@@ -44,7 +44,7 @@ const navigation = [
 
 export const AppSidebar = () => {
   return (
-    <div className="w-xs h-full flex flex-col bg-sidebar p-6 select-none">
+    <div className="w-xs h-full flex flex-col bg-sidebar p-6 select-none border-r">
       <div className="header flex items-center justify-start gap-2 w-full my-2">
         <div className="logo cursor-pointer">
           <svg
