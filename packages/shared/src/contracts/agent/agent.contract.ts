@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { agentProviderSchema, agentStatusSchema } from "../../constants/agent";
+import { apiResponseSchema } from "../api";
 
 export const agentRequestSchema = z.object({
   id: z.string().uuid(),
@@ -31,5 +32,8 @@ export const agentResponseSchema = z.object({
   updatedAt: z.string().datetime(),
 });
 
+export const getAgentResponseSchema = apiResponseSchema(agentResponseSchema);
+
 export type AgentResponseDto = z.infer<typeof agentResponseSchema>;
 export type AgentRequestDto = z.infer<typeof agentRequestSchema>;
+export type GetAgentResponseDto = z.infer<typeof getAgentResponseSchema>;

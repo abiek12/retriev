@@ -1,5 +1,6 @@
 import z from "zod";
 import { agentProviderSchema } from "../../constants/agent";
+import { apiResponseSchema } from "../api";
 
 export const createAgentRequestSchema = z.object({
   name: z.string().trim().min(1, "Agent name is required").max(100),
@@ -28,5 +29,10 @@ export const createAgentResponseSchema = z.object({
   name: z.string().trim().min(1),
 });
 
+export const postAgentResponseSchema = apiResponseSchema(
+  createAgentResponseSchema,
+);
+
 export type CreateAgentRequestDto = z.infer<typeof createAgentRequestSchema>;
 export type CreateAgentResponseDto = z.infer<typeof createAgentResponseSchema>;
+export type PostAgentResponseDto = z.infer<typeof postAgentResponseSchema>;

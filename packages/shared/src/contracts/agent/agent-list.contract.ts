@@ -1,6 +1,7 @@
 import z from "zod";
 import { agentProviderSchema, agentStatusSchema } from "../../constants/agent";
 import { agentResponseSchema } from "./agent.contract";
+import { apiResponseSchema } from "../api";
 
 export const agentListRequestSchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
@@ -25,5 +26,12 @@ export const agentListResponseSchema = z.object({
   }),
 });
 
+export const getAgentListResponseSchema = apiResponseSchema(
+  agentListResponseSchema,
+);
+
 export type AgentListRequestDto = z.infer<typeof agentListRequestSchema>;
 export type AgentListResponseDto = z.infer<typeof agentListResponseSchema>;
+export type GetAgentListResponseDto = z.infer<
+  typeof getAgentListResponseSchema
+>;
