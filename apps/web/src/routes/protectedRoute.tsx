@@ -1,5 +1,5 @@
 import ProtectedLayout from "@/layouts/ProtectedLayout";
-import { AgentPage } from "@/pages/AgentPage";
+import { AgentPage } from "@/features/agents/pages/AgentPage";
 import { ConversationsPage } from "@/pages/ConversationsPage";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { IntegrationsPage } from "@/pages/IntegrationsPage";
