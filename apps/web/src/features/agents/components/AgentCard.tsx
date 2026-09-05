@@ -1,7 +1,12 @@
 import { AgentResponseDto } from "@repo/shared/contracts";
 import { MoreHorizontal } from "lucide-react";
+import { statusStyles } from "../types";
+import { formatRelativeDate } from "../../../utils/formatDate";
 
 export const AgentCard = ({ agent }: { agent: AgentResponseDto }) => {
+  const status = statusStyles[agent.status];
+  const formattedDate = formatRelativeDate(agent.updatedAt);
+
   return (
     <div className="group relative flex min-h-52 w-full flex-col rounded-lg border bg-card p-4 transition-colors hover:border-ring cursor-pointer">
       {/* Header */}
@@ -27,7 +32,7 @@ export const AgentCard = ({ agent }: { agent: AgentResponseDto }) => {
               group-hover:-translate-x-10
             "
           >
-            <span className="size-1.5 rounded-full bg-green-500" />
+            <span className={`size-1.5 rounded-full ${status.dot}`} />
 
             <span className="text-foreground">{agent.status}</span>
           </div>
@@ -35,7 +40,7 @@ export const AgentCard = ({ agent }: { agent: AgentResponseDto }) => {
           {/* Actions */}
           <button
             type="button"
-            aria-label="Agent actions"
+            aria-label={`Actions for ${agent.name}`}
             className="
               absolute right-0
               flex size-8 items-center justify-center
@@ -70,7 +75,7 @@ export const AgentCard = ({ agent }: { agent: AgentResponseDto }) => {
         <div className="flex items-center justify-between text-xs">
           <span className="text-muted-foreground">Updated</span>
 
-          <span>{agent.updatedAt}</span>
+          <span>{formattedDate}</span>
         </div>
       </div>
     </div>
