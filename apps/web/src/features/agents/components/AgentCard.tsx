@@ -2,7 +2,7 @@ import { MoreHorizontal } from "lucide-react";
 
 export const AgentCard = () => {
   return (
-    <div className="group relative flex min-h-52 w-full flex-col rounded-lg border bg-card p-4 transition-colors hover:border-ring">
+    <div className="group relative flex min-h-52 w-full flex-col rounded-lg border bg-card p-4 transition-colors hover:border-ring cursor-pointer">
       {/* Header */}
       <div className="flex items-center justify-between">
         {/* Agent icon */}

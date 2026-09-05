@@ -33,6 +33,7 @@ export const AgentPage = () => {
         <AgentCard />
         <AgentCard />
         <AgentCard />
+        <AgentCard />
       </div>
 
       {createModalOpen && (

@@ -44,7 +44,7 @@ const navigation = [
 
 export const AppSidebar = () => {
   return (
-    <div className="w-xs h-full flex flex-col bg-sidebar p-6 select-none border-r">
+    <div className="w-xs h-full flex flex-col bg-sidebar px-4 py-5 select-none border-r">
       <div className="header flex items-center justify-start gap-2 w-full my-2">
         <div className="logo cursor-pointer">
           <svg
@@ -93,7 +93,7 @@ export const AppSidebar = () => {
         </h1>
       </div>
 
-      <nav className="my-6 flex flex-col gap-1">
+      <nav className="my-5 flex flex-col gap-1">
         {navigation.map(({ label, icon: Icon, path }) => (
           <NavLink
             to={path}
