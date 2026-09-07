@@ -230,7 +230,34 @@ export const mockAgents: AgentResponseDto[] = [
   },
 ];
 
-export const getMockAgents = async () => {
+export const getMockAgents = async (
+  page: number = 1,
+  pageSize: number = 10,
+) => {
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
+
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  return mockAgents;
+
+  const agents = mockAgents.slice(start, end);
+  const total = mockAgents.length;
+  const totalPages = Math.ceil(total / pageSize);
+
+  return {
+    statusCode: 200,
+    message: "Agents fetched successfully",
+
+    data: {
+      agents,
+
+      pagination: {
+        page,
+        pageSize,
+        total,
+        totalPages,
+      },
+    },
+
+    error: null,
+  };
 };
