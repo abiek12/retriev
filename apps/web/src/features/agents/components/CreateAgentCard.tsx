@@ -1,4 +1,8 @@
-export const CreateAgentCard = ({ onClose }) => {
+type CreateAgentCardProps = {
+  onClose: () => void;
+};
+
+export const CreateAgentCard = ({ onClose }: CreateAgentCardProps) => {
   return (
     <div className="">
       <button onClick={onClose}>Close</button>
