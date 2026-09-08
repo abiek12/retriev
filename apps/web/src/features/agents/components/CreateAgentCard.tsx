@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -7,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -26,25 +25,20 @@ type CreateAgentCardProps = {
 };
 
 export const CreateAgentCard = ({ onClose }: CreateAgentCardProps) => {
-  const [isLoading, setIsLoading] = useState(false);
-
   const form = useForm<CreateAgentRequestDto>({
     resolver: zodResolver(createAgentRequestSchema),
     defaultValues: {
       name: "",
       description: "",
       systemPrompt: "",
-      model: "",
       temperature: 0.7,
       maxTokens: 1000,
     },
   });
 
   const {
-    register,
     handleSubmit,
-    setValue,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = form;
 
   const onSubmit = (data: CreateAgentRequestDto) => {
@@ -60,16 +54,12 @@ export const CreateAgentCard = ({ onClose }: CreateAgentCardProps) => {
     console.log("Create agent:", payload);
 
     try {
-      setIsLoading(true);
-
-      // Api call
+      // API call
       toast.success("Agent created successfully");
+      onClose();
     } catch (error) {
       console.error("Create agent error:", error);
       toast.error("Failed to create agent");
-    } finally {
-      setIsLoading(false);
-      onClose();
     }
   };
 
@@ -178,7 +168,7 @@ export const CreateAgentCard = ({ onClose }: CreateAgentCardProps) => {
               {isSubmitting ? (
                 <div className="flex items-center justify-between gap-2">
                   <Spinner />
-                  <p>logging in</p>
+                  <p>Creating...</p>
                 </div>
               ) : (
                 "Create Agent"
