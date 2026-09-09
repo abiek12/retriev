@@ -299,7 +299,26 @@
     @apply min-h-screen bg-surface text-on-surface;
   }
 
+  a[href],
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
   #root {
     @apply min-h-screen;
   }
+}
+
+.landing-grid {
+  background-image:
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 30%,
+    black 20%,
+    transparent 80%
+  );
+  opacity: 0.65;
 }
