@@ -299,6 +299,12 @@
     @apply min-h-screen bg-surface text-on-surface;
   }
 
+  a[href],
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
   #root {
     @apply min-h-screen;
   }
