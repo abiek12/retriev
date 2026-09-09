@@ -1,9 +1,22 @@
 import { AgentResponseDto } from "@repo/shared/contracts";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { statusStyles } from "../types";
 import { formatRelativeDate } from "../../../utils/formatDate";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-export const AgentCard = ({ agent }: { agent: AgentResponseDto }) => {
+type AgentCardProps = {
+  agent: AgentResponseDto;
+  onEdit: (agent: AgentResponseDto) => void;
+  onDelete: (agent: AgentResponseDto) => void;
+};
+
+export const AgentCard = ({ agent, onEdit, onDelete }: AgentCardProps) => {
   const status = statusStyles[agent.status];
   const formattedDate = formatRelativeDate(agent.updatedAt);
 
@@ -38,24 +51,53 @@ export const AgentCard = ({ agent }: { agent: AgentResponseDto }) => {
           </div>
 
           {/* Actions */}
-          <button
-            type="button"
-            aria-label={`Actions for ${agent.name}`}
-            className="
-              absolute right-0
-              flex size-8 items-center justify-center
-              rounded-md text-muted-foreground
-              opacity-0 translate-x-2
-              transition-all duration-200 ease-out
-              group-hover:translate-x-0
-              group-hover:opacity-100
-              hover:bg-surface-container-high
-              hover:text-foreground
-              cursor-pointer
-            "
-          >
-            <MoreHorizontal className="size-4" />
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <button
+                type="button"
+                aria-label={`Actions for ${agent.name}`}
+                className="
+                absolute right-0 top-0
+                flex size-8 items-center justify-center
+                rounded-md text-muted-foreground
+                opacity-0 translate-x-2
+                transition-all duration-200 ease-out
+                group-hover:translate-x-0
+                group-hover:opacity-100
+                hover:bg-surface-container-high
+                hover:text-foreground
+                cursor-pointer
+                "
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
+              >
+                <MoreHorizontal className="size-4" />
+
+                <span className="sr-only">Agent actions</span>
+              </button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end" className="w-36">
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => onEdit(agent)}
+              >
+                <Pencil className="mr-2 size-4" />
+                Edit
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem
+                className="text-destructive focus:text-destructive cursor-pointer"
+                onClick={() => onDelete(agent)}
+              >
+                <Trash2 className="mr-2 size-4" />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 

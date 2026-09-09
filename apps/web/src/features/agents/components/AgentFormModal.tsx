@@ -24,16 +24,16 @@ import { useEffect } from "react";
 
 type AgentFormModalProps = {
   open: boolean;
+  selectedAgent?: AgentResponseDto | null;
   onClose: () => void;
-  selectedAgent?: AgentResponseDto | undefined;
 };
 
 export const AgentFormModal = ({
-  onClose,
   open,
   selectedAgent,
+  onClose,
 }: AgentFormModalProps) => {
-  const isEditMode = selectedAgent !== undefined;
+  const isEditMode = selectedAgent !== null;
 
   const form = useForm<CreateAgentRequestDto>({
     resolver: zodResolver(createAgentRequestSchema),
