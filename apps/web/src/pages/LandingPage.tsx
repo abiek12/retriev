@@ -182,7 +182,12 @@ const LandingNavbar = () => {
 const Hero = () => {
   return (
     <section className="relative overflow-hidden border-b">
-      <div className="mx-auto max-w-7xl px-6 pb-20 pt-24 lg:px-8 lg:pb-28 lg:pt-32">
+      <div
+        className="landing-grid pointer-events-none absolute inset-0"
+        aria-hidden="true"
+      />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-6 pb-20 pt-24 lg:px-8 lg:pb-28 lg:pt-32">
         <div className="mx-auto max-w-4xl text-center">
           <Reveal>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border bg-surface-container-low px-3 py-1.5 text-xs font-medium transition-colors hover:bg-surface-container">
