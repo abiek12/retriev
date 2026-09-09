@@ -52,30 +52,14 @@ export const AgentCard = ({ agent, onEdit, onDelete }: AgentCardProps) => {
 
           {/* Actions */}
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <button
-                type="button"
-                aria-label={`Actions for ${agent.name}`}
-                className="
-                absolute right-0 top-0
-                flex size-8 items-center justify-center
-                rounded-md text-muted-foreground
-                opacity-0 translate-x-2
-                transition-all duration-200 ease-out
-                group-hover:translate-x-0
-                group-hover:opacity-100
-                hover:bg-surface-container-high
-                hover:text-foreground
-                cursor-pointer
-                "
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
-              >
-                <MoreHorizontal className="size-4" />
-
-                <span className="sr-only">Agent actions</span>
-              </button>
+            <DropdownMenuTrigger
+              type="button"
+              aria-label={`Actions for ${agent.name}`}
+              className="absolute right-0 top-0 flex size-8 translate-x-2 cursor-pointer items-center justify-center rounded-md text-muted-foreground opacity-0 transition-all duration-200 ease-out hover:bg-surface-container-high hover:text-foreground group-hover:translate-x-0 group-hover:opacity-100 data-popup-open:translate-x-0 data-popup-open:opacity-100"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <MoreHorizontal className="size-4" />
+              <span className="sr-only">Agent actions</span>
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end" className="w-36">

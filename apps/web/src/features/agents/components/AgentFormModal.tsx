@@ -104,7 +104,7 @@ export const AgentFormModal = ({
   };
 
   return (
-    <Dialog open onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-150 p-6 [&>button]:cursor-pointer">
         <DialogHeader>
           <DialogTitle className="text-xl">
