@@ -160,11 +160,16 @@ export const CreateAgentCard = ({ onClose }: CreateAgentCardProps) => {
               variant="outline"
               onClick={onClose}
               disabled={isSubmitting}
+              className="cursor-pointer px-4 py-2"
             >
               Cancel
             </Button>
 
-            <Button type="submit" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="cursor-pointer px-4 py-2"
+            >
               {isSubmitting ? (
                 <div className="flex items-center justify-between gap-2">
                   <Spinner />
