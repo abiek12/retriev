@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import { AgentCard } from "../components/AgentCard";
-import { CreateAgentCard } from "../components/CreateAgentCard";
+import { AgentFormModal } from "../components/AgentFormModal";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { getMockAgents } from "../api/mock-agents";
 import { AppPagination } from "@/components/common/AppPagination";
+import { AgentResponseDto } from "@repo/shared/contracts";
+import { toast } from "sonner";
 
 export const AgentPage = () => {
-  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [agentModalOpen, setAgentModalOpen] = useState(false);
+  const [selectedAgent, setSelectedAgent] = useState<AgentResponseDto | null>(
+    null,
+  );
 
-  const [agents, setAgents] = useState<any[]>([]);
+  const [agents, setAgents] = useState<AgentResponseDto[]>([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
@@ -43,6 +48,21 @@ export const AgentPage = () => {
     setPage(1);
   };
 
+  const handleEditAgent = (agent: AgentResponseDto) => {
+    setSelectedAgent(agent);
+    setAgentModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedAgent(null);
+    setAgentModalOpen(false);
+  };
+
+  const handleDeleteAgent = (agent: AgentResponseDto) => {
+    console.log("Delete agent", agent);
+    toast.success("Agent deleted successfully");
+  };
+
   return (
     <div className="flex h-full min-h-0 flex-col">
       {/* Header */}
@@ -56,7 +76,7 @@ export const AgentPage = () => {
 
         <Button
           className="cursor-pointer p-5 rounded-sm"
-          onClick={() => setCreateModalOpen(true)}
+          onClick={() => setAgentModalOpen(true)}
         >
           <Plus className="mr-2" />
           <div className="flex items-center justify-center">Create</div>
@@ -81,7 +101,12 @@ export const AgentPage = () => {
             }`}
           >
             {agents.map((agent) => (
-              <AgentCard key={agent.id} agent={agent} />
+              <AgentCard
+                key={agent.id}
+                agent={agent}
+                onEdit={() => handleEditAgent(agent)}
+                onDelete={() => handleDeleteAgent(agent)}
+              />
             ))}
           </div>
         )}
@@ -102,8 +127,12 @@ export const AgentPage = () => {
         </div>
       )}
 
-      {createModalOpen && (
-        <CreateAgentCard onClose={() => setCreateModalOpen(false)} />
+      {agentModalOpen && (
+        <AgentFormModal
+          open={agentModalOpen}
+          selectedAgent={selectedAgent}
+          onClose={handleCloseModal}
+        />
       )}
     </div>
   );
