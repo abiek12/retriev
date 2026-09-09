@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AgentCard } from "../components/AgentCard";
-import { CreateAgentCard } from "../components/CreateAgentCard";
+import { AgentFormModal } from "../components/AgentFormModal";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { getMockAgents } from "../api/mock-agents";
@@ -103,7 +103,10 @@ export const AgentPage = () => {
       )}
 
       {createModalOpen && (
-        <CreateAgentCard onClose={() => setCreateModalOpen(false)} />
+        <AgentFormModal
+          open={createModalOpen}
+          onClose={() => setCreateModalOpen(false)}
+        />
       )}
     </div>
   );

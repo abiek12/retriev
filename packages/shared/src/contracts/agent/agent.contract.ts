@@ -21,7 +21,7 @@ export const agentResponseSchema = z.object({
 
   provider: agentProviderSchema,
 
-  temperature: z.string().nullable(),
+  temperature: z.number().nullable(),
 
   maxTokens: z.number().int().nullable(),
 

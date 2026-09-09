@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
+  AgentResponseDto,
   CreateAgentRequestDto,
   createAgentRequestSchema,
 } from "@repo/shared/contracts";
@@ -19,12 +20,21 @@ import { Controller, useForm } from "react-hook-form";
 import { Spinner } from "@/components/ui/spinner";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
-type CreateAgentCardProps = {
+type AgentFormModalProps = {
+  open: boolean;
   onClose: () => void;
+  selectedAgent?: AgentResponseDto | undefined;
 };
 
-export const CreateAgentCard = ({ onClose }: CreateAgentCardProps) => {
+export const AgentFormModal = ({
+  onClose,
+  open,
+  selectedAgent,
+}: AgentFormModalProps) => {
+  const isEditMode = selectedAgent !== undefined;
+
   const form = useForm<CreateAgentRequestDto>({
     resolver: zodResolver(createAgentRequestSchema),
     defaultValues: {
@@ -35,6 +45,26 @@ export const CreateAgentCard = ({ onClose }: CreateAgentCardProps) => {
       maxTokens: 1000,
     },
   });
+
+  useEffect(() => {
+    if (selectedAgent) {
+      form.reset({
+        name: selectedAgent.name,
+        description: selectedAgent.description ?? "",
+        systemPrompt: selectedAgent.systemPrompt ?? "",
+        temperature: selectedAgent.temperature ?? 0.7,
+        maxTokens: selectedAgent.maxTokens ?? 1000,
+      });
+    } else {
+      form.reset({
+        name: "",
+        description: "",
+        systemPrompt: "",
+        temperature: 0.7,
+        maxTokens: 1000,
+      });
+    }
+  }, [selectedAgent]);
 
   const {
     handleSubmit,
@@ -54,12 +84,22 @@ export const CreateAgentCard = ({ onClose }: CreateAgentCardProps) => {
     console.log("Create agent:", payload);
 
     try {
+      if (isEditMode) {
+        // API call
+        toast.success("Agent updated successfully");
+        onClose();
+        return;
+      }
+
       // API call
       toast.success("Agent created successfully");
       onClose();
     } catch (error) {
-      console.error("Create agent error:", error);
-      toast.error("Failed to create agent");
+      console.error(
+        `Failed to ${isEditMode ? "update" : "create"} agent:`,
+        error,
+      );
+      toast.error(`Failed to ${isEditMode ? "update" : "create"} agent`);
     }
   };
 
@@ -67,10 +107,14 @@ export const CreateAgentCard = ({ onClose }: CreateAgentCardProps) => {
     <Dialog open onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-150 p-6 [&>button]:cursor-pointer">
         <DialogHeader>
-          <DialogTitle className="text-xl">Create Agent</DialogTitle>
+          <DialogTitle className="text-xl">
+            {isEditMode ? "Edit" : "Create"} Agent
+          </DialogTitle>
 
           <DialogDescription>
-            Configure your AI agent and define how it should behave.
+            {isEditMode
+              ? "Update your agent configuration and behavior."
+              : "Configure your AI agent and define how it should behave."}
           </DialogDescription>
         </DialogHeader>
 
@@ -173,10 +217,10 @@ export const CreateAgentCard = ({ onClose }: CreateAgentCardProps) => {
               {isSubmitting ? (
                 <div className="flex items-center justify-between gap-2">
                   <Spinner />
-                  <p>Creating...</p>
+                  <p>{isEditMode ? "Updating..." : "Creating..."}</p>
                 </div>
               ) : (
-                "Create Agent"
+                <>{isEditMode ? "Update Agent" : "Create Agent"}</>
               )}
             </Button>
           </DialogFooter>
