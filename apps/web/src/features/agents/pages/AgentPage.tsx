@@ -7,6 +7,7 @@ import { getMockAgents } from "../api/mock-agents";
 import { AppPagination } from "@/components/common/AppPagination";
 import { AgentResponseDto } from "@repo/shared/contracts";
 import { toast } from "sonner";
+import { AgentCardSkeleton } from "../components/AgentCardSkeleton";
 
 export const AgentPage = () => {
   const [agentModalOpen, setAgentModalOpen] = useState(false);
@@ -85,7 +86,18 @@ export const AgentPage = () => {
 
       {/* Agent List */}
       <div className="min-h-0 flex-1 overflow-y-auto pr-4">
-        {agents.length === 0 && !isFetching ? (
+        {isFetching ? (
+          <div
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            aria-busy="true"
+            aria-live="polite"
+          >
+            <span className="sr-only">Loading agents...</span>
+            {Array.from({ length: Math.min(pageSize, 12) }).map((_, index) => (
+              <AgentCardSkeleton key={index} />
+            ))}
+          </div>
+        ) : agents.length === 0 && !isFetching ? (
           <div className="flex min-h-100 items-center justify-center rounded-lg border border-dashed">
             <div className="text-center">
               <p className="font-medium">No agents found</p>
