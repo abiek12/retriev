@@ -237,7 +237,7 @@ export const getMockAgents = async (
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const agents = mockAgents.slice(start, end);
   const total = mockAgents.length;
