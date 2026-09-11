@@ -1,3 +1,4 @@
+import { AppLoader } from "@/components/common/AppLoader";
 import { AppHeader } from "@/components/header/AppHeader";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
@@ -7,7 +8,7 @@ const ProtectedLayout = () => {
   const { isAuthenticated, isLoading } = useCurrentUser();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <AppLoader label="Loading your workspace..." />;
   }
 
   if (!isAuthenticated) {

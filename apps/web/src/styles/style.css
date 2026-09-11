@@ -303,3 +303,41 @@
     @apply min-h-screen;
   }
 }
+
+@keyframes app-loader-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes app-loader-slide {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(310%);
+  }
+}
+
+.app-loader-mark {
+  animation: app-loader-breathe 1.8s ease-in-out infinite;
+}
+
+.app-loader-progress {
+  animation: app-loader-slide 1.25s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-loader-mark,
+  .app-loader-progress {
+    animation: none;
+  }
+
+  .app-loader-progress {
+    margin-inline: auto;
+  }
+}
