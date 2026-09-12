@@ -32,7 +32,7 @@ export const AgentDeleteModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-90 px-6 pt-6 [&>button]:cursor-pointer">
+      <DialogContent className="sm:max-w-90 p-6 [&>button]:cursor-pointer">
         <DialogHeader>
           <DialogTitle className="text-lg">Delete agent?</DialogTitle>
 
