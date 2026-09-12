@@ -1,3 +1,12 @@
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { AgentResponseDto } from "@repo/shared/contracts";
 import { toast } from "sonner";
 
@@ -22,11 +31,27 @@ export const AgentDeleteModal = ({
   };
 
   return (
-    <div>
-      <h2>Delete Agent</h2>
-      <p>Are you sure you want to delete the agent "{agent.name}"?</p>
-      <button onClick={handleConfirm}>Yes</button>
-      <button onClick={onClose}>No</button>
-    </div>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-90 p-6 [&>button]:cursor-pointer">
+        <DialogHeader>
+          <DialogTitle className="text-lg">Delete agent?</DialogTitle>
+
+          <DialogDescription>
+            Are you sure you want to delete{" "}
+            <span className="font-medium">{agent?.name}</span>?
+          </DialogDescription>
+        </DialogHeader>
+
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+
+          <Button variant="destructive" onClick={handleConfirm}>
+            Delete
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
