@@ -6,12 +6,16 @@ import { Plus } from "lucide-react";
 import { getMockAgents } from "../api/mock-agents";
 import { AppPagination } from "@/components/common/AppPagination";
 import { AgentResponseDto } from "@repo/shared/contracts";
-import { toast } from "sonner";
 import { AgentCardSkeleton } from "../components/AgentCardSkeleton";
+import { AgentDeleteModal } from "../components/AgentDeleteModal";
 
 export const AgentPage = () => {
   const [agentModalOpen, setAgentModalOpen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<AgentResponseDto | null>(
+    null,
+  );
+  const [agentDeleteModalOpen, setAgentDeleteModalOpen] = useState(false);
+  const [agentToDelete, setAgentToDelete] = useState<AgentResponseDto | null>(
     null,
   );
 
@@ -60,8 +64,8 @@ export const AgentPage = () => {
   };
 
   const handleDeleteAgent = (agent: AgentResponseDto) => {
-    console.log("Delete agent", agent);
-    toast.success("Agent deleted successfully");
+    setAgentToDelete(agent);
+    setAgentDeleteModalOpen(true);
   };
 
   return (
@@ -144,6 +148,14 @@ export const AgentPage = () => {
           open={agentModalOpen}
           selectedAgent={selectedAgent}
           onClose={handleCloseModal}
+        />
+      )}
+
+      {agentDeleteModalOpen && (
+        <AgentDeleteModal
+          open={agentDeleteModalOpen}
+          agent={agentToDelete}
+          onClose={() => setAgentDeleteModalOpen(false)}
         />
       )}
     </div>
