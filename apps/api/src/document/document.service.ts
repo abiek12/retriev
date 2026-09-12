@@ -3,7 +3,7 @@ import { ChunkFile } from "../prepare";
 import filePrepareFactory from "../prepare/loaders/file-loader-factory";
 import { FileTypes } from "../utils/enums";
 import { IVectorStore } from "../vector-store/vector-store.interface";
-import type { IndexDocumentRequest } from "@repo/shared/contracts/document";
+import type { IndexDocumentRequest } from "@repo/shared/contracts";
 
 class DocumentService {
   constructor(

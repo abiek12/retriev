@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import type { IndexDocumentRequest } from "@repo/shared/contracts/document";
+import type { IndexDocumentRequest } from "@repo/shared/contracts";
 import DocumentService from "./document.service";
 
 class DocumentController {
