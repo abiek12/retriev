@@ -1,4 +1,4 @@
-import { LLMProviderType } from "../llm/llm.types";
+import { LLMProviderType } from "../infrastructure/llm/llm.types";
 
 export default {
   provider: "groq" as LLMProviderType,

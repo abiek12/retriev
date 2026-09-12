@@ -1,5 +1,5 @@
 import { ChatCompletionMessageParam } from "groq-sdk/resources/chat/completions";
-import { ILlmMessage } from "../llm/llm.interface";
+import { ILlmMessage } from "../infrastructure/llm/llm.interface";
 
 export function toGroqMessages(
   messages: ILlmMessage[],

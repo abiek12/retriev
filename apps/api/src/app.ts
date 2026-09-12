@@ -1,10 +1,10 @@
 import { Hono } from "hono";
-import documentRoutes from "./document/document.route";
-import chatRoutes from "./chat/chat.route";
+import documentRoutes from "./modules/documents/document.route";
+import chatRoutes from "./modules/chat/chat.route";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import globalExceptionHandler from "./middlewares/execption-handler.middleware";
-import authRoute from "./auth/auth.route";
+import authRoute from "./modules/auth/auth.route";
 import { env } from "./config/env";
 
 // Initialize the main application and set the global prefix
