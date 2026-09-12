@@ -1,6 +1,6 @@
 import { Context } from "hono";
 import type { UserChatRequest } from "@repo/shared/contracts";
-import { ApiResponse } from "../../utils/response.builder";
+import { ApiResponse } from "../../common/utils/response.builder.util";
 import type { IChatService } from "./chat.service.interface";
 
 class ChatController {

@@ -1,5 +1,5 @@
 import z from "zod";
-import { logger } from "../utils/logger";
+import { logger } from "../common/utils/logger.util";
 
 const envSchema = z.object({
   DATABASE_URL: z.string().min(1),

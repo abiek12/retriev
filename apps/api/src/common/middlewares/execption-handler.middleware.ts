@@ -1,7 +1,7 @@
 import { Context } from "hono";
 import { HTTPException } from "hono/http-exception";
-import { ApiResponse } from "../utils/response.builder";
-import { logger } from "../utils/logger";
+import { ApiResponse } from "../utils/response.builder.util";
+import { logger } from "../utils/logger.util";
 
 const globalExceptionHandler = (err: Error, c: Context) => {
   logger.error(

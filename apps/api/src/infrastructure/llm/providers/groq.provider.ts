@@ -1,5 +1,5 @@
 import { env } from "../../../config/env";
-import { toGroqMessages } from "../../../utils/helpers";
+import { toGroqMessages } from "../../../common/utils/helpers.util";
 import { ILlmProivder, ILlmRequest, ILlmResponse } from "../llm.interface";
 import Groq from "groq-sdk";
 

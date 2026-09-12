@@ -10,7 +10,7 @@ import { IRoles } from "../../infrastructure/llm/llm.types";
 import { SYSTEM_PROMPT } from "../../config/system-prompt";
 
 import { BaseService } from "../../core/services";
-import { logger } from "../../utils/logger";
+import { logger } from "../../common/utils/logger.util";
 import type { IChatRepository } from "./chat.repository.interface";
 import type { IChatService } from "./chat.service.interface";
 

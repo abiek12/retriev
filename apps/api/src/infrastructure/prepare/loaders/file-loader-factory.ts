@@ -1,4 +1,4 @@
-import { FileTypes } from "../../../utils/enums";
+import { FileTypes } from "../../../common/utils/enums.util";
 import { IFileLoader } from "./prepare-loader.interface.ts";
 import PDFLoader from "./providers/pdf-loader";
 import TextLoader from "./providers/text-loader";

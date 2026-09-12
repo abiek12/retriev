@@ -1,7 +1,7 @@
 import { IEmbeddingsProvider } from "../../infrastructure/embeddings/embedding.interface";
 import { ChunkFile } from "../../infrastructure/prepare";
 import filePrepareFactory from "../../infrastructure/prepare/loaders/file-loader-factory";
-import { FileTypes } from "../../utils/enums";
+import { FileTypes } from "../../common/utils/enums.util";
 import { IVectorStore } from "../../infrastructure/vector-store/vector-store.interface";
 import { BaseService } from "../../core/services";
 import type { IndexDocumentRequest } from "@repo/shared/contracts";

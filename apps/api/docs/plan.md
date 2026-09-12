@@ -20,6 +20,9 @@ src/
       base.repository.ts
     services/
       base.service.ts
+  common/
+    middlewares/
+    utils/
   modules/
     auth/
     chat/
@@ -33,8 +36,6 @@ src/
     tools/
     vector-store/
   config/
-  middlewares/
-  utils/
 ```
 
 ### Module convention
