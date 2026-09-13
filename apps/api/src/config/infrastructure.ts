@@ -1,16 +1,20 @@
-import EmbeddingFactory from "../infrastructure/embeddings/embedding.factory";
-import { EmbeddingsModelConfig } from "../infrastructure/embeddings/embedding.types";
+import {
+  EmbeddingFactory,
+  EmbeddingProvider,
+} from "../infrastructure/embeddings";
 import { createToolRegistry } from "../infrastructure/tools";
-import VectorStoreFactory from "../infrastructure/vector-store/vector-store.factory";
-import { VectorStoreConfig } from "../infrastructure/vector-store/vector-store.types";
+import {
+  VectorStoreFactory,
+  VectorStoreProvider,
+} from "../infrastructure/vector-store";
 
 export const createInfrastructure = () => {
   const embeddingProvider = EmbeddingFactory.getInstance(
-    EmbeddingsModelConfig.OPENAI,
+    EmbeddingProvider.OPENAI,
   );
 
   const vectorStoreProvider = VectorStoreFactory.getInstance(
-    VectorStoreConfig.PINECONE,
+    VectorStoreProvider.PINECONE,
   );
 
   const toolRegistry = createToolRegistry(

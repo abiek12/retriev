@@ -1,22 +1,22 @@
-import MongoVectorStore from "./providers/mongodb.store";
-import PineconeStore from "./providers/pinecone.store";
-import { IVectorStore } from "./vector-store.interface";
-import { VectorStoreConfig } from "./vector-store.types";
+import { IVectorStore } from "./types/vector-store.interface";
+import { VectorStoreProvider } from "./types/vector-store.enum";
+import { PineconeStore } from "./providers/pinecone.store";
+import { MongoVectorStore } from "./providers/mongodb.store";
 
-class VectorStoreFactory {
+export class VectorStoreFactory {
   private static instance: IVectorStore;
 
-  static getInstance(provider: VectorStoreConfig): IVectorStore {
+  static getInstance(provider: VectorStoreProvider): IVectorStore {
     if (this.instance) {
       return this.instance;
-    };
+    }
 
     switch (provider) {
-      case VectorStoreConfig.PINECONE:
+      case VectorStoreProvider.PINECONE:
         this.instance = new PineconeStore();
         break;
-      case VectorStoreConfig.MONGOVECTOR:
-        this.instance = new MongoVectorStore()
+      case VectorStoreProvider.MONGODB:
+        this.instance = new MongoVectorStore();
         break;
       default:
         throw new Error("Unsupported vector database");
@@ -24,6 +24,4 @@ class VectorStoreFactory {
 
     return this.instance;
   }
-};
-
-export default VectorStoreFactory;
+}

@@ -1,6 +1,6 @@
-import { IVectorStore } from "../vector-store.interface";
+import { IVectorStore } from "../types/vector-store.interface";
 
-class MongoVectorStore implements IVectorStore {
+export class MongoVectorStore implements IVectorStore {
 
   async addDocuments(chunks: any[]): Promise<void> {
     console.log("Document added!")
@@ -14,4 +14,3 @@ class MongoVectorStore implements IVectorStore {
   };
 };
 
-export default MongoVectorStore;

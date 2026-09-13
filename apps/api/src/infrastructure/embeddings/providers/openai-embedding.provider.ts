@@ -1,4 +1,4 @@
-import { IEmbeddingsProvider } from "../embedding.interface";
+import { IEmbeddingsProvider } from "../types/embedding.interface";
 import OpenAI from "openai";
 import { env } from "../../../config/env";
 

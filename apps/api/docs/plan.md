@@ -21,6 +21,7 @@ src/
     services/
       base.service.ts
   common/
+    enums/
     middlewares/
     utils/
   modules/
@@ -31,12 +32,28 @@ src/
     database/
     email/
     embeddings/
+      embedding-provider.enum.ts
+      embedding.interface.ts
     llm/
+      llm.constants.ts
+      llm.types.ts
     prepare/
     tools/
     vector-store/
+      vector-store-provider.enum.ts
+      vector-store.interface.ts
   config/
 ```
+
+### Constants, enums, and types
+
+Use colocated files first, and only move values into `common` when multiple areas use them.
+
+- `*.types.ts` is for TypeScript-only type aliases and helper types.
+- `*.interface.ts` is for contracts implemented by classes or providers.
+- `*.enum.ts` is for runtime enum values, such as provider names or shared file types.
+- `*.constants.ts` is for fixed values owned by a module or infrastructure adapter.
+- `config/` is for selected runtime configuration and composition, not a generic constants folder.
 
 ### Module convention
 

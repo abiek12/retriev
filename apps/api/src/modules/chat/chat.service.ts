@@ -1,23 +1,21 @@
-import { ILlmProivder, ILlmRequest } from "../../infrastructure/llm/llm.interface";
-import ToolRegistry from "../../infrastructure/tools/tool.registry";
-import type { ToolName, UserChatRequest, UserChatResponse } from "@repo/shared";
-import { Tool } from "@repo/shared";
-import llmConfig, {
+import {
+  ILlmProivder,
+  ILlmRequest,
+  LlmRole,
   MAX_RETRY,
   TOOL_CALL_MAX_RETRY,
-} from "../../config/llm.config";
-import { IRoles } from "../../infrastructure/llm/llm.types";
+} from "../../infrastructure/llm";
+import type { ToolName, UserChatRequest, UserChatResponse } from "@repo/shared";
+import { Tool } from "@repo/shared";
+import llmConfig from "../../config/llm.config";
 import { SYSTEM_PROMPT } from "../../config/system-prompt";
-
 import { BaseService } from "../../core/services";
 import { logger } from "../../common/utils/logger.util";
 import type { IChatRepository } from "./chat.repository.interface";
 import type { IChatService } from "./chat.service.interface";
+import { ToolRegistry } from "../../infrastructure/tools";
 
-class ChatService
-  extends BaseService<IChatRepository>
-  implements IChatService
-{
+class ChatService extends BaseService<IChatRepository> implements IChatService {
   constructor(
     repository: IChatRepository,
     private toolRegistry: ToolRegistry,
@@ -69,7 +67,7 @@ class ChatService
 
   private baseMessage = [
     {
-      role: "system" as IRoles,
+      role: "system" as LlmRole,
       content: SYSTEM_PROMPT,
     },
   ];

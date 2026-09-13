@@ -1,2 +1,2 @@
-export * from "./chunkers";
-export * from "./loaders/file-loader-factory";
+export * from "./chunkers/recursive-character.chunker";
+export * from "./loaders/loader-factory";

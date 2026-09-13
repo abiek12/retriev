@@ -1,5 +1,5 @@
 import { EmailService } from "./email.service";
-import { ResendEmailProvider } from "./providers/resend.provider";
+import { ResendEmailProvider } from "./providers/resend-email.provider";
 
 const emailProvider = new ResendEmailProvider();
 

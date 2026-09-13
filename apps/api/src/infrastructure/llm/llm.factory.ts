@@ -1,8 +1,8 @@
-import { LLMProviderType } from "./llm.types";
-import GroqProvider from "./providers/groq.provider";
+import { GroqProvider } from "./providers/groq-llm.provider";
+import { LlmProviderType } from "./types/llm.types";
 
-class LlmFactory {
-  static create(provider: LLMProviderType) {
+export class LlmFactory {
+  static create(provider: LlmProviderType) {
     switch (provider) {
       case "groq":
         return new GroqProvider();
@@ -11,5 +11,3 @@ class LlmFactory {
     }
   }
 }
-
-export default LlmFactory;

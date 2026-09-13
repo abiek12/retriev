@@ -1,7 +1,7 @@
-import { IRoles } from "./llm.types";
+import { LlmRole } from "./llm.types";
 
 export interface ILlmMessage {
-  role: IRoles;
+  role: LlmRole;
   content: string;
   toolCallId?: string;
   toolCalls?: any;

@@ -1,9 +1,13 @@
 import { env } from "../../../config/env";
 import { toGroqMessages } from "../../../common/utils/helpers.util";
-import { ILlmProivder, ILlmRequest, ILlmResponse } from "../llm.interface";
+import {
+  ILlmProivder,
+  ILlmRequest,
+  ILlmResponse,
+} from "../types/llm.interface";
 import Groq from "groq-sdk";
 
-class GroqProvider implements ILlmProivder {
+export class GroqProvider implements ILlmProivder {
   private groq = new Groq({ apiKey: env.groqApiKey });
   async generateChatCompletion(request: ILlmRequest): Promise<ILlmResponse> {
     const completion = await this.groq.chat.completions.create({
@@ -22,5 +26,3 @@ class GroqProvider implements ILlmProivder {
     };
   }
 }
-
-export default GroqProvider;

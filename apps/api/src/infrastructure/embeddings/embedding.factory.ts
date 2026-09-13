@@ -1,15 +1,15 @@
-import { IEmbeddingsProvider } from "./embedding.interface";
-import { EmbeddingsModelConfig } from "./embedding.types";
-import OpenAIEmbeddingProvider from "./providers/openai.embedding";
+import { IEmbeddingsProvider } from "./types/embedding.interface";
+import { EmbeddingProvider } from "./types/embedding.enum";
+import OpenAIEmbeddingProvider from "./providers/openai-embedding.provider";
 
-class EmbeddingFactory {
+export class EmbeddingFactory {
   private static instance: IEmbeddingsProvider;
 
-  static getInstance(provider: EmbeddingsModelConfig) {
+  static getInstance(provider: EmbeddingProvider) {
     if (this.instance) return this.instance;
 
     switch (provider) {
-      case EmbeddingsModelConfig.OPENAI:
+      case EmbeddingProvider.OPENAI:
         this.instance = new OpenAIEmbeddingProvider();
         break;
 
@@ -19,6 +19,4 @@ class EmbeddingFactory {
 
     return this.instance;
   }
-};
-
-export default EmbeddingFactory;
+}

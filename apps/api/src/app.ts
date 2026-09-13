@@ -3,9 +3,9 @@ import documentRoutes from "./modules/documents/document.route";
 import chatRoutes from "./modules/chat/chat.route";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import globalExceptionHandler from "./common/middlewares/execption-handler.middleware";
 import authRoute from "./modules/auth/auth.route";
 import { env } from "./config/env";
+import { globalExceptionHandler } from "./common/middlewares";
 
 // Initialize the main application and set the global prefix
 const app = new Hono().basePath("/api/v1");

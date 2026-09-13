@@ -1,8 +1,8 @@
-import { IEmbeddingsProvider } from "../../embeddings/embedding.interface";
-import { IVectorStore } from "../../vector-store/vector-store.interface";
-import { ITool } from "../tool.interface";
+import { IEmbeddingsProvider } from "../embeddings";
+import { IVectorStore } from "../vector-store";
+import { ITool } from "./types/tool.interface";
 
-class RagSearchTool implements ITool<{ query: string }, string[]> {
+export class RagSearchTool implements ITool<{ query: string }, string[]> {
   readonly name: string = "ragSearch";
   readonly description: string = "Searches indexed knowledge base.";
 
@@ -19,5 +19,3 @@ class RagSearchTool implements ITool<{ query: string }, string[]> {
     return documents;
   }
 }
-
-export default RagSearchTool;

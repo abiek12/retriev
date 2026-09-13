@@ -1,12 +1,14 @@
-import { IEmbeddingsProvider } from "../../infrastructure/embeddings/embedding.interface";
-import { ChunkFile } from "../../infrastructure/prepare";
-import filePrepareFactory from "../../infrastructure/prepare/loaders/file-loader-factory";
-import { FileTypes } from "../../common/utils/enums.util";
-import { IVectorStore } from "../../infrastructure/vector-store/vector-store.interface";
+import {
+  filePrepareFactory,
+  RecursiveCharacterChunker,
+} from "../../infrastructure/prepare";
+import { FileType } from "../../common/enums/file-type.enum";
 import { BaseService } from "../../core/services";
 import type { IndexDocumentRequest } from "@repo/shared/contracts";
 import type { IDocumentRepository } from "./document.repository.interface";
 import type { IDocumentService } from "./document.service.interface";
+import { IVectorStore } from "../../infrastructure/vector-store";
+import { IEmbeddingsProvider } from "../../infrastructure/embeddings";
 
 class DocumentService
   extends BaseService<IDocumentRepository>
@@ -29,12 +31,12 @@ class DocumentService
         break;
       case "file":
         // Load files
-        const loader = filePrepareFactory.createFileLoader(FileTypes.PDF);
+        const loader = filePrepareFactory.createFileLoader(FileType.PDF);
         content = await loader.load(dto.filePath);
     }
 
     // File preperation
-    const contentSplitter = new ChunkFile(500, 100);
+    const contentSplitter = new RecursiveCharacterChunker(500, 100);
 
     // Split loaded content into chunks
     const chunks = await contentSplitter.textSplitter(content);

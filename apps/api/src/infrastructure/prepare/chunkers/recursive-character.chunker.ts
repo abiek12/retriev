@@ -1,6 +1,6 @@
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 
-export class ChunkFile {
+export class RecursiveCharacterChunker {
   constructor(chunkSize: number, chunkOverlap: number) {
     this.splitter = new RecursiveCharacterTextSplitter({
       chunkSize: chunkSize,

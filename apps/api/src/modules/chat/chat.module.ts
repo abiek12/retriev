@@ -1,7 +1,7 @@
 import { createInfrastructure } from "../../config/infrastructure";
 import llmConfig from "../../config/llm.config";
 import { db } from "../../infrastructure/database";
-import LlmFactory from "../../infrastructure/llm/llm.factory";
+import { LlmFactory } from "../../infrastructure/llm";
 import ChatController from "./chat.controller";
 import ChatRepository from "./chat.repository";
 import ChatService from "./chat.service";

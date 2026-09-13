@@ -1,6 +1,6 @@
-import { ITool } from "./tool.interface";
+import { ITool } from "./types/tool.interface";
 
-class ToolRegistry {
+export class ToolRegistry {
   private readonly tools = new Map<string, ITool>();
 
   register(tool: ITool): void {
@@ -24,5 +24,3 @@ class ToolRegistry {
     return [...this.tools.values()];
   }
 }
-
-export default ToolRegistry;

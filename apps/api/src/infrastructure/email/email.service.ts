@@ -3,7 +3,7 @@ import {
   EmailProvider,
   PasswordResetEmailData,
   VerificationEmailData,
-} from "./email.types";
+} from "./types/email.interface";
 
 export class EmailService {
   constructor(private readonly provider: EmailProvider) {}

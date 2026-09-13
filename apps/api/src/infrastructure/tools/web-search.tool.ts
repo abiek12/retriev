@@ -1,8 +1,8 @@
 import { tavily } from "@tavily/core";
-import { ITool } from "../tool.interface";
-import { env } from "../../../config/env";
+import { ITool } from "./types/tool.interface";
+import { env } from "../../config/env";
 
-class WebSearchTool implements ITool<{ query: string }, string> {
+export class WebSearchTool implements ITool<{ query: string }, string> {
   readonly name: string = "webSearch";
   readonly description: string =
     "allows models to retrieve real-time information from the internet and supply answers with direct source citations.";
@@ -14,5 +14,3 @@ class WebSearchTool implements ITool<{ query: string }, string> {
     return response.results.map((i) => i.content).join("\n\n");
   }
 }
-
-export default WebSearchTool;

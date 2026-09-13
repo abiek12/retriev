@@ -1,11 +1,11 @@
 import { env } from "../../../config/env";
-import { IVectorStore } from "../vector-store.interface";
+import { IVectorStore } from "../types/vector-store.interface";
 import {
   Pinecone,
   Pinecone as PineconeClient,
 } from "@pinecone-database/pinecone";
 
-class PineconeStore implements IVectorStore {
+export class PineconeStore implements IVectorStore {
   private pinecone = new Pinecone({
     apiKey: env.pineconeApiKey,
   });
@@ -28,5 +28,3 @@ class PineconeStore implements IVectorStore {
     return response.matches[0].metadata;
   }
 }
-
-export default PineconeStore;

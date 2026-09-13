@@ -1,6 +1,7 @@
 import { env } from "../../../config/env";
-import { SendEmailOptions, EmailProvider } from "../email.types";
 import { Resend } from "resend";
+import { SendEmailOptions } from "../types/email.types";
+import { EmailProvider } from "../types/email.interface";
 
 export class ResendEmailProvider implements EmailProvider {
   private readonly resend: Resend;
