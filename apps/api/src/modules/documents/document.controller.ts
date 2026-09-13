@@ -1,6 +1,6 @@
 import type { Context } from "hono";
 import type { IndexDocumentRequest } from "@repo/shared/contracts";
-import type { IDocumentService } from "./document.service.interface";
+import type { IDocumentService } from "./types/document.service.interface";
 
 class DocumentController {
   constructor(private documentService: IDocumentService) {}

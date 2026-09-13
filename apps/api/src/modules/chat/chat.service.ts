@@ -11,9 +11,8 @@ import llmConfig from "../../config/llm.config";
 import { SYSTEM_PROMPT } from "../../config/system-prompt";
 import { BaseService } from "../../core/services";
 import { logger } from "../../common/utils/logger.util";
-import type { IChatRepository } from "./chat.repository.interface";
-import type { IChatService } from "./chat.service.interface";
 import { ToolRegistry } from "../../infrastructure/tools";
+import { IChatRepository, IChatService } from "./types";
 
 class ChatService extends BaseService<IChatRepository> implements IChatService {
   constructor(

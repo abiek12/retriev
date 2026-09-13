@@ -5,10 +5,9 @@ import {
 import { FileType } from "../../common/enums/file-type.enum";
 import { BaseService } from "../../core/services";
 import type { IndexDocumentRequest } from "@repo/shared/contracts";
-import type { IDocumentRepository } from "./document.repository.interface";
-import type { IDocumentService } from "./document.service.interface";
 import { IVectorStore } from "../../infrastructure/vector-store";
 import { IEmbeddingsProvider } from "../../infrastructure/embeddings";
+import { IDocumentRepository, IDocumentService } from "./types";
 
 class DocumentService
   extends BaseService<IDocumentRepository>

@@ -5,13 +5,9 @@ import { env } from "../../config/env";
 import * as schema from "@repo/database/schema";
 import { emailService } from "../../infrastructure/email";
 import { BaseService } from "../../core/services";
-import type { IAuthRepository } from "./auth.repository.interface";
-import type { IAuthService } from "./auth.service.interface";
+import { IAuthRepository, IAuthService } from "./types";
 
-class AuthService
-  extends BaseService<IAuthRepository>
-  implements IAuthService
-{
+class AuthService extends BaseService<IAuthRepository> implements IAuthService {
   private readonly auth = betterAuth({
     basePath: "/api/v1/auth",
     secret: env.betterAuthSecret,
