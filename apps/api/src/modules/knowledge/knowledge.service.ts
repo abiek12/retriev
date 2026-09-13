@@ -4,24 +4,24 @@ import {
 } from "../../infrastructure/prepare";
 import { FileType } from "../../common/enums/file-type.enum";
 import { BaseService } from "../../core/services";
-import type { IndexDocumentRequest } from "@repo/shared/contracts";
+import type { IndexKnowledgeSourceRequest } from "@repo/shared/contracts";
 import { IVectorStore } from "../../infrastructure/vector-store";
 import { IEmbeddingsProvider } from "../../infrastructure/embeddings";
-import { IDocumentRepository, IDocumentService } from "./types";
+import { IKnowledgeRepository, IKnowledgeService } from "./types";
 
-class DocumentService
-  extends BaseService<IDocumentRepository>
-  implements IDocumentService
+class KnowledgeService
+  extends BaseService<IKnowledgeRepository>
+  implements IKnowledgeService
 {
   constructor(
-    repository: IDocumentRepository,
+    repository: IKnowledgeRepository,
     private embeddingProvider: IEmbeddingsProvider,
     private vectorStoreProvider: IVectorStore,
   ) {
     super(repository);
   }
 
-  index = async (dto: IndexDocumentRequest) => {
+  indexSource = async (dto: IndexKnowledgeSourceRequest) => {
     let content;
 
     switch (dto.type) {
@@ -70,4 +70,4 @@ class DocumentService
   };
 }
 
-export default DocumentService;
+export default KnowledgeService;

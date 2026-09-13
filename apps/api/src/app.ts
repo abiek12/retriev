@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import documentRoutes from "./modules/documents/document.route";
+import knowledgeRoutes from "./modules/knowledge/knowledge.route";
 import chatRoutes from "./modules/chat/chat.route";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
@@ -30,7 +30,7 @@ app.get("/", (c) => {
 });
 
 // Register routes
-app.route("/documents", documentRoutes);
+app.route("/knowledge-bases", knowledgeRoutes);
 app.route("/chat", chatRoutes);
 app.route("/auth", authRoute);
 

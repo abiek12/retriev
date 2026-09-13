@@ -1,3 +1,3 @@
 import type { IBaseRepository } from "../../../core/repositories";
 
-export interface IDocumentRepository extends IBaseRepository {}
+export interface IKnowledgeRepository extends IBaseRepository {}
