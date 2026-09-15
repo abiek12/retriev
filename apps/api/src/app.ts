@@ -6,6 +6,7 @@ import { logger } from "hono/logger";
 import authRoute from "./modules/auth/auth.route";
 import { env } from "./config/env";
 import { globalExceptionHandler } from "./common/middlewares";
+import agentRoutes from "./modules/agents/agent.route";
 
 // Initialize the main application and set the global prefix
 const app = new Hono().basePath("/api/v1");
@@ -33,5 +34,6 @@ app.get("/", (c) => {
 app.route("/knowledge-bases", knowledgeRoutes);
 app.route("/chat", chatRoutes);
 app.route("/auth", authRoute);
+app.route("/agent", agentRoutes);
 
 export default app;
