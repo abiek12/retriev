@@ -1,6 +1,11 @@
+import {
+  AgentListRequestDto,
+  AgentListResponseDto,
+  AgentResponseDto,
+  GetAgentResponseDto,
+} from "@repo/shared";
 import { BaseService } from "../../core/services";
-import { IAgentRepository } from "./types/agent.repository.interface";
-import { IAgentService } from "./types/agent.service.interface";
+import { IAgentRepository, IAgentService } from "./types";
 
 class AgentService
   extends BaseService<IAgentRepository>
@@ -9,6 +14,39 @@ class AgentService
   constructor(repository: IAgentRepository) {
     super(repository);
   }
+
+  list = async (
+    userId: string,
+    query: AgentListRequestDto,
+  ): Promise<AgentListResponseDto> => {
+    const { records, total } = await this.repository.findMany(userId, query);
+
+    const data: AgentResponseDto[] = records.map((record) => ({
+      id: record.id,
+      name: record.name,
+      description: record.description,
+      avatar: record.avatar,
+      systemPrompt: record.systemPrompt,
+      model: record.model,
+      provider: record.provider,
+      temperature:
+        record.temperature === null ? null : Number(record.temperature),
+      maxTokens: record.maxTokens,
+      status: record.status,
+      createdAt: record.createdAt.toISOString(),
+      updatedAt: record.updatedAt.toISOString(),
+    }));
+
+    return {
+      data,
+      pagination: {
+        page: query.page,
+        limit: query.limit,
+        total,
+        totalPages: Math.ceil(total / query.limit),
+      },
+    };
+  };
 }
 
 export default AgentService;

@@ -6,6 +6,10 @@ export const agentRequestSchema = z.object({
   id: z.string().uuid(),
 });
 
+export const deleteAgentRequestSchema = z.object({
+  id: z.string().uuid(),
+});
+
 export const agentResponseSchema = z.object({
   id: z.string().uuid(),
 
@@ -36,4 +40,5 @@ export const getAgentResponseSchema = apiResponseSchema(agentResponseSchema);
 
 export type AgentResponseDto = z.infer<typeof agentResponseSchema>;
 export type AgentRequestDto = z.infer<typeof agentRequestSchema>;
+export type DeleteAgentRequestDto = z.infer<typeof deleteAgentRequestSchema>;
 export type GetAgentResponseDto = z.infer<typeof getAgentResponseSchema>;
