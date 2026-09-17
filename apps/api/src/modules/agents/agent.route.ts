@@ -43,7 +43,7 @@ agentRoutes.put(
 // Delete an agent
 agentRoutes.delete(
   "/:id",
-  zValidator("query", deleteAgentRequestSchema),
+  zValidator("param", deleteAgentRequestSchema),
   agentController.delete,
 );
 
