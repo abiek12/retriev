@@ -61,6 +61,33 @@ class AgentService
 
     return res;
   };
+
+  getById = async (
+    id: string,
+    userId: string,
+  ): Promise<AgentResponseDto | null> => {
+    const record = await this.repository.findById(id, userId);
+
+    if (!record) {
+      throw new Error("Agent not found!");
+    }
+
+    return {
+      id: record.id,
+      name: record.name,
+      description: record.description,
+      avatar: record.avatar,
+      systemPrompt: record.systemPrompt,
+      model: record.model,
+      provider: record.provider,
+      temperature:
+        record.temperature === null ? null : Number(record.temperature),
+      maxTokens: record.maxTokens,
+      status: record.status,
+      createdAt: record.createdAt.toISOString(),
+      updatedAt: record.updatedAt.toISOString(),
+    };
+  };
 }
 
 export default AgentService;

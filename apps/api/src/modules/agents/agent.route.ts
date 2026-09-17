@@ -20,7 +20,7 @@ agentRoutes.get("/", zValidator("query", agentListRequestSchema), async (c) => {
 // Get agent by ID
 agentRoutes.get(
   "/:id",
-  zValidator("query", agentRequestSchema),
+  zValidator("param", agentRequestSchema),
   agentController.getById,
 );
 

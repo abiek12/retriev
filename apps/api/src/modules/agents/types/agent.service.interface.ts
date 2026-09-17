@@ -1,6 +1,7 @@
 import {
   AgentListRequestDto,
   AgentListResponseDto,
+  AgentResponseDto,
   CreateAgentRequestDto,
   CreateAgentResponseDto,
 } from "@repo/shared";
@@ -16,4 +17,6 @@ export interface IAgentService extends IBaseService {
     userId: string,
     payload: CreateAgentRequestDto,
   ): Promise<CreateAgentResponseDto>;
+
+  getById(id: string, userId: string): Promise<AgentResponseDto | null>;
 }

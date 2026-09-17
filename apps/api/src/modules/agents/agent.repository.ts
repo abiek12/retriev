@@ -58,6 +58,16 @@ class AgentRepository extends BaseRepository implements IAgentRepository {
 
     return record;
   };
+
+  findById = async (id: string, userId: string): Promise<Agent | null> => {
+    const [record] = await this.database
+      .select()
+      .from(agent)
+      .where(and(eq(agent.id, id), eq(agent.userId, userId)))
+      .limit(1);
+
+    return record ?? null;
+  };
 }
 
 export default AgentRepository;

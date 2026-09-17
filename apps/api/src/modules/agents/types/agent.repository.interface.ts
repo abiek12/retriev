@@ -9,4 +9,6 @@ export interface IAgentRepository extends IBaseRepository {
   ) => Promise<AgentListResult>;
 
   create: (data: NewAgent) => Promise<Pick<Agent, "id" | "name">>;
+
+  findById: (id: string, userId: string) => Promise<Agent | null>;
 }
