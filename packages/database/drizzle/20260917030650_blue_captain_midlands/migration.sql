@@ -1,0 +1,1 @@
+ALTER TABLE "agents" ALTER COLUMN "provider" SET DEFAULT 'groq'::"provider";
