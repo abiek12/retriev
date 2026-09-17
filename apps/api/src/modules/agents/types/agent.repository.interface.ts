@@ -1,6 +1,6 @@
 import { IBaseRepository } from "../../../core/repositories";
-import { AgentListRequestDto, CreateAgentRequestDto } from "@repo/shared";
-import { AgentListResult, Agent, NewAgent } from "./agent.types";
+import { AgentListRequestDto } from "@repo/shared";
+import { AgentListResult, Agent, NewAgent, UpdateAgent } from "./agent.types";
 
 export interface IAgentRepository extends IBaseRepository {
   findMany: (
@@ -11,4 +11,10 @@ export interface IAgentRepository extends IBaseRepository {
   create: (data: NewAgent) => Promise<Pick<Agent, "id" | "name">>;
 
   findById: (id: string, userId: string) => Promise<Agent | null>;
+
+  updateById: (
+    id: string,
+    userId: string,
+    data: UpdateAgent,
+  ) => Promise<Pick<Agent, "id"> | null>;
 }

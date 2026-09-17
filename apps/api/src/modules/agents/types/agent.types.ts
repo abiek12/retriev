@@ -3,6 +3,7 @@ import type { agent } from "@repo/database/schema";
 
 export type Agent = InferSelectModel<typeof agent>;
 export type NewAgent = InferInsertModel<typeof agent>;
+export type UpdateAgent = Partial<InferInsertModel<typeof agent>>;
 
 export type AgentListResult = {
   records: Agent[];

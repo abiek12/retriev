@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { agentController } from "./agent.module";
 import { zValidator } from "@hono/zod-validator";
 import {
+  agentIdSchema,
   agentListRequestSchema,
   agentRequestSchema,
   createAgentRequestSchema,
@@ -34,6 +35,7 @@ agentRoutes.post(
 // Update an agent
 agentRoutes.put(
   "/:id",
+  zValidator("param", agentIdSchema),
   zValidator("json", updateAgentRequestSchema),
   agentController.update,
 );

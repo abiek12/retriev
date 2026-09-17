@@ -1,5 +1,9 @@
 import { Context } from "hono";
-import { AgentListRequestDto, CreateAgentRequestDto } from "@repo/shared";
+import {
+  AgentListRequestDto,
+  CreateAgentRequestDto,
+  updateAgentRequestSchema,
+} from "@repo/shared";
 import { IAgentService } from "./types";
 import { ApiResponse } from "../../common/utils";
 
@@ -34,7 +38,21 @@ class AgentController {
     return c.json(ApiResponse.success(res));
   };
 
-  update = async (c: Context) => {};
+  update = async (c: Context) => {
+    const userId = "71bb5cd9-0a04-4a97-a92c-efa4bdf45dc5";
+    const id = c.req.param("id");
+    const payload = await c.req.json();
+
+    if (!id) {
+      throw new Error("Agent ID is required");
+    }
+
+    const validatedPayload = updateAgentRequestSchema.parse(payload);
+
+    const agent = await this.agentService.update(id, userId, validatedPayload);
+
+    return c.json(ApiResponse.success(agent));
+  };
 
   delete = async (c: Context) => {};
 }

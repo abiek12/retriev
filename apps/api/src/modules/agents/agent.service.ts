@@ -5,9 +5,12 @@ import {
   CreateAgentRequestDto,
   CreateAgentResponseDto,
   GetAgentResponseDto,
+  UpdateAgentRequestDto,
+  UpdateAgentResponseDto,
 } from "@repo/shared";
 import { BaseService } from "../../core/services";
 import { IAgentRepository, IAgentService } from "./types";
+import { record } from "zod/v3";
 
 class AgentService
   extends BaseService<IAgentRepository>
@@ -17,6 +20,7 @@ class AgentService
     super(repository);
   }
 
+  // List all agents
   list = async (
     userId: string,
     query: AgentListRequestDto,
@@ -50,18 +54,20 @@ class AgentService
     };
   };
 
+  // Create agent
   create = async (
     userId: string,
     payload: CreateAgentRequestDto,
   ): Promise<CreateAgentResponseDto> => {
-    const res = await this.repository.create({
+    const record = await this.repository.create({
       userId,
       ...payload,
     });
 
-    return res;
+    return record;
   };
 
+  // Get by id
   getById = async (
     id: string,
     userId: string,
@@ -87,6 +93,21 @@ class AgentService
       createdAt: record.createdAt.toISOString(),
       updatedAt: record.updatedAt.toISOString(),
     };
+  };
+
+  // Update agent
+  update = async (
+    id: string,
+    userId: string,
+    payload: UpdateAgentRequestDto,
+  ): Promise<UpdateAgentResponseDto | null> => {
+    const record = await this.repository.updateById(id, userId, payload);
+
+    if (!record) {
+      throw new Error("Agent not found");
+    }
+
+    return record;
   };
 }
 

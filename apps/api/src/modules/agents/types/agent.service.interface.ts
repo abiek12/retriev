@@ -4,6 +4,8 @@ import {
   AgentResponseDto,
   CreateAgentRequestDto,
   CreateAgentResponseDto,
+  UpdateAgentRequestDto,
+  UpdateAgentResponseDto,
 } from "@repo/shared";
 import { IBaseService } from "../../../core/services";
 
@@ -19,4 +21,10 @@ export interface IAgentService extends IBaseService {
   ): Promise<CreateAgentResponseDto>;
 
   getById(id: string, userId: string): Promise<AgentResponseDto | null>;
+
+  update(
+    id: string,
+    userId: string,
+    payload: UpdateAgentRequestDto,
+  ): Promise<UpdateAgentResponseDto | null>;
 }

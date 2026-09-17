@@ -1,7 +1,7 @@
 import { AgentListRequestDto, CreateAgentRequestDto } from "@repo/shared";
 import { BaseRepository } from "../../core/repositories";
 import { IAgentRepository } from "./types/agent.repository.interface";
-import { AgentListResult, Agent, NewAgent } from "./types";
+import { AgentListResult, Agent, NewAgent, UpdateAgent } from "./types";
 import { agent } from "@repo/database";
 import { and, eq, desc, like, count } from "drizzle-orm";
 
@@ -65,6 +65,19 @@ class AgentRepository extends BaseRepository implements IAgentRepository {
       .from(agent)
       .where(and(eq(agent.id, id), eq(agent.userId, userId)))
       .limit(1);
+
+    return record ?? null;
+  };
+
+  updateById = async (id: string, userId: string, data: UpdateAgent): Promise<Pick<Agent, "id"> | null> => {
+    const [record] = await this.database
+      .update(agent)
+      .set({
+        ...data,
+        updatedAt: new Date(),
+      })
+      .where(and(eq(agent.id, id), eq(agent.userId, userId)))
+      .returning({ id: agent.id });
 
     return record ?? null;
   };
