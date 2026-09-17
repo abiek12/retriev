@@ -109,6 +109,15 @@ class AgentService
 
     return record;
   };
+
+  // Delete agent
+  delete = async (id: string, userId: string): Promise<void> => {
+    const record = await this.repository.deleteById(id, userId);
+
+    if (!record) {
+      throw new Error("Agent not found");
+    }
+  };
 }
 
 export default AgentService;

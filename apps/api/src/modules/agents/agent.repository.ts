@@ -69,7 +69,11 @@ class AgentRepository extends BaseRepository implements IAgentRepository {
     return record ?? null;
   };
 
-  updateById = async (id: string, userId: string, data: UpdateAgent): Promise<Pick<Agent, "id"> | null> => {
+  updateById = async (
+    id: string,
+    userId: string,
+    data: UpdateAgent,
+  ): Promise<Pick<Agent, "id"> | null> => {
     const [record] = await this.database
       .update(agent)
       .set({
@@ -78,6 +82,20 @@ class AgentRepository extends BaseRepository implements IAgentRepository {
       })
       .where(and(eq(agent.id, id), eq(agent.userId, userId)))
       .returning({ id: agent.id });
+
+    return record ?? null;
+  };
+
+  deleteById = async (
+    id: string,
+    userId: string,
+  ): Promise<Pick<Agent, "id"> | null> => {
+    const [record] = await this.database
+      .delete(agent)
+      .where(and(eq(agent.id, id), eq(agent.userId, userId)))
+      .returning({
+        id: agent.id,
+      });
 
     return record ?? null;
   };

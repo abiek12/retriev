@@ -27,4 +27,6 @@ export interface IAgentService extends IBaseService {
     userId: string,
     payload: UpdateAgentRequestDto,
   ): Promise<UpdateAgentResponseDto | null>;
+
+  delete(id: string, userId: string): Promise<void>;
 }

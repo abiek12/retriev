@@ -54,7 +54,19 @@ class AgentController {
     return c.json(ApiResponse.success(agent));
   };
 
-  delete = async (c: Context) => {};
+  delete = async (c: Context) => {
+    const userId = "71bb5cd9-0a04-4a97-a92c-efa4bdf45dc5";
+
+    const id = c.req.param("id");
+
+    if (!id) {
+      throw new Error("Agent ID is required");
+    }
+
+    await this.agentService.delete(id, userId);
+
+    return c.json(ApiResponse.success(null));
+  };
 }
 
 export default AgentController;

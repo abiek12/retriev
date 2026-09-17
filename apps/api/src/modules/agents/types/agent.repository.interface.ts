@@ -17,4 +17,6 @@ export interface IAgentRepository extends IBaseRepository {
     userId: string,
     data: UpdateAgent,
   ) => Promise<Pick<Agent, "id"> | null>;
+
+  deleteById: (id: string, userId: string) => Promise<Pick<Agent, "id"> | null>;
 }
