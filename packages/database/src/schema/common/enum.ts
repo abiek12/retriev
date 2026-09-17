@@ -20,6 +20,7 @@ export const providerEnum = pgEnum("provider", [
   "openai",
   "anthropic",
   "gemini",
+  "groq",
 ]);
 export const agentStatusEnum = pgEnum("agent_status", ["active", "inactive"]);
 export const knowledgeBaseTypeEnum = pgEnum("knowledge_base_type", [

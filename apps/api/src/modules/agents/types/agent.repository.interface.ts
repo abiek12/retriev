@@ -1,10 +1,12 @@
 import { IBaseRepository } from "../../../core/repositories";
-import { AgentListRequestDto, GetAgentResponseDto } from "@repo/shared";
-import { AgentListResult } from "./agent.types";
+import { AgentListRequestDto, CreateAgentRequestDto } from "@repo/shared";
+import { AgentListResult, Agent, NewAgent } from "./agent.types";
 
 export interface IAgentRepository extends IBaseRepository {
   findMany: (
     userId: string,
     query: AgentListRequestDto,
   ) => Promise<AgentListResult>;
+
+  create: (data: NewAgent) => Promise<Pick<Agent, "id" | "name">>;
 }

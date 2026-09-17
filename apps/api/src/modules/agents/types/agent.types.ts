@@ -1,8 +1,11 @@
+import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import type { agent } from "@repo/database/schema";
-export type AgentRecord = typeof agent.$inferSelect;
+
+export type Agent = InferSelectModel<typeof agent>;
+export type NewAgent = InferInsertModel<typeof agent>;
 
 export type AgentListResult = {
-  records: AgentRecord[];
+  records: Agent[];
   total: number;
 };
 

@@ -2,6 +2,8 @@ import {
   AgentListRequestDto,
   AgentListResponseDto,
   AgentResponseDto,
+  CreateAgentRequestDto,
+  CreateAgentResponseDto,
   GetAgentResponseDto,
 } from "@repo/shared";
 import { BaseService } from "../../core/services";
@@ -46,6 +48,18 @@ class AgentService
         totalPages: Math.ceil(total / query.limit),
       },
     };
+  };
+
+  create = async (
+    userId: string,
+    payload: CreateAgentRequestDto,
+  ): Promise<CreateAgentResponseDto> => {
+    const res = await this.repository.create({
+      userId,
+      ...payload,
+    });
+
+    return res;
   };
 }
 

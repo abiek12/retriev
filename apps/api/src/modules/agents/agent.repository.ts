@@ -1,7 +1,7 @@
-import { AgentListRequestDto } from "@repo/shared";
+import { AgentListRequestDto, CreateAgentRequestDto } from "@repo/shared";
 import { BaseRepository } from "../../core/repositories";
 import { IAgentRepository } from "./types/agent.repository.interface";
-import { AgentListResult } from "./types";
+import { AgentListResult, Agent, NewAgent } from "./types";
 import { agent } from "@repo/database";
 import { and, eq, desc, like, count } from "drizzle-orm";
 
@@ -48,6 +48,15 @@ class AgentRepository extends BaseRepository implements IAgentRepository {
       records,
       total: totalResult[0]?.total ?? 0,
     };
+  };
+
+  create = async (data: NewAgent): Promise<Pick<Agent, "id" | "name">> => {
+    const [record] = await this.database.insert(agent).values(data).returning({
+      id: agent.id,
+      name: agent.name,
+    });
+
+    return record;
   };
 }
 
