@@ -10,7 +10,7 @@ import {
 } from "@repo/shared";
 import { BaseService } from "../../core/services";
 import { IAgentRepository, IAgentService } from "./types";
-import { record } from "zod/v3";
+import { HTTPException } from "hono/http-exception";
 
 class AgentService
   extends BaseService<IAgentRepository>
@@ -75,7 +75,7 @@ class AgentService
     const record = await this.repository.findById(id, userId);
 
     if (!record) {
-      throw new Error("Agent not found!");
+      throw new HTTPException(404, { message: "Agent not found!" });
     }
 
     return {
@@ -104,7 +104,7 @@ class AgentService
     const record = await this.repository.updateById(id, userId, payload);
 
     if (!record) {
-      throw new Error("Agent not found");
+      throw new HTTPException(404, { message: "Agent not found!" });
     }
 
     return record;
@@ -115,7 +115,7 @@ class AgentService
     const record = await this.repository.deleteById(id, userId);
 
     if (!record) {
-      throw new Error("Agent not found");
+      throw new HTTPException(404, { message: "Agent not found!" });
     }
   };
 }

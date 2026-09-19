@@ -9,12 +9,12 @@ import {
   deleteAgentRequestSchema,
   updateAgentRequestSchema,
 } from "@repo/shared";
-import { sessionMiddleware } from "@/common/middlewares/auth.middleware";
+import { authMiddlware } from "@/common/middlewares/auth.middleware";
 
 const agentRoutes = new Hono();
 
 // Apply agent auth session middleware to all agent endpoints
-agentRoutes.use("*", sessionMiddleware);
+agentRoutes.use("*", authMiddlware);
 
 // Get all agents
 agentRoutes.get("/", zValidator("query", agentListRequestSchema), async (c) => {

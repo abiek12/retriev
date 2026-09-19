@@ -9,7 +9,7 @@ type AuthEnv = {
   };
 };
 
-export const sessionMiddleware = createMiddleware<AuthEnv>(
+export const authMiddlware = createMiddleware<AuthEnv>(
   async (c: Context, next: Next) => {
     const session = await auth.api.getSession({
       headers: c.req.raw.headers,
