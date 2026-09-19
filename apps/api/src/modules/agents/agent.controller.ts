@@ -11,14 +11,14 @@ class AgentController {
   constructor(private agentService: IAgentService) {}
 
   list = async (c: Context, query: AgentListRequestDto) => {
-    const userId = "71bb5cd9-0a04-4a97-a92c-efa4bdf45dc5";
+    const userId = c.get("userId");
     const res = await this.agentService.list(userId, query);
 
     return c.json(ApiResponse.success(res));
   };
 
   getById = async (c: Context) => {
-    const userId = "71bb5cd9-0a04-4a97-a92c-efa4bdf45dc5";
+    const userId = c.get("userId");
     const id = c.req.param("id");
 
     if (!id) {
@@ -31,7 +31,7 @@ class AgentController {
   };
 
   create = async (c: Context) => {
-    const userId = "71bb5cd9-0a04-4a97-a92c-efa4bdf45dc5";
+    const userId = c.get("userId");
     const payload: CreateAgentRequestDto = await c.req.json();
     const res = await this.agentService.create(userId, payload);
 
@@ -39,7 +39,7 @@ class AgentController {
   };
 
   update = async (c: Context) => {
-    const userId = "71bb5cd9-0a04-4a97-a92c-efa4bdf45dc5";
+    const userId = c.get("userId");
     const id = c.req.param("id");
     const payload = await c.req.json();
 
@@ -55,7 +55,7 @@ class AgentController {
   };
 
   delete = async (c: Context) => {
-    const userId = "71bb5cd9-0a04-4a97-a92c-efa4bdf45dc5";
+    const userId = c.get("userId");
 
     const id = c.req.param("id");
 
