@@ -16,7 +16,7 @@ export const sessionMiddleware = createMiddleware<AuthEnv>(
     });
 
     if (!session) {
-      throw new HTTPException(401);
+      throw new HTTPException(401, { message: "Unauthorized" });
     }
 
     const userId = session.user.id;
