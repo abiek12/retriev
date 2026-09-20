@@ -11,6 +11,7 @@ export class CacheFactory {
     switch (provider) {
       case CacheProvider.REDIS:
         this.instance = new RedisCacheProvider();
+        break;
       default:
         throw new Error("Unsupported redis provider!");
     }

@@ -6,7 +6,7 @@ export class RedisCacheProvider implements ICacheProvider {
   private readonly client: RedisClient;
 
   constructor() {
-    this.client = new RedisClient(env.redisUrl);
+    this.client = new RedisClient(env.redisUrl ?? "localhost:6379");
   }
 
   async connect() {
