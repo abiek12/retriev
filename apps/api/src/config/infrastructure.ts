@@ -1,3 +1,4 @@
+import { CacheFactory } from "@/infrastructure/cache/cache.factory";
 import {
   EmbeddingFactory,
   EmbeddingProvider,
@@ -7,6 +8,7 @@ import {
   VectorStoreFactory,
   VectorStoreProvider,
 } from "../infrastructure/vector-store";
+import { CacheProvider } from "@/infrastructure/cache/types/cache.enum";
 
 export const createInfrastructure = () => {
   const embeddingProvider = EmbeddingFactory.getInstance(
@@ -17,6 +19,8 @@ export const createInfrastructure = () => {
     VectorStoreProvider.PINECONE,
   );
 
+  const cacheProvider = CacheFactory.getInstance(CacheProvider.REDIS);
+
   const toolRegistry = createToolRegistry(
     embeddingProvider,
     vectorStoreProvider,
@@ -26,5 +30,6 @@ export const createInfrastructure = () => {
     embeddingProvider,
     vectorStoreProvider,
     toolRegistry,
+    cacheProvider,
   };
 };

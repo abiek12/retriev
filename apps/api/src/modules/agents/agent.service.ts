@@ -16,7 +16,7 @@ class AgentService
   extends BaseService<IAgentRepository>
   implements IAgentService
 {
-  constructor(repository: IAgentRepository) {
+  constructor(repository: IAgentRepository, cache) {
     super(repository);
   }
 
