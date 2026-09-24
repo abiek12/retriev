@@ -4,20 +4,24 @@ import {
   AgentResponseDto,
   CreateAgentRequestDto,
   CreateAgentResponseDto,
-  GetAgentResponseDto,
   UpdateAgentRequestDto,
   UpdateAgentResponseDto,
 } from "@repo/shared";
 import { BaseService } from "../../core/services";
-import { IAgentRepository, IAgentService } from "./types";
+import { Agent, IAgentRepository, IAgentService } from "./types";
 import { HTTPException } from "hono/http-exception";
+import { ICacheProvider } from "@/infrastructure/cache/types/cache.interface";
+import { createCacheKey } from "@/common/utils/cache-key.util";
 
 class AgentService
   extends BaseService<IAgentRepository>
   implements IAgentService
 {
-  constructor(repository: IAgentRepository, cache) {
+  private cacheProvider: ICacheProvider;
+
+  constructor(repository: IAgentRepository, cacheProvider: ICacheProvider) {
     super(repository);
+    this.cacheProvider = cacheProvider;
   }
 
   // List all agents
@@ -25,25 +29,28 @@ class AgentService
     userId: string,
     query: AgentListRequestDto,
   ): Promise<AgentListResponseDto> => {
+    // Create cache key
+    const key = createCacheKey(
+      "agents",
+      "list",
+      userId,
+      String(query.page),
+      String(query.limit),
+      query.search ?? "",
+      String(query.status ?? ""),
+    );
+
+    // Check cache
+    const cached = await this.cacheProvider.get<AgentListResponseDto>(key);
+    if (cached) {
+      return cached;
+    }
+
     const { records, total } = await this.repository.findMany(userId, query);
 
-    const data: AgentResponseDto[] = records.map((record) => ({
-      id: record.id,
-      name: record.name,
-      description: record.description,
-      avatar: record.avatar,
-      systemPrompt: record.systemPrompt,
-      model: record.model,
-      provider: record.provider,
-      temperature:
-        record.temperature === null ? null : Number(record.temperature),
-      maxTokens: record.maxTokens,
-      status: record.status,
-      createdAt: record.createdAt.toISOString(),
-      updatedAt: record.updatedAt.toISOString(),
-    }));
+    const data: AgentResponseDto[] = records.map(this.toAgentResponseDto);
 
-    return {
+    const result: AgentListResponseDto = {
       data,
       pagination: {
         page: query.page,
@@ -52,6 +59,11 @@ class AgentService
         totalPages: Math.ceil(total / query.limit),
       },
     };
+
+    // Set cache
+    await this.cacheProvider.set(key, result, { ttl: 60 });
+
+    return result;
   };
 
   // Create agent
@@ -118,6 +130,23 @@ class AgentService
       throw new HTTPException(404, { message: "Agent not found!" });
     }
   };
+
+  // Private utility methods
+  private toAgentResponseDto = (record: Agent): AgentResponseDto => ({
+    id: record.id,
+    name: record.name,
+    description: record.description,
+    avatar: record.avatar,
+    systemPrompt: record.systemPrompt,
+    model: record.model,
+    provider: record.provider,
+    temperature:
+      record.temperature === null ? null : Number(record.temperature),
+    maxTokens: record.maxTokens,
+    status: record.status,
+    createdAt: record.createdAt.toISOString(),
+    updatedAt: record.updatedAt.toISOString(),
+  });
 }
 
 export default AgentService;

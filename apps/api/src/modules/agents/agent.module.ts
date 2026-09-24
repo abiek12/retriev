@@ -11,7 +11,7 @@ const { cacheProvider } = createInfrastructure();
 const agentRepository = new AgentRepository(db);
 
 // Agent service instance with repository DI
-const agentService = new AgentService(agentRepository);
+const agentService = new AgentService(agentRepository, cacheProvider);
 
 // Agent controller instance with service DI
 export const agentController = new AgentController(agentService);
