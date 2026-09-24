@@ -34,6 +34,10 @@ class AgentService
     userId: string,
     query: AgentListRequestDto,
   ): Promise<AgentListResponseDto> => {
+    const cacheParts = [String(query.page), String(query.limit)];
+    if (query.search) cacheParts.push(`search:${query.search}`);
+    if (query.status) cacheParts.push(`status:${query.status}`);
+
     // Create cache key
     const key = createCacheKey(
       "agents",
@@ -41,8 +45,7 @@ class AgentService
       userId,
       String(query.page),
       String(query.limit),
-      query.search ?? "",
-      String(query.status ?? ""),
+      ...cacheParts,
     );
 
     // Check cache
