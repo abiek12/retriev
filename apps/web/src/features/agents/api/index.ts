@@ -1,7 +1,12 @@
 import { apiClient } from "@/lib/apiClient";
 import type {
   AgentListRequestDto,
+  AgentResponseDto,
+  CreateAgentRequestDto,
+  CreateAgentResponseDto,
   GetAgentListResponseDto,
+  UpdateAgentRequestDto,
+  UpdateAgentResponseDto,
 } from "@repo/shared/contracts";
 
 export const getAgents = async (
@@ -12,4 +17,27 @@ export const getAgents = async (
   });
 
   return response.data;
+};
+
+export const createAgent = async (
+  payload: CreateAgentRequestDto,
+): Promise<CreateAgentResponseDto> => {
+  const response = await apiClient.post("/agent", payload);
+
+  return response.data;
+};
+
+export const updateAgent = async (
+  id: string,
+  payload: UpdateAgentRequestDto,
+): Promise<UpdateAgentResponseDto> => {
+  const response = await apiClient.put(`/agent/${id}`, payload);
+
+  return response.data.data;
+};
+
+export const getAgentById = async (id: string): Promise<AgentResponseDto> => {
+  const response = await apiClient.get(`/agents/${id}`);
+
+  return response.data.data;
 };
