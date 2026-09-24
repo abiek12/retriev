@@ -12,6 +12,11 @@ import { Agent, IAgentRepository, IAgentService } from "./types";
 import { HTTPException } from "hono/http-exception";
 import { ICacheProvider } from "@/infrastructure/cache/types/cache.interface";
 import { createCacheKey } from "@/common/utils/cache-key.util";
+import { user } from "@repo/database";
+import {
+  CACHE_DETAIL_API_TTL,
+  CACHE_LIST_API_TTL,
+} from "@/common/constants/app.constants";
 
 class AgentService
   extends BaseService<IAgentRepository>
@@ -61,7 +66,7 @@ class AgentService
     };
 
     // Set cache
-    await this.cacheProvider.set(key, result, { ttl: 60 });
+    await this.cacheProvider.set(key, result, { ttl: CACHE_LIST_API_TTL });
 
     return result;
   };
@@ -84,27 +89,29 @@ class AgentService
     id: string,
     userId: string,
   ): Promise<AgentResponseDto | null> => {
+    // Cache key
+    const key = createCacheKey("agents", "detail", userId, id);
+
+    // Cache check
+    const cached = await this.cacheProvider.get<AgentResponseDto>(key);
+    // Cache hit
+    if (cached) {
+      return cached;
+    }
+
+    // Cache miss
     const record = await this.repository.findById(id, userId);
 
     if (!record) {
       throw new HTTPException(404, { message: "Agent not found!" });
     }
 
-    return {
-      id: record.id,
-      name: record.name,
-      description: record.description,
-      avatar: record.avatar,
-      systemPrompt: record.systemPrompt,
-      model: record.model,
-      provider: record.provider,
-      temperature:
-        record.temperature === null ? null : Number(record.temperature),
-      maxTokens: record.maxTokens,
-      status: record.status,
-      createdAt: record.createdAt.toISOString(),
-      updatedAt: record.updatedAt.toISOString(),
-    };
+    const result = this.toAgentResponseDto(record);
+
+    // Store in cache
+    await this.cacheProvider.set(key, result, { ttl: CACHE_DETAIL_API_TTL });
+
+    return result;
   };
 
   // Update agent
