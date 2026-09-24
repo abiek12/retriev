@@ -39,14 +39,7 @@ class AgentService
     if (query.status) cacheParts.push(`status:${query.status}`);
 
     // Create cache key
-    const key = createCacheKey(
-      "agents",
-      "list",
-      userId,
-      String(query.page),
-      String(query.limit),
-      ...cacheParts,
-    );
+    const key = createCacheKey("agents", "list", userId, ...cacheParts);
 
     // Check cache
     const cached = await this.cacheProvider.get<AgentListResponseDto>(key);

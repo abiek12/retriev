@@ -7,7 +7,7 @@ import type {
 export const getAgents = async (
   params?: AgentListRequestDto,
 ): Promise<GetAgentListResponseDto> => {
-  const response = await apiClient.get<GetAgentListResponseDto>("/agents", {
+  const response = await apiClient.get<GetAgentListResponseDto>("/agent", {
     params,
   });
 

@@ -3,11 +3,11 @@ import { AgentCard } from "../components/AgentCard";
 import { AgentFormModal } from "../components/AgentFormModal";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { getMockAgents } from "../api/mock-agents";
 import { AppPagination } from "@/components/common/AppPagination";
 import { AgentResponseDto } from "@repo/shared/contracts";
 import { AgentCardSkeleton } from "../components/AgentCardSkeleton";
 import { AgentDeleteModal } from "../components/AgentDeleteModal";
+import { getAgents } from "../api";
 
 export const AgentPage = () => {
   const [agentModalOpen, setAgentModalOpen] = useState(false);
@@ -32,9 +32,12 @@ export const AgentPage = () => {
       setIsFetching(true);
 
       try {
-        const res = await getMockAgents(page, pageSize);
+        const res = await getAgents({
+          page,
+          limit: pageSize,
+        });
 
-        setAgents(res.data.agents);
+        setAgents(res.data.data);
         setTotalPages(res.data.pagination.totalPages);
         setTotalAgents(res.data.pagination.total);
       } finally {
