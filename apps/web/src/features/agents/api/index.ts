@@ -4,7 +4,6 @@ import type {
   AgentResponseDto,
   CreateAgentRequestDto,
   CreateAgentResponseDto,
-  DeleteAgentRequestDto,
   GetAgentListResponseDto,
   UpdateAgentRequestDto,
   UpdateAgentResponseDto,
