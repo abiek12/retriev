@@ -29,9 +29,7 @@ export const AgentDeleteModal = ({
   const handleConfirm = async () => {
     try {
       // Delete agent api call
-      await deleteAgentMutation.mutateAsync({
-        id: agent.id,
-      });
+      await deleteAgentMutation.mutateAsync(agent.id);
       toast.success("Agent deleted successfully");
       onClose();
     } catch (error) {

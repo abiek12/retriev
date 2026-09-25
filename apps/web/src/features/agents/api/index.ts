@@ -43,7 +43,8 @@ export const getAgentById = async (id: string): Promise<AgentResponseDto> => {
   return response.data;
 };
 
-export const deleteAgent = async (id: DeleteAgentRequestDto): Promise<void> => {
+export const deleteAgent = async (id: string): Promise<void> => {
+  console.log("delete agent:", id);
   const response = await apiClient.delete(`/agent/${id}`);
 
   return response.data;

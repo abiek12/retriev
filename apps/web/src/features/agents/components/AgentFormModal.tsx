@@ -138,7 +138,6 @@ export const AgentFormModal = ({
                 <input
                   {...field}
                   id="name"
-                  type="text"
                   placeholder="Customer Support"
                   autoComplete="name"
                   disabled={isSubmitting}
