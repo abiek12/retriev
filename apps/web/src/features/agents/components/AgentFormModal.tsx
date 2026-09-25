@@ -21,7 +21,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import { createAgent, updateAgent } from "../api";
+import { useCreateAgent, useUpdateAgent } from "../hooks/useAgents";
 
 type AgentFormModalProps = {
   open: boolean;
@@ -34,7 +34,7 @@ export const AgentFormModal = ({
   selectedAgent,
   onClose,
 }: AgentFormModalProps) => {
-  const isEditMode = selectedAgent !== null && selectedAgent?.id;
+  const isEditMode = selectedAgent !== null && Boolean(selectedAgent?.id);
 
   const form = useForm<CreateAgentRequestDto>({
     resolver: zodResolver(createAgentRequestSchema),
@@ -46,6 +46,11 @@ export const AgentFormModal = ({
       maxTokens: 1000,
     },
   });
+
+  const createAgentMutation = useCreateAgent();
+  const updateAgentMutation = useUpdateAgent();
+  const isSubmitting =
+    createAgentMutation.isPending || updateAgentMutation.isPending;
 
   useEffect(() => {
     if (selectedAgent) {
@@ -65,12 +70,9 @@ export const AgentFormModal = ({
         maxTokens: 1000,
       });
     }
-  }, [selectedAgent]);
+  }, [selectedAgent, form]);
 
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = form;
+  const { handleSubmit } = form;
 
   const onSubmit = async (data: CreateAgentRequestDto) => {
     const payload = {
@@ -85,14 +87,17 @@ export const AgentFormModal = ({
     try {
       if (isEditMode) {
         // API call
-        await updateAgent(selectedAgent?.id, payload);
+        await updateAgentMutation.mutateAsync({
+          id: selectedAgent.id,
+          payload,
+        });
         toast.success("Agent updated successfully");
         onClose();
         return;
       }
 
       // API call
-      await createAgent(payload);
+      await createAgentMutation.mutateAsync(payload);
       toast.success("Agent created successfully");
       onClose();
     } catch (error) {
