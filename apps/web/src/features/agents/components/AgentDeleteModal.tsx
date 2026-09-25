@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import { AgentResponseDto } from "@repo/shared/contracts";
 import { toast } from "sonner";
+import { useDeleteAgent } from "../hooks/useAgents";
+import { Spinner } from "@/components/ui/spinner";
 
 type AgentDeleteModalProps = {
   open: boolean;
@@ -22,12 +24,20 @@ export const AgentDeleteModal = ({
   onClose,
 }: AgentDeleteModalProps) => {
   if (!open || !agent) return null;
+  const deleteAgentMutation = useDeleteAgent();
 
-  const handleConfirm = () => {
-    // Delete agent api call
-    console.log("agent", agent);
-    toast.success("Agent deleted successfully");
-    onClose();
+  const handleConfirm = async () => {
+    try {
+      // Delete agent api call
+      await deleteAgentMutation.mutateAsync({
+        id: agent.id,
+      });
+      toast.success("Agent deleted successfully");
+      onClose();
+    } catch (error) {
+      console.error("Failed to delete agent:", error);
+      toast.error("Failed to delete agent");
+    }
   };
 
   return (
@@ -47,8 +57,19 @@ export const AgentDeleteModal = ({
             Cancel
           </Button>
 
-          <Button variant="destructive" onClick={handleConfirm}>
-            Delete
+          <Button
+            variant="destructive"
+            onClick={handleConfirm}
+            disabled={deleteAgentMutation.isPending}
+          >
+            {deleteAgentMutation.isPending ? (
+              <div className="flex items-center gap-2">
+                <Spinner />
+                Deleting...
+              </div>
+            ) : (
+              "Delete"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

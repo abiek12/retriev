@@ -34,7 +34,7 @@ export const AgentFormModal = ({
   selectedAgent,
   onClose,
 }: AgentFormModalProps) => {
-  const isEditMode = selectedAgent !== null && Boolean(selectedAgent?.id);
+  const isEditMode = selectedAgent !== null && selectedAgent?.id;
 
   const form = useForm<CreateAgentRequestDto>({
     resolver: zodResolver(createAgentRequestSchema),
