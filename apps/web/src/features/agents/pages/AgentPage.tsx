@@ -7,7 +7,7 @@ import { AppPagination } from "@/components/common/AppPagination";
 import { AgentResponseDto } from "@repo/shared/contracts";
 import { AgentCardSkeleton } from "../components/AgentCardSkeleton";
 import { AgentDeleteModal } from "../components/AgentDeleteModal";
-import { getAgents } from "../api";
+import { useAgents } from "../hooks/useAgents";
 
 export const AgentPage = () => {
   const [agentModalOpen, setAgentModalOpen] = useState(false);
@@ -19,33 +19,17 @@ export const AgentPage = () => {
     null,
   );
 
-  const [agents, setAgents] = useState<AgentResponseDto[]>([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  const [isFetching, setIsFetching] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
-  const [totalAgents, setTotalAgents] = useState(0);
+  const { data, isLoading, isFetching, isError, error } = useAgents({
+    page,
+    limit: pageSize,
+  });
 
-  useEffect(() => {
-    const fetchAgents = async () => {
-      setIsFetching(true);
-
-      try {
-        const res = await getAgents({
-          page,
-          limit: pageSize,
-        });
-
-        setAgents(res.data.data);
-        setTotalPages(res.data.pagination.totalPages);
-        setTotalAgents(res.data.pagination.total);
-      } finally {
-        setIsFetching(false);
-      }
-    };
-    fetchAgents();
-  }, [page, pageSize]);
+  const agents = data?.data.data ?? [];
+  const totalPages = data?.data.pagination.totalPages ?? 0;
+  const totalAgents = data?.data.pagination.total ?? 0;
 
   const handlePageChange = (nextPage: number) => {
     setPage(nextPage);
@@ -93,7 +77,18 @@ export const AgentPage = () => {
 
       {/* Agent List */}
       <div className="min-h-0 flex-1 overflow-y-auto pr-4">
-        {isFetching ? (
+        {isError ? (
+          <div className="flex min-h-100 items-center justify-center rounded-lg border">
+            <div className="text-center">
+              <p className="font-medium">Failed to load agents</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {error instanceof Error
+                  ? error.message
+                  : "Something went wrong."}
+              </p>
+            </div>
+          </div>
+        ) : isLoading ? (
           <div
             className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
             aria-busy="true"
