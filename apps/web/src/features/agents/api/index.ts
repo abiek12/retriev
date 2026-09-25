@@ -38,13 +38,13 @@ export const updateAgent = async (
 };
 
 export const getAgentById = async (id: string): Promise<AgentResponseDto> => {
-  const response = await apiClient.get(`/agents/${id}`);
+  const response = await apiClient.get(`/agent/${id}`);
 
   return response.data;
 };
 
 export const deleteAgent = async (id: DeleteAgentRequestDto): Promise<void> => {
-  const response = await apiClient.delete(`/agents/${id}`);
+  const response = await apiClient.delete(`/agent/${id}`);
 
   return response.data;
 };
