@@ -1,5 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createAgent, getAgentById, getAgents, updateAgent } from "../api";
+import {
+  createAgent,
+  deleteAgent,
+  getAgentById,
+  getAgents,
+  updateAgent,
+} from "../api";
 import {
   AgentListRequestDto,
   UpdateAgentRequestDto,
@@ -61,6 +67,20 @@ export const useUpdateAgent = () => {
 
       queryClient.invalidateQueries({
         queryKey: agentKeys.detail(variables.id),
+      });
+    },
+  });
+};
+
+export const useDeleteAgent = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteAgent,
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: agentKeys.lists(),
       });
     },
   });

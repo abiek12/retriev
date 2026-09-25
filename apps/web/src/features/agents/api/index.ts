@@ -4,6 +4,7 @@ import type {
   AgentResponseDto,
   CreateAgentRequestDto,
   CreateAgentResponseDto,
+  DeleteAgentRequestDto,
   GetAgentListResponseDto,
   UpdateAgentRequestDto,
   UpdateAgentResponseDto,
@@ -33,11 +34,17 @@ export const updateAgent = async (
 ): Promise<UpdateAgentResponseDto> => {
   const response = await apiClient.put(`/agent/${id}`, payload);
 
-  return response.data.data;
+  return response.data;
 };
 
 export const getAgentById = async (id: string): Promise<AgentResponseDto> => {
   const response = await apiClient.get(`/agents/${id}`);
 
-  return response.data.data;
+  return response.data;
+};
+
+export const deleteAgent = async (id: DeleteAgentRequestDto): Promise<void> => {
+  const response = await apiClient.delete(`/agents/${id}`);
+
+  return response.data;
 };
