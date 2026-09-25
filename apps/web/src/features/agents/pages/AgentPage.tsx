@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { AgentCard } from "../components/AgentCard";
 import { AgentFormModal } from "../components/AgentFormModal";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,7 @@ import { AgentResponseDto } from "@repo/shared/contracts";
 import { AgentCardSkeleton } from "../components/AgentCardSkeleton";
 import { AgentDeleteModal } from "../components/AgentDeleteModal";
 import { useAgents } from "../hooks/useAgents";
+import { useState } from "react";
 
 export const AgentPage = () => {
   const [agentModalOpen, setAgentModalOpen] = useState(false);
