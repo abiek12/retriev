@@ -7,4 +7,5 @@ export interface ICacheProvider {
   exist(key: string): Promise<boolean>;
   expire(key: string, ttl: number): Promise<boolean>;
   ttl(key: string): Promise<number>;
+  deleteByPattern(pattern: string, chunkSize?: number): Promise<void>;
 }

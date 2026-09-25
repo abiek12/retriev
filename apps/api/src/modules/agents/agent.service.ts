@@ -17,6 +17,7 @@ import {
   CACHE_DETAIL_API_TTL,
   CACHE_LIST_API_TTL,
 } from "@/common/constants/app.constants";
+import { logger } from "@/common/utils";
 
 class AgentService
   extends BaseService<IAgentRepository>
@@ -39,7 +40,7 @@ class AgentService
     if (query.status) cacheParts.push(`status:${query.status}`);
 
     // Create cache key
-    const key = createCacheKey("agents", "list", userId, ...cacheParts);
+    const key = createCacheKey("agents", userId, "list", ...cacheParts);
 
     // Check cache
     const cached = await this.cacheProvider.get<AgentListResponseDto>(key);
@@ -77,6 +78,17 @@ class AgentService
       ...payload,
     });
 
+    const cachePattern = createCacheKey("agents", userId, "*");
+    try {
+      // Invalidate cache with pattern
+      await this.cacheProvider.deleteByPattern(cachePattern);
+    } catch (error) {
+      logger.error(error, "Failed to invalidate agent cache");
+      throw new HTTPException(500, {
+        message: "Error while invalidate cache!",
+      });
+    }
+
     return record;
   };
 
@@ -86,7 +98,7 @@ class AgentService
     userId: string,
   ): Promise<AgentResponseDto | null> => {
     // Cache key
-    const key = createCacheKey("agents", "detail", userId, id);
+    const key = createCacheKey("agents", userId, "detail", id);
 
     // Cache check
     const cached = await this.cacheProvider.get<AgentResponseDto>(key);
@@ -122,6 +134,17 @@ class AgentService
       throw new HTTPException(404, { message: "Agent not found!" });
     }
 
+    const cachePattern = createCacheKey("agents", userId, "*");
+    try {
+      // Invalidate cache with pattern
+      await this.cacheProvider.deleteByPattern(cachePattern);
+    } catch (error) {
+      logger.error(error, "Failed to invalidate agent cache");
+      throw new HTTPException(500, {
+        message: "Error while invalidate cache!",
+      });
+    }
+
     return record;
   };
 
@@ -131,6 +154,17 @@ class AgentService
 
     if (!record) {
       throw new HTTPException(404, { message: "Agent not found!" });
+    }
+
+    const cachePattern = createCacheKey("agents", userId, "*");
+    try {
+      // Invalidate cache with pattern
+      await this.cacheProvider.deleteByPattern(cachePattern);
+    } catch (error) {
+      logger.error(error, "Failed to invalidate agent cache");
+      throw new HTTPException(500, {
+        message: "Error while invalidate cache!",
+      });
     }
   };
 
