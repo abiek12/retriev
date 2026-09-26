@@ -33,6 +33,11 @@ const envSchema = z.object({
   EMAIL_FROM: z.email().min(1),
 
   REDIS_URL: z.string().min(1),
+
+  ENCRYPTION_KEY: z.string().min(1),
+
+  SUPER_ADMIN_EMAIL: z.string().min(1),
+  SUPER_ADMIN_PASSWORD: z.string().min(1),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
@@ -94,7 +99,15 @@ export const env = {
   resendApiKey: values.RESEND_API_KEY,
   resendFromEmail: values.EMAIL_FROM,
 
+  // Redis
   redisUrl: values.REDIS_URL,
+
+  // Encryption
+  encryptionKey: values.ENCRYPTION_KEY,
+
+  // Super Admin
+  superAdminEmail: values.SUPER_ADMIN_EMAIL,
+  superAdminPassword: values.SUPER_ADMIN_PASSWORD,
 };
 
 export type Env = typeof env;

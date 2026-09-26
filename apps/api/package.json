@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "start": "bun run src/index.ts",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "create-admin": "bun x auth@latest create-admin --email $ADMIN_EMAIL --name \"$ADMIN_NAME\" --role admin --config ./src/modules/auth/auth.module.ts"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.0-rc.4",
