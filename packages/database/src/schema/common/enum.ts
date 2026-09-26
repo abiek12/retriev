@@ -44,3 +44,7 @@ export const messageRoleEnum = pgEnum("message_role", [
   "system",
   "tool",
 ]);
+export const llmApiKeyTypeEnum = pgEnum("llm_api_key_type", [
+  "chat",
+  "embedding",
+]);
