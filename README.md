@@ -84,6 +84,10 @@ Planned integrations include:
 
 ## Screenshots
 
+<img width="1917" height="962" alt="image" src="https://github.com/user-attachments/assets/f132b8f2-f50d-41e0-a3e7-845b977d6637" />
+
+<img width="1060" height="504" alt="image" src="https://github.com/user-attachments/assets/ea2118d5-c076-4d6a-8da6-5187a8257bd9" />
+
 ### Dashboard
 
 <!-- Add screenshot here -->
