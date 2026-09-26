@@ -20,6 +20,7 @@ export const session = pgTable(
     userId: uuid("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
+    impersonatedBy: text("impersonated_by"),
     ...auditColumns,
   },
   (table) => [index("session_userId_idx").on(table.userId)],
