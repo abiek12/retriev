@@ -96,10 +96,6 @@ Planned integrations include:
 
 <!-- Add screenshot here -->
 
-### Agent Workspace
-
-<!-- Add screenshot here -->
-
 ---
 
 ## Architecture
@@ -148,6 +144,11 @@ The frontend and backend are developed independently while sharing common contra
         │ PostgreSQL│       │  Vector   │       │ AI / LLM   │
         │           │       │  Database │       │ Providers  │
         └───────────┘       └───────────┘       └────────────┘
+
+```
+## Database Design
+<img width="1345" height="698" alt="image" src="https://github.com/user-attachments/assets/d9821470-af94-4f89-be35-11f03d140752" />
+
 ```
 
 The architecture will evolve as the project develops.
@@ -442,6 +443,7 @@ docs/
 ```
 
 Architecture decisions and important technical choices will be documented as the project evolves.
+
 
 ---
 
