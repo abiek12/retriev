@@ -35,9 +35,6 @@ const envSchema = z.object({
   REDIS_URL: z.string().min(1),
 
   ENCRYPTION_KEY: z.string().min(1),
-
-  ADMIN_EMAIL: z.string().min(1),
-  ADMIN_PASSWORD: z.string().min(1),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
@@ -104,10 +101,6 @@ export const env = {
 
   // Encryption
   encryptionKey: values.ENCRYPTION_KEY,
-
-  // Super Admin
-  superAdminEmail: values.ADMIN_EMAIL,
-  superAdminPassword: values.ADMIN_PASSWORD,
 };
 
 export type Env = typeof env;

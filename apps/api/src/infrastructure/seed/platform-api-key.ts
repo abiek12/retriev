@@ -32,6 +32,8 @@ export const seedPlatformApiKeys = async (): Promise<void> => {
       type: "chat",
       isPlatform: true,
     });
+
+    logger.info("Platform API key seeded successfully.");
   } catch (error) {
     logger.error("Error while seeding platform API keys!");
   }
