@@ -1,5 +1,8 @@
 import z from "zod";
-import { agentProviderSchema, agentStatusSchema } from "../../constants/agent";
+import {
+  agentStatusSchema,
+  llmProviderSchema,
+} from "../../types/enums/agent.enum";
 import { agentResponseSchema } from "./agent.contract";
 import { apiResponseSchema } from "../api";
 
@@ -12,7 +15,7 @@ export const agentListRequestSchema = z.object({
 
   status: agentStatusSchema.optional(),
 
-  provider: agentProviderSchema.optional(),
+  provider: llmProviderSchema.optional(),
 });
 
 export const agentListResponseSchema = z.object({

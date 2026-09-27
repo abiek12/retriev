@@ -1,5 +1,8 @@
 import { z } from "zod";
-import { agentProviderSchema, agentStatusSchema } from "../../constants/agent";
+import {
+  llmProviderSchema,
+  agentStatusSchema,
+} from "../../types/enums/agent.enum";
 import { apiResponseSchema } from "../api";
 
 export const agentRequestSchema = z.object({
@@ -23,7 +26,7 @@ export const agentResponseSchema = z.object({
 
   model: z.string().nullable(),
 
-  provider: agentProviderSchema,
+  provider: llmProviderSchema,
 
   temperature: z.number().nullable(),
 
