@@ -1,8 +1,5 @@
 import z from "zod";
-import {
-  agentStatusSchema,
-  llmProviderSchema,
-} from "../../types/enums/agent.enum";
+import { agentStatusSchema } from "../../types/enums/agent.enum";
 import { apiResponseSchema } from "../api";
 
 export const updateAgentRequestSchema = z
@@ -16,8 +13,6 @@ export const updateAgentRequestSchema = z
     systemPrompt: z.string().trim().min(1).max(10000).optional(),
 
     model: z.string().trim().min(1).optional(),
-
-    provider: llmProviderSchema.optional(),
 
     temperature: z.number().min(0).max(2).optional(),
 

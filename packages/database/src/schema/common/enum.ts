@@ -44,8 +44,3 @@ export const messageRoleEnum = pgEnum("message_role", [
   "system",
   "tool",
 ]);
-export const apiKeyCapabilityEnum = pgEnum("api_key_capability", [
-  "chat",
-  "embedding",
-  "both",
-]);

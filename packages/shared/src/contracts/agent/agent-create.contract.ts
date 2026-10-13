@@ -1,6 +1,5 @@
 import z from "zod";
 import { apiResponseSchema } from "../api";
-import { llmProviderSchema } from "../../types";
 
 export const createAgentRequestSchema = z.object({
   name: z.string().trim().min(1, "Agent name is required").max(100),
@@ -16,8 +15,6 @@ export const createAgentRequestSchema = z.object({
     .max(10000),
 
   model: z.string().trim().min(1).optional(),
-
-  provider: llmProviderSchema.optional(),
 
   temperature: z.number().min(0).max(2).optional(),
 

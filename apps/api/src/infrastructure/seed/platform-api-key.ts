@@ -13,7 +13,7 @@ export const seedPlatformApiKeys = async (): Promise<void> => {
       .where(
         and(
           eq(userApiKey.provider, "groq"),
-          eq(userApiKey.capability, "chat"),
+          eq(userApiKey.supportText, true),
           eq(userApiKey.isPlatform, true),
         ),
       )
@@ -29,7 +29,8 @@ export const seedPlatformApiKeys = async (): Promise<void> => {
       userId: null,
       provider: "groq",
       encryptedKey: encrypt(env.groqApiKey),
-      capability: "chat",
+      supportText: true,
+      supportEmbedding: false,
       isPlatform: true,
     });
 
