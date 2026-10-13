@@ -7,6 +7,7 @@ import authRoute from "./modules/auth/auth.route";
 import { env } from "./config/env";
 import { globalExceptionHandler } from "./common/middlewares";
 import agentRoutes from "./modules/agents/agent.route";
+import apiKeyRoutes from "./modules/api-key/api-key.route";
 
 // Initialize the main application and set the global prefix
 const app = new Hono().basePath("/api/v1");
@@ -35,5 +36,6 @@ app.route("/knowledge-bases", knowledgeRoutes);
 app.route("/chat", chatRoutes);
 app.route("/auth", authRoute);
 app.route("/agent", agentRoutes);
+app.route("/api-keys", apiKeyRoutes);
 
 export default app;
