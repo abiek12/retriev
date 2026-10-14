@@ -15,10 +15,8 @@ const apiKeyIdSchema = z.object({ id: uuid() });
 
 apiKeyRoutes.use("*", authMiddlware);
 
-apiKeyRoutes.get(
-  "/",
-  zValidator("query", getapiKeysRequestSchema),
-  async (c) => apiKeyController.list(c, c.req.valid("query")),
+apiKeyRoutes.get("/", zValidator("query", getapiKeysRequestSchema), async (c) =>
+  apiKeyController.list(c, c.req.valid("query")),
 );
 
 apiKeyRoutes.post(
