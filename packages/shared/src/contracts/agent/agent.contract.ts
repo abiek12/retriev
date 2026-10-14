@@ -21,7 +21,7 @@ export const agentResponseSchema = z.object({
 
   systemPrompt: z.string().nullable(),
 
-  model: z.string().nullable(),
+  textModel: z.string().nullable(),
 
   temperature: z.number().nullable(),
 

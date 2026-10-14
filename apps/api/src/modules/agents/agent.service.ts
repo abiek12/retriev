@@ -175,7 +175,7 @@ class AgentService
     description: record.description,
     avatar: record.avatar,
     systemPrompt: record.systemPrompt,
-    model: record.model,
+    textModel: record.textModel,
     temperature:
       record.temperature === null ? null : Number(record.temperature),
     maxTokens: record.maxTokens,

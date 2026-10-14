@@ -21,14 +21,22 @@ class ApiKeyService
     userId: string,
     data: CreateApiKeyRequestDto,
   ): Promise<CreateApiKeyResponseDto> => {
-    const existing = await this.repository.findByUserAndProvider(
+    const existing = await this.repository.findCapabilityConflict(
       userId,
-      data.provider,
+      data.supportText,
+      data.supportEmbedding,
     );
 
     if (existing) {
+      const conflictingCapabilities = [
+        data.supportText && existing.supportText ? "text" : null,
+        data.supportEmbedding && existing.supportEmbedding
+          ? "embedding"
+          : null,
+      ].filter((capability): capability is string => capability !== null);
+
       throw new HTTPException(409, {
-        message: "An API key for this provider already exists.",
+        message: `An API key already exists for ${conflictingCapabilities.join(" and ")} support.`,
       });
     }
 
@@ -37,14 +45,16 @@ class ApiKeyService
         userId,
         title: data.title,
         provider: data.provider,
-        capability: data.capability,
+        supportText: data.supportText,
+        supportEmbedding: data.supportEmbedding,
         encryptedKey: encrypt(data.encryptedKey),
         isPlatform: false,
       });
     } catch (error) {
       if (isUniqueConstraintViolation(error)) {
         throw new HTTPException(409, {
-          message: "An API key for this provider already exists.",
+          message:
+            "An API key already exists for one or more selected capabilities.",
         });
       }
 
@@ -112,7 +122,8 @@ const toApiKeyResponse = (record: ApiKey) => ({
   id: record.id,
   title: record.title,
   provider: record.provider,
-  capability: record.capability,
+  supportText: record.supportText,
+  supportEmbedding: record.supportEmbedding,
   isPlatform: record.isPlatform,
   createdAt: record.createdAt.toISOString(),
   updatedAt: record.updatedAt.toISOString(),

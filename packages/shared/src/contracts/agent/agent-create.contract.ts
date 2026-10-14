@@ -14,7 +14,7 @@ export const createAgentRequestSchema = z.object({
     .min(1, "System prompt is required")
     .max(10000),
 
-  model: z.string().trim().min(1).optional(),
+  textModel: z.string().trim().min(1).optional(),
 
   temperature: z.number().min(0).max(2).optional(),
 

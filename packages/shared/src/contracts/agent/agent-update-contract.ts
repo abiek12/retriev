@@ -12,7 +12,7 @@ export const updateAgentRequestSchema = z
 
     systemPrompt: z.string().trim().min(1).max(10000).optional(),
 
-    model: z.string().trim().min(1).optional(),
+    textModel: z.string().trim().min(1).optional(),
 
     temperature: z.number().min(0).max(2).optional(),
 

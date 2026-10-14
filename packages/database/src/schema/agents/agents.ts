@@ -23,7 +23,7 @@ export const agent = pgTable(
     description: varchar("description"),
     avatar: varchar("avatar"),
     systemPrompt: text("system_prompt").notNull(),
-    model: varchar("model", { length: 150 })
+    textModel: varchar("text_model", { length: 150 })
       .notNull()
       .default("openai/gpt-oss-120b"),
     temperature: numeric("temperature", {

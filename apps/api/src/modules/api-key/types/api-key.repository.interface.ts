@@ -20,8 +20,9 @@ export interface IApiKeyRepository extends IBaseRepository {
 
   delete: (id: string, userId: string) => Promise<boolean>;
 
-  findByUserAndProvider: (
+  findCapabilityConflict: (
     userId: string,
-    provider: ApiKey["provider"],
+    supportText: boolean,
+    supportEmbedding: boolean,
   ) => Promise<ApiKey | null>;
 }

@@ -79,15 +79,31 @@ class ApiKeyRepository extends BaseRepository implements IApiKeyRepository {
     return Boolean(record);
   };
 
-  findByUserAndProvider = async (
+  findCapabilityConflict = async (
     userId: string,
-    provider: ApiKey["provider"],
+    supportText: boolean,
+    supportEmbedding: boolean,
   ): Promise<ApiKey | null> => {
+    const capabilityConditions = [];
+    if (supportText) {
+      capabilityConditions.push(eq(userApiKey.supportText, true));
+    }
+    if (supportEmbedding) {
+      capabilityConditions.push(eq(userApiKey.supportEmbedding, true));
+    }
+
+    if (capabilityConditions.length === 0) {
+      return null;
+    }
+
     const [record] = await this.database
       .select()
       .from(userApiKey)
       .where(
-        and(eq(userApiKey.userId, userId), eq(userApiKey.provider, provider)),
+        and(
+          eq(userApiKey.userId, userId),
+          or(...capabilityConditions),
+        ),
       )
       .limit(1);
 

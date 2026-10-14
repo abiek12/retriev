@@ -1,6 +1,5 @@
 import z, { uuid } from "zod";
 import { llmProviderSchema } from "../../types";
-import { ApiKeyCapabilitySchema } from "../../types/enums/api-key.enum";
 import {
   createPaginatedResponseSchema,
   paginationRequestSchema,
@@ -10,8 +9,12 @@ import {
 export const createApiKeyRequestSchema = z.object({
   title: z.string().trim().min(1).max(100),
   provider: llmProviderSchema,
-  capability: ApiKeyCapabilitySchema,
+  supportText: z.boolean(),
+  supportEmbedding: z.boolean(),
   encryptedKey: z.string().min(1),
+}).refine((data) => data.supportText || data.supportEmbedding, {
+  message: "Enable text support, embedding support, or both.",
+  path: ["supportText"],
 });
 
 export const createApiKeyResponseSchema = z.object({
@@ -46,7 +49,8 @@ export const apiKeyResponseSchema = z.object({
   id: uuid(),
   title: z.string(),
   provider: llmProviderSchema,
-  capability: ApiKeyCapabilitySchema,
+  supportText: z.boolean(),
+  supportEmbedding: z.boolean(),
   isPlatform: z.boolean(),
   createdAt: z.string(),
   updatedAt: z.string(),
