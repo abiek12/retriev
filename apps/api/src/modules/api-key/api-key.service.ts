@@ -5,8 +5,6 @@ import {
   GetApiKeyResponseDto,
   RotateApiKeyRequestDto,
   RotateApiKeyResponseDto,
-  UpdateApiKeyRequestDto,
-  UpdateApiKeyResponseDto,
 } from "@repo/shared";
 import { HTTPException } from "hono/http-exception";
 import { encrypt } from "@/infrastructure/security";
@@ -21,40 +19,29 @@ class ApiKeyService
     userId: string,
     data: CreateApiKeyRequestDto,
   ): Promise<CreateApiKeyResponseDto> => {
-    const existing = await this.repository.findCapabilityConflict(
-      userId,
-      data.supportText,
-      data.supportEmbedding,
-    );
+    const existing = await this.repository.findTypeConflict(userId, data.type);
 
     if (existing) {
-      const conflictingCapabilities = [
-        data.supportText && existing.supportText ? "text" : null,
-        data.supportEmbedding && existing.supportEmbedding
-          ? "embedding"
-          : null,
-      ].filter((capability): capability is string => capability !== null);
-
       throw new HTTPException(409, {
-        message: `An API key already exists for ${conflictingCapabilities.join(" and ")} support.`,
+        message: `An API key already exists for ${data.type}.`,
       });
     }
 
     try {
       return await this.repository.create({
         userId,
-        title: data.title,
+        title: `${data.provider} ${data.type}`,
         provider: data.provider,
-        supportText: data.supportText,
-        supportEmbedding: data.supportEmbedding,
-        encryptedKey: encrypt(data.encryptedKey),
+        type: data.type,
+        model: data.model,
+        encryptedKey: encrypt(data.apiKey),
         isPlatform: false,
       });
     } catch (error) {
       if (isUniqueConstraintViolation(error)) {
         throw new HTTPException(409, {
           message:
-            "An API key already exists for one or more selected capabilities.",
+            `An API key already exists for ${data.type}.`,
         });
       }
 
@@ -79,27 +66,13 @@ class ApiKeyService
     };
   };
 
-  update = async (
-    id: string,
-    userId: string,
-    data: UpdateApiKeyRequestDto,
-  ): Promise<UpdateApiKeyResponseDto> => {
-    const record = await this.repository.update(id, userId, data);
-
-    if (!record) {
-      throw new HTTPException(404, { message: "API key not found." });
-    }
-
-    return { id: record.id };
-  };
-
   rotate = async (
     id: string,
     userId: string,
     data: RotateApiKeyRequestDto,
   ): Promise<RotateApiKeyResponseDto> => {
     const record = await this.repository.update(id, userId, {
-      encryptedKey: encrypt(data.encryptedKey),
+      encryptedKey: encrypt(data.apiKey),
     });
 
     if (!record) {
@@ -120,10 +93,9 @@ class ApiKeyService
 
 const toApiKeyResponse = (record: ApiKey) => ({
   id: record.id,
-  title: record.title,
+  type: record.type,
   provider: record.provider,
-  supportText: record.supportText,
-  supportEmbedding: record.supportEmbedding,
+  model: record.model,
   isPlatform: record.isPlatform,
   createdAt: record.createdAt.toISOString(),
   updatedAt: record.updatedAt.toISOString(),

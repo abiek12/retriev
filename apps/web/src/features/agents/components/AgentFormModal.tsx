@@ -79,7 +79,6 @@ export const AgentFormModal = ({
       name: data.name,
       description: data.description,
       systemPrompt: data.systemPrompt,
-      textModel: data.textModel,
       temperature: data.temperature,
       maxTokens: data.maxTokens,
     };

@@ -7,4 +7,5 @@ export const llmProviderSchema = z.enum([
   "anthropic",
   "gemini",
   "groq",
+  "openrouter",
 ]);

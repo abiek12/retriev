@@ -5,11 +5,11 @@ import { ApiKey, ApiKeyListQuery, ApiKeyListResult, NewApiKey } from "./types";
 import { IApiKeyRepository } from "./types/api-key.repository.interface";
 
 class ApiKeyRepository extends BaseRepository implements IApiKeyRepository {
-  create = async (data: NewApiKey): Promise<Pick<ApiKey, "id" | "title">> => {
+  create = async (data: NewApiKey): Promise<Pick<ApiKey, "id">> => {
     const [record] = await this.database
       .insert(userApiKey)
       .values(data)
-      .returning({ id: userApiKey.id, title: userApiKey.title });
+      .returning({ id: userApiKey.id });
 
     return record;
   };
@@ -18,7 +18,7 @@ class ApiKeyRepository extends BaseRepository implements IApiKeyRepository {
     userId: string,
     queries: ApiKeyListQuery,
   ): Promise<ApiKeyListResult> => {
-    const { page, limit, provider } = queries;
+    const { page, limit, provider, type } = queries;
     const offset = (page - 1) * limit;
     const conditions = [
       or(eq(userApiKey.userId, userId), eq(userApiKey.isPlatform, true)),
@@ -26,6 +26,9 @@ class ApiKeyRepository extends BaseRepository implements IApiKeyRepository {
 
     if (provider) {
       conditions.push(eq(userApiKey.provider, provider));
+    }
+    if (type) {
+      conditions.push(eq(userApiKey.type, type));
     }
 
     const where = and(...conditions);
@@ -79,32 +82,14 @@ class ApiKeyRepository extends BaseRepository implements IApiKeyRepository {
     return Boolean(record);
   };
 
-  findCapabilityConflict = async (
+  findTypeConflict = async (
     userId: string,
-    supportText: boolean,
-    supportEmbedding: boolean,
+    type: ApiKey["type"],
   ): Promise<ApiKey | null> => {
-    const capabilityConditions = [];
-    if (supportText) {
-      capabilityConditions.push(eq(userApiKey.supportText, true));
-    }
-    if (supportEmbedding) {
-      capabilityConditions.push(eq(userApiKey.supportEmbedding, true));
-    }
-
-    if (capabilityConditions.length === 0) {
-      return null;
-    }
-
     const [record] = await this.database
       .select()
       .from(userApiKey)
-      .where(
-        and(
-          eq(userApiKey.userId, userId),
-          or(...capabilityConditions),
-        ),
-      )
+      .where(and(eq(userApiKey.userId, userId), eq(userApiKey.type, type)))
       .limit(1);
 
     return record ?? null;

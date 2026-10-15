@@ -7,6 +7,7 @@ export type NewApiKey = InferInsertModel<typeof userApiKey>;
 
 export type ApiKeyListQuery = CommonListQuery & {
   provider?: ApiKey["provider"];
+  type?: ApiKey["type"];
 };
 
 export type ApiKeyListResult = {

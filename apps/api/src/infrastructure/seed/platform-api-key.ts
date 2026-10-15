@@ -13,7 +13,7 @@ export const seedPlatformApiKeys = async (): Promise<void> => {
       .where(
         and(
           eq(userApiKey.provider, "groq"),
-          eq(userApiKey.supportText, true),
+          eq(userApiKey.type, "text"),
           eq(userApiKey.isPlatform, true),
         ),
       )
@@ -29,8 +29,8 @@ export const seedPlatformApiKeys = async (): Promise<void> => {
       userId: null,
       provider: "groq",
       encryptedKey: encrypt(env.groqApiKey),
-      supportText: true,
-      supportEmbedding: false,
+      type: "text",
+      model: "llama-3.1-8b-instant",
       isPlatform: true,
     });
 

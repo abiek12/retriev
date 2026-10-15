@@ -5,7 +5,6 @@ import {
   createApiKeyRequestSchema,
   getapiKeysRequestSchema,
   rotateApiKeyRequestSchema,
-  updateApiKeyRequestSchema,
 } from "@repo/shared";
 import { authMiddlware } from "@/common/middlewares/auth.middleware";
 import { apiKeyController } from "./api-key.module";
@@ -22,21 +21,14 @@ apiKeyRoutes.get("/", zValidator("query", getapiKeysRequestSchema), async (c) =>
 apiKeyRoutes.post(
   "/",
   zValidator("json", createApiKeyRequestSchema),
-  apiKeyController.create,
-);
-
-apiKeyRoutes.put(
-  "/:id",
-  zValidator("param", apiKeyIdSchema),
-  zValidator("json", updateApiKeyRequestSchema),
-  apiKeyController.update,
+  async (c) => apiKeyController.create(c, c.req.valid("json")),
 );
 
 apiKeyRoutes.post(
   "/:id/rotate",
   zValidator("param", apiKeyIdSchema),
   zValidator("json", rotateApiKeyRequestSchema),
-  apiKeyController.rotate,
+  async (c) => apiKeyController.rotate(c, c.req.valid("json")),
 );
 
 apiKeyRoutes.delete(

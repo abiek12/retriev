@@ -3,7 +3,7 @@ import { NewApiKey, ApiKey } from "./api-key.types";
 import { ApiKeyListQuery, ApiKeyListResult } from "./api-key.types";
 
 export interface IApiKeyRepository extends IBaseRepository {
-  create: (data: NewApiKey) => Promise<Pick<ApiKey, "id" | "title">>;
+  create: (data: NewApiKey) => Promise<Pick<ApiKey, "id">>;
 
   findMany: (
     userId: string,
@@ -20,9 +20,8 @@ export interface IApiKeyRepository extends IBaseRepository {
 
   delete: (id: string, userId: string) => Promise<boolean>;
 
-  findCapabilityConflict: (
+  findTypeConflict: (
     userId: string,
-    supportText: boolean,
-    supportEmbedding: boolean,
+    type: ApiKey["type"],
   ) => Promise<ApiKey | null>;
 }

@@ -6,8 +6,6 @@ import {
   GetApiKeyResponseDto,
   RotateApiKeyRequestDto,
   RotateApiKeyResponseDto,
-  UpdateApiKeyRequestDto,
-  UpdateApiKeyResponseDto,
 } from "@repo/shared";
 
 export interface IApiKeyService extends IBaseService {
@@ -20,12 +18,6 @@ export interface IApiKeyService extends IBaseService {
     userId: string,
     data: GetApiKeyRequestDto,
   ): Promise<GetApiKeyResponseDto>;
-
-  update(
-    id: string,
-    userId: string,
-    data: UpdateApiKeyRequestDto,
-  ): Promise<UpdateApiKeyResponseDto>;
 
   rotate(
     id: string,
