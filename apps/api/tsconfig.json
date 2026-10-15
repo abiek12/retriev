@@ -13,8 +13,8 @@
       "@modules/*": ["src/modules/*"],
       "@config/*": ["src/config/*"],
       "@core/*": ["src/core/*"],
-      "@infrastructure/*": ["src/infrastructure/*"],
-    },
+      "@infrastructure/*": ["src/infrastructure/*"]
+    }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

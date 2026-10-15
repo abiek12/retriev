@@ -12,7 +12,6 @@ import { Agent, IAgentRepository, IAgentService } from "./types";
 import { HTTPException } from "hono/http-exception";
 import { ICacheProvider } from "@/infrastructure/cache/types/cache.interface";
 import { createCacheKey } from "@/common/utils/cache-key.util";
-import { user } from "@repo/database";
 import {
   CACHE_DETAIL_API_TTL,
   CACHE_LIST_API_TTL,

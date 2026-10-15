@@ -11,7 +11,6 @@ export const agentListRequestSchema = z.object({
   search: z.string().trim().min(1).optional(),
 
   status: agentStatusSchema.optional(),
-
 });
 
 export const agentListResponseSchema = z.object({

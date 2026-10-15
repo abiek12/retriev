@@ -1,13 +1,13 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: ''
+title: ""
+labels: ""
 assignees: abiek12
-
 ---
 
 ---
+
 name: Feature Request
 about: Suggest an improvement or new feature for Retriev
 title: "[Feature]: "

@@ -1,4 +1,4 @@
-import { AgentListRequestDto, CreateAgentRequestDto } from "@repo/shared";
+import { AgentListRequestDto } from "@repo/shared";
 import { BaseRepository } from "../../core/repositories";
 import { IAgentRepository } from "./types/agent.repository.interface";
 import { AgentListResult, Agent, NewAgent, UpdateAgent } from "./types";

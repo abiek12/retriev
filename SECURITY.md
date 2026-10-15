@@ -14,10 +14,10 @@ Retriev is currently under active development.
 
 At this stage, security fixes are generally applied to the latest development version.
 
-| Version | Supported |
-|---|---|
-| `main` | Yes |
-| Older releases | No |
+| Version        | Supported |
+| -------------- | --------- |
+| `main`         | Yes       |
+| Older releases | No        |
 
 Once stable releases are published, this section will be updated with a formal supported-version policy.
 

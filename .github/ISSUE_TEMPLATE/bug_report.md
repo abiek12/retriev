@@ -1,13 +1,13 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
-labels: ''
+title: ""
+labels: ""
 assignees: abiek12
-
 ---
 
 ---
+
 name: Bug Report
 about: Report a reproducible problem in Retriev
 title: "[Bug]: "

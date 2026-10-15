@@ -40,8 +40,7 @@ class ApiKeyService
     } catch (error) {
       if (isUniqueConstraintViolation(error)) {
         throw new HTTPException(409, {
-          message:
-            `An API key already exists for ${data.type}.`,
+          message: `An API key already exists for ${data.type}.`,
         });
       }
 

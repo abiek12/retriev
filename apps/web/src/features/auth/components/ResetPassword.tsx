@@ -75,7 +75,7 @@ export const ResetPassword = () => {
         toast.error("Please enter valid password");
       }
 
-      const {} = await authClient.resetPassword({
+      await authClient.resetPassword({
         newPassword: data.confirmPassword,
         token: data.token,
       });

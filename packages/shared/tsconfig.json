@@ -2,8 +2,8 @@
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "noEmit": true,
+    "noEmit": true
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
 }

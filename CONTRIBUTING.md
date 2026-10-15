@@ -47,6 +47,25 @@ cd retriev
 bun install
 ```
 
+Installing dependencies also activates the Git hooks. Before each commit, staged
+code is linted and formatted; before each push, all workspaces are type-checked.
+CI repeats linting and type-checking, runs the production build, and checks
+formatting.
+
+Useful checks:
+
+```bash
+bun run lint          # web and UI (including TSX)
+bun run lint:all      # all TypeScript; currently reports legacy API errors
+bun run check         # type-check all workspaces
+bun run format        # format the repository
+bun run format:check  # check repository formatting
+bun run build         # production build
+```
+
+Linting of older API/database files has known baseline violations. New or
+changed source files are checked by the commit hook.
+
 ### Environment Variables
 
 Copy the example environment files where applicable:
@@ -312,16 +331,16 @@ chore: update dependencies
 
 Use the following common prefixes:
 
-| Prefix | Purpose |
-|---|---|
-| `feat` | New functionality |
-| `fix` | Bug fix |
+| Prefix     | Purpose                                    |
+| ---------- | ------------------------------------------ |
+| `feat`     | New functionality                          |
+| `fix`      | Bug fix                                    |
 | `refactor` | Code restructuring without behavior change |
-| `docs` | Documentation |
-| `test` | Tests |
-| `chore` | Maintenance |
-| `build` | Build system changes |
-| `ci` | CI/CD changes |
+| `docs`     | Documentation                              |
+| `test`     | Tests                                      |
+| `chore`    | Maintenance                                |
+| `build`    | Build system changes                       |
+| `ci`       | CI/CD changes                              |
 
 Keep commit messages short and descriptive.
 

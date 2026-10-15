@@ -20,45 +20,45 @@ APIs, database schemas, UI, and internal architecture may change before the firs
 
 ### Authentication
 
-* Email/password authentication
-* Google OAuth
-* GitHub OAuth
-* Session-based authentication
-* Protected routes
-* Guest-only authentication routes
-* Password reset flow
-* Email verification
-* Session expiration handling
+- Email/password authentication
+- Google OAuth
+- GitHub OAuth
+- Session-based authentication
+- Protected routes
+- Guest-only authentication routes
+- Password reset flow
+- Email verification
+- Session expiration handling
 
 ### AI Agents
 
-* Create and manage specialized AI agents
-* Configure system instructions
-* Select language models
-* Configure model parameters
-* Enable tools for agents
-* Knowledge-base integration
-* Agent conversations
+- Create and manage specialized AI agents
+- Configure system instructions
+- Select language models
+- Configure model parameters
+- Enable tools for agents
+- Knowledge-base integration
+- Agent conversations
 
 ### Knowledge Base
 
-* Upload documents
-* Connect external sources
-* URL-based sources
-* Document processing
-* Embedding generation
-* Vector search
-* RAG-powered retrieval
-* Source synchronization and status tracking
+- Upload documents
+- Connect external sources
+- URL-based sources
+- Document processing
+- Embedding generation
+- Vector search
+- RAG-powered retrieval
+- Source synchronization and status tracking
 
 ### Conversations
 
-* Agent-based conversations
-* Conversation history
-* AI responses
-* Tool execution
-* Knowledge-base retrieval
-* Context-aware interactions
+- Agent-based conversations
+- Conversation history
+- AI responses
+- Tool execution
+- Knowledge-base retrieval
+- Context-aware interactions
 
 ### Integrations
 
@@ -66,19 +66,19 @@ Retriev is designed to connect AI agents with external services and tools.
 
 Planned integrations include:
 
-* Web search
-* External data sources
-* Repository synchronization
-* Additional third-party tools
+- Web search
+- External data sources
+- Repository synchronization
+- Additional third-party tools
 
 ### Usage & Analytics
 
-* Token consumption
-* Model usage
-* API usage
-* Latency metrics
-* Cost tracking
-* Agent usage analytics
+- Token consumption
+- Model usage
+- API usage
+- Latency metrics
+- Cost tracking
+- Agent usage analytics
 
 ---
 
@@ -150,10 +150,12 @@ The frontend and backend are developed independently while sharing common contra
         └───────────┘       └───────────┘       └────────────┘
 
 ```
+
 ## Database Design
+
 <img width="1345" height="698" alt="image" src="https://github.com/user-attachments/assets/d9821470-af94-4f89-be35-11f03d140752" />
 
-```
+````
 
 The architecture will evolve as the project develops.
 
@@ -225,7 +227,7 @@ Additional services may be required depending on the features being developed.
 git clone https://github.com/<your-username>/retriev.git
 
 cd retriev
-```
+````
 
 ### Install dependencies
 
@@ -333,9 +335,9 @@ Contributions are welcome once the project reaches a stable contribution stage.
 
 Before contributing, please read:
 
-* [Contributing Guide](./.github/CONTRIBUTING.md)
-* [Code of Conduct](./.github/CODE_OF_CONDUCT.md)
-* [Security Policy](./.github/SECURITY.md)
+- [Contributing Guide](./.github/CONTRIBUTING.md)
+- [Code of Conduct](./.github/CODE_OF_CONDUCT.md)
+- [Security Policy](./.github/SECURITY.md)
 
 For bugs and feature requests, please use the appropriate GitHub issue template.
 
@@ -349,12 +351,12 @@ Please refer to the [Security Policy](./.github/SECURITY.md) for information abo
 
 Never commit:
 
-* API keys
-* OAuth secrets
-* Database credentials
-* Authentication secrets
-* Private user data
-* Production configuration
+- API keys
+- OAuth secrets
+- Database credentials
+- Authentication secrets
+- Private user data
+- Production configuration
 
 ---
 
@@ -364,73 +366,73 @@ The project is being developed incrementally.
 
 ### Foundation
 
-* [x] Monorepo setup
-* [x] Shared contracts
-* [x] Frontend architecture
-* [x] Backend foundation
-* [x] Database foundation
-* [x] Authentication foundation
-* [x] Initial UI system
+- [x] Monorepo setup
+- [x] Shared contracts
+- [x] Frontend architecture
+- [x] Backend foundation
+- [x] Database foundation
+- [x] Authentication foundation
+- [x] Initial UI system
 
 ### Authentication & Application Shell
 
-* [x] Login
-* [x] Registration
-* [x] OAuth
-* [x] Session handling
-* [x] Protected routes
-* [x] Guest routes
-* [ ] Logout
-* [ ] Password reset
-* [ ] Email verification
-* [ ] Session expiration UX
-* [ ] User profile
+- [x] Login
+- [x] Registration
+- [x] OAuth
+- [x] Session handling
+- [x] Protected routes
+- [x] Guest routes
+- [ ] Logout
+- [ ] Password reset
+- [ ] Email verification
+- [ ] Session expiration UX
+- [ ] User profile
 
 ### AI Agents
 
-* [ ] Agent management
-* [ ] Agent configuration
-* [ ] Model configuration
-* [ ] Tool configuration
-* [ ] Agent execution
-* [ ] Agent conversations
+- [ ] Agent management
+- [ ] Agent configuration
+- [ ] Model configuration
+- [ ] Tool configuration
+- [ ] Agent execution
+- [ ] Agent conversations
 
 ### Knowledge Base
 
-* [ ] Document upload
-* [ ] Source management
-* [ ] Document processing
-* [ ] Embeddings
-* [ ] Vector search
-* [ ] RAG pipeline
-* [ ] Source synchronization
+- [ ] Document upload
+- [ ] Source management
+- [ ] Document processing
+- [ ] Embeddings
+- [ ] Vector search
+- [ ] RAG pipeline
+- [ ] Source synchronization
 
 ### Conversations
 
-* [ ] Conversation management
-* [ ] Streaming responses
-* [ ] Tool execution UI
-* [ ] Conversation history
-* [ ] Context management
+- [ ] Conversation management
+- [ ] Streaming responses
+- [ ] Tool execution UI
+- [ ] Conversation history
+- [ ] Context management
 
 ### Platform
 
-* [ ] Integrations
-* [ ] Usage analytics
-* [ ] Cost tracking
-* [ ] Notifications
-* [ ] Workspace management
-* [ ] Team collaboration
+- [ ] Integrations
+- [ ] Usage analytics
+- [ ] Cost tracking
+- [ ] Notifications
+- [ ] Workspace management
+- [ ] Team collaboration
 
 ### Stable Release
 
-* [ ] Production hardening
-* [ ] Security audit
-* [ ] Test coverage
-* [ ] Documentation
-* [ ] Deployment documentation
-* [ ] Stable API contracts
-* [ ] `v1.0.0`
+- [ ] Production hardening
+- [ ] Security audit
+- [ ] Test coverage
+- [ ] Documentation
+- [ ] Deployment documentation
+- [ ] Stable API contracts
+- [ ] `v1.0.0`
 
 ---
 
@@ -447,7 +449,6 @@ docs/
 ```
 
 Architecture decisions and important technical choices will be documented as the project evolves.
-
 
 ---
 

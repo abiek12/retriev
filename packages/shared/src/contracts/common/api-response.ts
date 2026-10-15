@@ -12,5 +12,4 @@ export interface ErrorResponse<TMessage = string> {
 }
 
 export type ApiResponse<TData, TErrorMessage = string> =
-  | SuccessResponse<TData>
-  | ErrorResponse<TErrorMessage>;
+  SuccessResponse<TData> | ErrorResponse<TErrorMessage>;

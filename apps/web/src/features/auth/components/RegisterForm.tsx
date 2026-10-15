@@ -71,7 +71,7 @@ const RegisterCard = () => {
         toast.error(error.message);
         return;
       }
-    } catch (error: any) {
+    } catch {
       toast.error("Unable to continue with social login.");
       setError(
         `Unable to continue with ${

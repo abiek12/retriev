@@ -58,7 +58,7 @@ const LoginForm = () => {
       }
 
       toast.success("Welcome back!");
-    } catch (error: any) {
+    } catch {
       toast.error("Something went wrong. Please try again.");
       setAuthError("Something went wrong. Please try again.");
     } finally {
@@ -78,7 +78,7 @@ const LoginForm = () => {
         toast.error(error.message);
         return;
       }
-    } catch (error: any) {
+    } catch {
       toast.error("Unable to continue with social login.");
       setAuthError(
         `Unable to continue with ${

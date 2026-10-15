@@ -1,6 +1,9 @@
 import { useId, type SVGProps } from "react";
 
-export const RetrievLogo = ({ className, ...props }: SVGProps<SVGSVGElement>) => {
+export const RetrievLogo = ({
+  className,
+  ...props
+}: SVGProps<SVGSVGElement>) => {
   const maskId = useId();
 
   return (
