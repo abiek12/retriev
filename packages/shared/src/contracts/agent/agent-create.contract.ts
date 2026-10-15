@@ -1,5 +1,4 @@
 import z from "zod";
-import { agentProviderSchema } from "../../constants/agent";
 import { apiResponseSchema } from "../api";
 
 export const createAgentRequestSchema = z.object({
@@ -14,10 +13,6 @@ export const createAgentRequestSchema = z.object({
     .trim()
     .min(1, "System prompt is required")
     .max(10000),
-
-  model: z.string().trim().min(1).optional(),
-
-  provider: agentProviderSchema.optional(),
 
   temperature: z.number().min(0).max(2).optional(),
 

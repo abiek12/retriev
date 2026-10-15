@@ -7,7 +7,7 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import { agentStatusEnum, auditColumns, providerEnum } from "../common";
+import { agentStatusEnum, auditColumns } from "../common";
 import { user } from "../auth";
 
 export const agent = pgTable(
@@ -23,10 +23,6 @@ export const agent = pgTable(
     description: varchar("description"),
     avatar: varchar("avatar"),
     systemPrompt: text("system_prompt").notNull(),
-    model: varchar("model", { length: 150 })
-      .notNull()
-      .default("openai/gpt-oss-120b"),
-    provider: providerEnum("provider").default("groq").notNull(),
     temperature: numeric("temperature", {
       precision: 3,
       scale: 2,

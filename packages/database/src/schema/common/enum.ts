@@ -21,7 +21,9 @@ export const providerEnum = pgEnum("provider", [
   "anthropic",
   "gemini",
   "groq",
+  "openrouter",
 ]);
+export const apiKeyTypeEnum = pgEnum("api_key_type", ["text", "embedding"]);
 export const agentStatusEnum = pgEnum("agent_status", ["active", "inactive"]);
 export const knowledgeBaseTypeEnum = pgEnum("knowledge_base_type", [
   "text",
@@ -43,8 +45,4 @@ export const messageRoleEnum = pgEnum("message_role", [
   "assistant",
   "system",
   "tool",
-]);
-export const llmApiKeyTypeEnum = pgEnum("llm_api_key_type", [
-  "chat",
-  "embedding",
 ]);

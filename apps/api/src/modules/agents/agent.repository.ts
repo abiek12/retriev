@@ -10,16 +10,13 @@ class AgentRepository extends BaseRepository implements IAgentRepository {
     userId: string,
     query: AgentListRequestDto,
   ): Promise<AgentListResult> => {
-    const { page, limit, search, provider, status } = query;
+    const { page, limit, search, status } = query;
     const offset = (page - 1) * limit;
 
     const conditions = [eq(agent.userId, userId)];
 
     if (search) {
       conditions.push(like(agent.name, `%${search}%`));
-    }
-    if (provider) {
-      conditions.push(eq(agent.provider, provider));
     }
     if (status) {
       conditions.push(eq(agent.status, status));

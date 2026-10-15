@@ -1,0 +1,1 @@
+ALTER TYPE "api_key_capability" ADD VALUE 'both';

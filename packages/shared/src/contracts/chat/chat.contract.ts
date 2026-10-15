@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Tool } from "../../constants";
+import { Tool } from "../../types/constants";
 
 export const toolNameSchema = z.enum([Tool.RAG, Tool.WEB_SEARCH]);
 

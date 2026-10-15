@@ -1,2 +1,2 @@
-export * from "./constants";
+export * from "./types/constants";
 export * from "./contracts";
