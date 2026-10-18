@@ -4,7 +4,7 @@ import { ConversationsPage } from "@/pages/ConversationsPage";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { IntegrationsPage } from "@/pages/IntegrationsPage";
 import { KnowledgeBasePage } from "@/pages/KnowledgeBasePage";
-import { SettingsPage } from "@/pages/SettingsPage";
+import { SettingsPage } from "@/features/settings/pages/SettingsPage";
 import { UsagePage } from "@/pages/UsagePage";
 import type { RouteObject } from "react-router-dom";
 
