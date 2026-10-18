@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { KeyRound, LockKeyhole } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import type {
   CreateApiKeyRequestDto,
@@ -21,6 +22,8 @@ import {
 import { ApiKeyModal } from "./ApiKeyModal";
 
 export const ApiKeySettings = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const keysQuery = useApiKeys();
   const createMutation = useCreateApiKey();
   const rotateMutation = useRotateApiKey();
@@ -47,6 +50,20 @@ export const ApiKeySettings = () => {
     : null;
   const canManage = !keysQuery.isPending && !keysQuery.isError && !isPending;
   const [modalType, setModalType] = useState<ApiKeyType | null>(null);
+
+  useEffect(() => {
+    if (location.state?.openApiKeys) {
+      setModalType("text");
+      navigate(
+        {
+          pathname: location.pathname,
+          search: location.search,
+          hash: location.hash,
+        },
+        { replace: true, state: null },
+      );
+    }
+  }, [location, navigate]);
 
   const handleSave = async (payload: CreateApiKeyRequestDto) => {
     try {
@@ -84,7 +101,7 @@ export const ApiKeySettings = () => {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h2 id="api-keys-title" className="text-base font-semibold">
-            API Keys
+            LLM API Keys
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Connect your providers for text generation and embeddings.

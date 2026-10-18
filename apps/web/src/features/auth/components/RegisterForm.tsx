@@ -64,7 +64,7 @@ const RegisterCard = () => {
     try {
       const { error } = await authClient.signIn.social({
         provider,
-        callbackURL: `${import.meta.env.VITE_CLIENT_URL}/dashboard`,
+        callbackURL: `${import.meta.env.VITE_CLIENT_URL}/dashboard?login=success`,
       });
 
       if (error) {

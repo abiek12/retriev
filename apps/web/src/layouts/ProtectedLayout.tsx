@@ -2,6 +2,7 @@ import { AppLoader } from "@/components/common/AppLoader";
 import { AppHeader } from "@/components/header/AppHeader";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
+import { ApiKeySetupReminder } from "@/features/settings/components/ApiKeySetupReminder";
 import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedLayout = () => {
@@ -25,6 +26,7 @@ const ProtectedLayout = () => {
           <Outlet />
         </main>
       </div>
+      <ApiKeySetupReminder />
     </div>
   );
 };
