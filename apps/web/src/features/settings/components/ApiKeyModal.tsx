@@ -26,6 +26,7 @@ import { ApiKeyForm } from "./ApiKeyForm";
 import {
   apiKeyTypes,
   providerLabel,
+  type ApiKeyConfiguration,
   type ApiKeyConfigurations,
   type ApiKeyType,
 } from "../types";
@@ -33,6 +34,7 @@ import {
 type ApiKeyModalProps = {
   initialType: ApiKeyType;
   configurations: ApiKeyConfigurations;
+  defaultTextConfiguration: ApiKeyConfiguration | null;
   onClose: () => void;
   isPending: boolean;
   loadError: string | null;
@@ -46,6 +48,7 @@ type ApiKeyModalProps = {
 export const ApiKeyModal = ({
   initialType,
   configurations,
+  defaultTextConfiguration,
   isPending,
   loadError,
   isRefreshing,
@@ -56,7 +59,7 @@ export const ApiKeyModal = ({
   onDelete,
 }: ApiKeyModalProps) => {
   const [activeType, setActiveType] = useState(initialType);
-  const [view, setView] = useState<"overview" | "rotate" | "delete">(
+  const [view, setView] = useState<"overview" | "create" | "rotate" | "delete">(
     "overview",
   );
   const activeConfiguration = configurations[activeType];
@@ -180,7 +183,11 @@ export const ApiKeyModal = ({
                 >
                   {label}
                   <span className="text-[10px] font-normal text-muted-foreground">
-                    {configurations[value] ? "Configured" : "Empty"}
+                    {configurations[value]
+                      ? "Configured"
+                      : value === "text" && defaultTextConfiguration
+                        ? "System default"
+                        : "Empty"}
                   </span>
                 </Tabs.Tab>
               ))}
@@ -194,7 +201,38 @@ export const ApiKeyModal = ({
                   value={value}
                   className="mt-5 outline-none"
                 >
-                  {configuration && view === "overview" ? (
+                  {!configuration &&
+                  value === "text" &&
+                  defaultTextConfiguration &&
+                  view === "overview" ? (
+                    <div className="space-y-5">
+                      <div className="rounded-lg border bg-surface-container-low p-4">
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="font-semibold">
+                            {providerLabel(defaultTextConfiguration.provider)}
+                          </p>
+                          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                            <LockKeyhole
+                              aria-hidden="true"
+                              className="size-3.5"
+                            />
+                            System default
+                          </span>
+                        </div>
+                        <p className="mt-1 break-all font-mono text-xs text-muted-foreground">
+                          {defaultTextConfiguration.model}
+                        </p>
+                      </div>
+                      <div className="flex justify-end">
+                        <Button
+                          disabled={isPending}
+                          onClick={() => setView("create")}
+                        >
+                          Add your own key
+                        </Button>
+                      </div>
+                    </div>
+                  ) : configuration && view === "overview" ? (
                     <div className="space-y-5">
                       <div className="space-y-5 rounded-lg border bg-surface-container-low p-4">
                         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -276,7 +314,8 @@ export const ApiKeyModal = ({
                         setView("overview");
                       }}
                       onCancel={() => {
-                        if (view === "rotate") setView("overview");
+                        if (view === "rotate" || view === "create")
+                          setView("overview");
                         else onClose();
                       }}
                     />

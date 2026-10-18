@@ -30,6 +30,13 @@ export const ApiKeySettings = () => {
   for (const record of keysQuery.data?.data ?? []) {
     if (!record.isPlatform) configurations[record.type] ??= record;
   }
+  const defaultTextConfiguration =
+    keysQuery.data?.data.find(
+      (record) =>
+        record.isPlatform &&
+        record.type === "text" &&
+        record.provider === "groq",
+    ) ?? null;
 
   const isPending =
     createMutation.isPending ||
@@ -114,7 +121,9 @@ export const ApiKeySettings = () => {
         aria-busy={keysQuery.isPending}
       >
         {apiKeyTypes.map(({ value, label }) => {
-          const configuration = configurations[value];
+          const configuration =
+            configurations[value] ??
+            (value === "text" ? defaultTextConfiguration : null);
           return (
             <button
               key={value}
@@ -137,6 +146,11 @@ export const ApiKeySettings = () => {
                       ? `${providerLabel(configuration.provider)} / ${configuration.model}`
                       : "Not configured"}
               </span>
+              {configuration?.isPlatform && (
+                <span className="mt-2 block text-xs text-muted-foreground">
+                  System default
+                </span>
+              )}
             </button>
           );
         })}
@@ -151,6 +165,7 @@ export const ApiKeySettings = () => {
         <ApiKeyModal
           initialType={modalType}
           configurations={configurations}
+          defaultTextConfiguration={defaultTextConfiguration}
           isPending={isPending}
           loadError={loadError}
           isRefreshing={keysQuery.isFetching}

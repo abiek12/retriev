@@ -53,7 +53,13 @@ class ApiKeyRepository extends BaseRepository implements IApiKeyRepository {
     const [record] = await this.database
       .select()
       .from(userApiKey)
-      .where(and(eq(userApiKey.id, id), eq(userApiKey.userId, userId)))
+      .where(
+        and(
+          eq(userApiKey.id, id),
+          eq(userApiKey.userId, userId),
+          eq(userApiKey.isPlatform, false),
+        ),
+      )
       .limit(1);
 
     return record ?? null;
@@ -67,7 +73,13 @@ class ApiKeyRepository extends BaseRepository implements IApiKeyRepository {
     const [record] = await this.database
       .update(userApiKey)
       .set({ ...data, updatedAt: new Date() })
-      .where(and(eq(userApiKey.id, id), eq(userApiKey.userId, userId)))
+      .where(
+        and(
+          eq(userApiKey.id, id),
+          eq(userApiKey.userId, userId),
+          eq(userApiKey.isPlatform, false),
+        ),
+      )
       .returning();
 
     return record ?? null;
@@ -76,7 +88,13 @@ class ApiKeyRepository extends BaseRepository implements IApiKeyRepository {
   delete = async (id: string, userId: string): Promise<boolean> => {
     const [record] = await this.database
       .delete(userApiKey)
-      .where(and(eq(userApiKey.id, id), eq(userApiKey.userId, userId)))
+      .where(
+        and(
+          eq(userApiKey.id, id),
+          eq(userApiKey.userId, userId),
+          eq(userApiKey.isPlatform, false),
+        ),
+      )
       .returning({ id: userApiKey.id });
 
     return Boolean(record);
@@ -89,7 +107,13 @@ class ApiKeyRepository extends BaseRepository implements IApiKeyRepository {
     const [record] = await this.database
       .select()
       .from(userApiKey)
-      .where(and(eq(userApiKey.userId, userId), eq(userApiKey.type, type)))
+      .where(
+        and(
+          eq(userApiKey.userId, userId),
+          eq(userApiKey.type, type),
+          eq(userApiKey.isPlatform, false),
+        ),
+      )
       .limit(1);
 
     return record ?? null;
