@@ -36,9 +36,15 @@ const LoginForm = () => {
           email: data.email,
           password: data.password,
           rememberMe: data.rememberMe,
-          callbackURL: `${import.meta.env.VITE_CLIENT_URL}/dashboard`,
+          callbackURL: `${import.meta.env.VITE_CLIENT_URL}/dashboard?login=success`,
         },
         {
+          onSuccess: (ctx) => {
+            sessionStorage.setItem(
+              `api-key-reminder-pending:${ctx.data.user.id}`,
+              "true",
+            );
+          },
           onError: (ctx) => {
             // Handle the error
             setAuthError(ctx.error.message);
@@ -71,7 +77,7 @@ const LoginForm = () => {
     try {
       const { error } = await authClient.signIn.social({
         provider,
-        callbackURL: `${import.meta.env.VITE_CLIENT_URL}/dashboard`,
+        callbackURL: `${import.meta.env.VITE_CLIENT_URL}/dashboard?login=success`,
       });
 
       if (error) {
