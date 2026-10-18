@@ -9,12 +9,23 @@ import {
 import { HTTPException } from "hono/http-exception";
 import { encrypt } from "@/infrastructure/security";
 import { BaseService } from "@/core/services";
+import type {
+  ApiKeyProvider,
+  ApiKeyValidatorResolver,
+} from "@/core/ports/api-key-validator.interface";
 import { ApiKey, IApiKeyRepository, IApiKeyService } from "./types";
 
 class ApiKeyService
   extends BaseService<IApiKeyRepository>
   implements IApiKeyService
 {
+  constructor(
+    repository: IApiKeyRepository,
+    private readonly getValidator: ApiKeyValidatorResolver,
+  ) {
+    super(repository);
+  }
+
   create = async (
     userId: string,
     data: CreateApiKeyRequestDto,
@@ -26,6 +37,8 @@ class ApiKeyService
         message: `An API key already exists for ${data.type}.`,
       });
     }
+
+    await this.validateKey(data.provider, data.apiKey);
 
     try {
       return await this.repository.create({
@@ -70,6 +83,14 @@ class ApiKeyService
     userId: string,
     data: RotateApiKeyRequestDto,
   ): Promise<RotateApiKeyResponseDto> => {
+    const existing = await this.repository.findById(id, userId);
+
+    if (!existing) {
+      throw new HTTPException(404, { message: "API key not found." });
+    }
+
+    await this.validateKey(existing.provider, data.apiKey);
+
     const record = await this.repository.update(id, userId, {
       encryptedKey: encrypt(data.apiKey),
     });
@@ -88,6 +109,16 @@ class ApiKeyService
       throw new HTTPException(404, { message: "API key not found." });
     }
   };
+
+  private async validateKey(provider: ApiKeyProvider, apiKey: string) {
+    const result = await this.getValidator(provider).validate(apiKey);
+    if (!result.valid) {
+      throw new HTTPException(
+        result.reason === "validation_unavailable" ? 503 : 422,
+        { message: result.message },
+      );
+    }
+  }
 }
 
 const toApiKeyResponse = (record: ApiKey) => ({

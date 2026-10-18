@@ -7,12 +7,22 @@ import {
 
 export const apiKeyTypeSchema = z.enum(["text", "embedding"]);
 
+const apiKeyTokenSchema = z
+  .string()
+  .trim()
+  .min(1)
+  .max(4096)
+  .regex(
+    /^[!-~]+$/,
+    "API key must contain only non-whitespace ASCII characters.",
+  );
+
 // 1. Create API key
 export const createApiKeyRequestSchema = z.object({
   type: apiKeyTypeSchema,
   provider: llmProviderSchema,
   model: z.string().trim().min(1).max(150),
-  apiKey: z.string().min(1),
+  apiKey: apiKeyTokenSchema,
 });
 
 export const createApiKeyResponseSchema = z.object({
@@ -21,7 +31,7 @@ export const createApiKeyResponseSchema = z.object({
 
 // 2. Rotate api key
 export const rotateApiKeyRequestSchema = z.object({
-  apiKey: z.string().min(1),
+  apiKey: apiKeyTokenSchema,
 });
 
 export const rotateApiKeyresponseSchema = z.object({
