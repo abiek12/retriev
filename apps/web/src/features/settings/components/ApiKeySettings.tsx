@@ -2,50 +2,71 @@ import { Button } from "@/components/ui/button";
 import { KeyRound, LockKeyhole } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { previewApiKeys } from "../data/preview-api-keys";
+import type {
+  CreateApiKeyRequestDto,
+  RotateApiKeyRequestDto,
+} from "@repo/shared";
+import {
+  useApiKeys,
+  useCreateApiKey,
+  useDeleteApiKey,
+  useRotateApiKey,
+} from "../hooks/useApiKeys";
 import {
   apiKeyTypes,
   providerLabel,
   type ApiKeyConfigurations,
-  type ApiKeyPreviewInput,
   type ApiKeyType,
 } from "../types";
 import { ApiKeyModal } from "./ApiKeyModal";
 
 export const ApiKeySettings = () => {
-  const [configurations, setConfigurations] =
-    useState<ApiKeyConfigurations>(previewApiKeys);
+  const keysQuery = useApiKeys();
+  const createMutation = useCreateApiKey();
+  const rotateMutation = useRotateApiKey();
+  const deleteMutation = useDeleteApiKey();
+
+  const configurations: ApiKeyConfigurations = { text: null, embedding: null };
+  for (const record of keysQuery.data?.data ?? []) {
+    if (!record.isPlatform) configurations[record.type] ??= record;
+  }
+
+  const isPending =
+    createMutation.isPending ||
+    rotateMutation.isPending ||
+    deleteMutation.isPending;
+  const loadError = keysQuery.isError
+    ? "Could not load API keys. Please try again."
+    : null;
+  const canManage = !keysQuery.isPending && !keysQuery.isError && !isPending;
   const [modalType, setModalType] = useState<ApiKeyType | null>(null);
 
-  const handleSave = (type: ApiKeyType, input: ApiKeyPreviewInput) => {
-    const now = new Date().toISOString();
-    setConfigurations((current) => ({
-      ...current,
-      [type]: {
-        id: crypto.randomUUID(),
-        type,
-        ...input,
-        isPlatform: false,
-        createdAt: now,
-        updatedAt: now,
-      },
-    }));
-    toast.info("Preview updated. No API key was saved or validated.");
+  const handleSave = async (payload: CreateApiKeyRequestDto) => {
+    try {
+      await createMutation.mutateAsync(payload);
+      toast.success("API key saved.");
+    } finally {
+      // Detach mutation variables so submitted secrets are not retained in cache.
+      createMutation.reset();
+    }
   };
 
-  const handleRotate = (type: ApiKeyType) => {
-    setConfigurations((current) => ({
-      ...current,
-      [type]: current[type]
-        ? { ...current[type], updatedAt: new Date().toISOString() }
-        : null,
-    }));
-    toast.info("Rotation preview complete. No API key was changed.");
+  const handleRotate = async (id: string, payload: RotateApiKeyRequestDto) => {
+    try {
+      await rotateMutation.mutateAsync({ id, payload });
+      toast.success("API key rotated.");
+    } finally {
+      rotateMutation.reset();
+    }
   };
 
-  const handleDelete = (type: ApiKeyType) => {
-    setConfigurations((current) => ({ ...current, [type]: null }));
-    toast.info("Configuration removed from the preview.");
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteMutation.mutateAsync(id);
+      toast.success("API key deleted.");
+    } finally {
+      deleteMutation.reset();
+    }
   };
 
   return (
@@ -62,31 +83,59 @@ export const ApiKeySettings = () => {
             Connect your providers for text generation and embeddings.
           </p>
         </div>
-        <Button className="p-5" onClick={() => setModalType("text")}>
+        <Button
+          className="p-5"
+          disabled={!canManage}
+          onClick={() => setModalType("text")}
+        >
           <KeyRound aria-hidden="true" />
           Manage API keys
         </Button>
       </div>
 
-      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+      {loadError && (
+        <div
+          role="alert"
+          className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm"
+        >
+          <p>{loadError}</p>
+          <Button
+            variant="outline"
+            disabled={keysQuery.isFetching}
+            onClick={() => void keysQuery.refetch()}
+          >
+            Retry
+          </Button>
+        </div>
+      )}
+
+      <div
+        className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2"
+        aria-busy={keysQuery.isPending}
+      >
         {apiKeyTypes.map(({ value, label }) => {
           const configuration = configurations[value];
           return (
             <button
               key={value}
               type="button"
+              disabled={!canManage}
               onClick={() => setModalType(value)}
               aria-haspopup="dialog"
               aria-label={`Manage ${label.toLowerCase()} API key`}
-              className="min-w-0 rounded-lg border bg-surface-container-low px-4 py-4 text-left transition-colors hover:bg-surface-container focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="min-w-0 rounded-lg border bg-surface-container-low px-4 py-4 text-left transition-colors hover:bg-surface-container focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-60"
             >
               <span className="block text-sm font-medium">{label}</span>
               <span
                 className={`mt-1.5 block break-all text-xs leading-relaxed ${configuration ? "font-mono" : "text-muted-foreground"}`}
               >
-                {configuration
-                  ? `${providerLabel(configuration.provider)} / ${configuration.model}`
-                  : "Not configured"}
+                {keysQuery.isPending
+                  ? "Loading..."
+                  : loadError && !configuration
+                    ? "Unavailable"
+                    : configuration
+                      ? `${providerLabel(configuration.provider)} / ${configuration.model}`
+                      : "Not configured"}
               </span>
             </button>
           );
@@ -102,6 +151,10 @@ export const ApiKeySettings = () => {
         <ApiKeyModal
           initialType={modalType}
           configurations={configurations}
+          isPending={isPending}
+          loadError={loadError}
+          isRefreshing={keysQuery.isFetching}
+          onRetry={() => void keysQuery.refetch()}
           onClose={() => setModalType(null)}
           onSave={handleSave}
           onRotate={handleRotate}

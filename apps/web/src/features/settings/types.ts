@@ -10,10 +10,6 @@ export type ApiKeyConfigurations = Record<
   ApiKeyType,
   ApiKeyConfiguration | null
 >;
-export type ApiKeyPreviewInput = Pick<
-  CreateApiKeyRequestDto,
-  "provider" | "model"
->;
 
 export const apiKeyTypes: { value: ApiKeyType; label: string }[] = [
   { value: "text", label: "Text Generation" },

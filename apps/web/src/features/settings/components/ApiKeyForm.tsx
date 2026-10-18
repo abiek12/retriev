@@ -8,14 +8,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createApiKeyRequestSchema } from "@repo/shared";
+import {
+  createApiKeyRequestSchema,
+  rotateApiKeyRequestSchema,
+} from "@repo/shared";
+import type {
+  CreateApiKeyRequestDto,
+  ErrorResponse,
+  RotateApiKeyRequestDto,
+} from "@repo/shared";
+import { Spinner } from "@/components/ui/spinner";
+import { isAxiosError } from "axios";
 import { Eye, EyeOff } from "lucide-react";
-import { useId, useState, type FormEvent } from "react";
+import { useId, useRef, useState, type FormEvent } from "react";
 import {
   apiKeyProviders,
   providerLabel,
   type ApiKeyConfiguration,
-  type ApiKeyPreviewInput,
   type ApiKeyProvider,
   type ApiKeyType,
 } from "../types";
@@ -23,8 +32,9 @@ import {
 type ApiKeyFormProps = {
   type: ApiKeyType;
   configuration?: ApiKeyConfiguration | null;
-  onSave: (input: ApiKeyPreviewInput) => void;
-  onRotate: () => void;
+  isPending: boolean;
+  onSave: (input: CreateApiKeyRequestDto) => Promise<void>;
+  onRotate: (input: RotateApiKeyRequestDto) => Promise<void>;
   onCancel: () => void;
 };
 
@@ -33,6 +43,7 @@ type FormErrors = Partial<Record<"provider" | "model" | "apiKey", string>>;
 export const ApiKeyForm = ({
   type,
   configuration,
+  isPending,
   onSave,
   onRotate,
   onCancel,
@@ -45,15 +56,21 @@ export const ApiKeyForm = ({
   const [apiKey, setApiKey] = useState("");
   const [showKey, setShowKey] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [serverError, setServerError] = useState<string | null>(null);
+  const submitting = useRef(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const result = createApiKeyRequestSchema.safeParse({
-      type,
-      provider,
-      model,
-      apiKey,
-    });
+    if (isPending || submitting.current) return;
+    setServerError(null);
+    const result = configuration
+      ? rotateApiKeyRequestSchema.safeParse({ apiKey })
+      : createApiKeyRequestSchema.safeParse({
+          type,
+          provider,
+          model,
+          apiKey,
+        });
 
     if (!result.success) {
       const nextErrors: FormErrors = {};
@@ -67,19 +84,39 @@ export const ApiKeyForm = ({
       return;
     }
 
-    // UI preview only. Secrets never leave the input component or enter metadata state.
-    setApiKey("");
-    setShowKey(false);
+    submitting.current = true;
     setErrors({});
-    if (configuration) {
-      onRotate();
-    } else {
-      onSave({ provider: result.data.provider, model: result.data.model });
+    try {
+      if (configuration) {
+        await onRotate(result.data);
+      } else {
+        await onSave({
+          type,
+          provider,
+          model: model.trim(),
+          apiKey: result.data.apiKey,
+        });
+      }
+      setApiKey("");
+      setShowKey(false);
+    } catch (error) {
+      setServerError(
+        (isAxiosError<ErrorResponse>(error)
+          ? error.response?.data?.error?.message
+          : undefined) ?? "Could not save the API key. Please try again.",
+      );
+    } finally {
+      submitting.current = false;
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-5">
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className="space-y-5"
+      aria-busy={isPending}
+    >
       {configuration ? (
         <div className="rounded-lg border bg-surface-container-low p-4">
           <p className="text-sm font-medium">
@@ -94,6 +131,7 @@ export const ApiKeyForm = ({
           <Field data-invalid={Boolean(errors.provider)}>
             <FieldLabel htmlFor={`${id}-provider`}>Provider</FieldLabel>
             <Select
+              disabled={isPending}
               value={provider}
               onValueChange={(value) => {
                 if (value) setProvider(value as ApiKeyProvider);
@@ -132,6 +170,7 @@ export const ApiKeyForm = ({
             <FieldLabel htmlFor={`${id}-model`}>Model</FieldLabel>
             <Input
               id={`${id}-model`}
+              disabled={isPending}
               value={model}
               onChange={(event) => setModel(event.target.value)}
               placeholder={
@@ -175,6 +214,7 @@ export const ApiKeyForm = ({
         <div className="relative">
           <Input
             id={`${id}-key`}
+            disabled={isPending}
             type={showKey ? "text" : "password"}
             value={apiKey}
             onChange={(event) => setApiKey(event.target.value)}
@@ -196,6 +236,7 @@ export const ApiKeyForm = ({
           />
           <Button
             type="button"
+            disabled={isPending}
             variant="ghost"
             size="icon"
             className="absolute right-1 top-1"
@@ -230,12 +271,35 @@ export const ApiKeyForm = ({
         )}
       </Field>
 
+      {serverError && (
+        <p
+          role="alert"
+          className="rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive"
+        >
+          {serverError}
+        </p>
+      )}
+
       <div className="flex flex-wrap justify-end gap-2 border-t pt-4">
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <Button
+          type="button"
+          variant="outline"
+          disabled={isPending}
+          onClick={onCancel}
+        >
           Cancel
         </Button>
-        <Button type="submit">
-          {configuration ? "Rotate key" : "Save key"}
+        <Button type="submit" disabled={isPending}>
+          {isPending ? (
+            <>
+              <Spinner />
+              Validating key...
+            </>
+          ) : configuration ? (
+            "Rotate key"
+          ) : (
+            "Save key"
+          )}
         </Button>
       </div>
     </form>
