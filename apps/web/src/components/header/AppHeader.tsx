@@ -5,7 +5,7 @@ import { UserMenu } from "./UserMenu";
 
 export const AppHeader = () => {
   return (
-    <header className="flex h-16 shrink-0 items-center border-b bg-background px-4 sm:px-8">
+    <header className="flex h-16 shrink-0 items-center border-b bg-background px-4 sm:px-10">
       <div className="flex w-full items-center justify-between gap-3 sm:gap-6">
         {/* Search */}
         <div className="relative min-w-0 w-full max-w-115">

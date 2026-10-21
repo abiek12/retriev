@@ -60,7 +60,7 @@ export const AgentPage = () => {
       {/* Header */}
       <div className="mb-4 flex shrink-0 items-center justify-between">
         <div className="flex flex-col gap-2">
-          <h1 className="text-4xl font-semibold tracking-tight">Agents</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Agents</h1>
           <p className="text-muted-foreground">
             Manage and configure your specialized AI assistants.
           </p>

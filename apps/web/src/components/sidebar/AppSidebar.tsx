@@ -45,12 +45,12 @@ const navigation = [
 
 export const AppSidebar = () => {
   return (
-    <div className="w-16 shrink-0 h-full flex flex-col bg-sidebar px-2 py-5 select-none border-r md:w-xs md:px-4">
-      <div className="header flex items-center justify-start gap-2 w-full my-2">
+    <div className="w-16 shrink-0 h-full flex flex-col bg-sidebar px-2 py-5 select-none border-r lg:w-xs lg:px-4">
+      <div className="header flex items-center justify-center lg:justify-start gap-2 w-full my-2">
         <div className="logo cursor-pointer">
-          <RetrievLogo className="size-10" />
+          <RetrievLogo className="size-8" />
         </div>
-        <h1 className="hidden text-3xl font-semibold tracking-tight font-heading md:block">
+        <h1 className="hidden text-2xl font-semibold tracking-tight font-heading lg:block">
           Retriev
         </h1>
       </div>
@@ -71,7 +71,7 @@ export const AppSidebar = () => {
             }
           >
             <Icon className="size-5 shrink-0" strokeWidth={1.8} />
-            <span className="hidden md:inline">{label}</span>
+            <span className="hidden lg:inline">{label}</span>
           </NavLink>
         ))}
       </nav>
@@ -90,7 +90,7 @@ export const AppSidebar = () => {
           }
         >
           <Settings className="size-5 shrink-0" strokeWidth={1.8} />
-          <span className="hidden md:inline">Settings</span>
+          <span className="hidden lg:inline">Settings</span>
         </NavLink>
       </div>
     </div>
