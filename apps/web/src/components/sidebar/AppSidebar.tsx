@@ -10,6 +10,11 @@ import {
 } from "lucide-react";
 import { RetrievLogo } from "@/components/common/RetrievLogo";
 import { NavLink } from "react-router-dom";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 
 const navigation = [
   {
@@ -71,19 +76,25 @@ export const AppSidebar = ({ collapsed, onToggle }: AppSidebarProps) => {
         >
           <div className="hidden w-full items-center justify-between gap-2 lg:flex">
             {collapsed ? (
-              <button
-                type="button"
-                onClick={onToggle}
-                aria-label="Expand sidebar"
-                title="Expand sidebar"
-                className="group relative mx-auto flex size-10 shrink-0 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:size-8"
-              >
-                <RetrievLogo className="size-8 transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0" />
-                <PanelLeft
-                  aria-hidden="true"
-                  className="absolute size-5 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-                />
-              </button>
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <button
+                      type="button"
+                      onClick={onToggle}
+                      aria-label="Expand sidebar"
+                      className="group relative mx-auto flex size-10 shrink-0 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:size-8"
+                    />
+                  }
+                >
+                  <RetrievLogo className="size-8 transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0" />
+                  <PanelLeft
+                    aria-hidden="true"
+                    className="absolute size-5 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  />
+                </TooltipTrigger>
+                <TooltipContent side="right">Expand sidebar</TooltipContent>
+              </Tooltip>
             ) : (
               <>
                 <div className="flex min-w-0 items-center gap-2">
@@ -92,15 +103,21 @@ export const AppSidebar = ({ collapsed, onToggle }: AppSidebarProps) => {
                     Retriev
                   </h1>
                 </div>
-                <button
-                  type="button"
-                  onClick={onToggle}
-                  aria-label="Collapse sidebar"
-                  title="Collapse sidebar"
-                  className="rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <PanelLeft aria-hidden="true" className="size-5" />
-                </button>
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <button
+                        type="button"
+                        onClick={onToggle}
+                        aria-label="Collapse sidebar"
+                        className="rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      />
+                    }
+                  >
+                    <PanelLeft aria-hidden="true" className="size-5" />
+                  </TooltipTrigger>
+                  <TooltipContent side="right">Collapse sidebar</TooltipContent>
+                </Tooltip>
               </>
             )}
           </div>
@@ -114,71 +131,94 @@ export const AppSidebar = ({ collapsed, onToggle }: AppSidebarProps) => {
                     Retriev
                   </h1>
                 </div>
-                <button
-                  type="button"
-                  onClick={onToggle}
-                  aria-label="Collapse sidebar"
-                  title="Collapse sidebar"
-                  className="rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <PanelLeft aria-hidden="true" className="size-5" />
-                </button>
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <button
+                        type="button"
+                        onClick={onToggle}
+                        aria-label="Collapse sidebar"
+                        className="rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      />
+                    }
+                  >
+                    <PanelLeft aria-hidden="true" className="size-5" />
+                  </TooltipTrigger>
+                  <TooltipContent side="right">Collapse sidebar</TooltipContent>
+                </Tooltip>
               </div>
             ) : (
-              <button
-                type="button"
-                onClick={onToggle}
-                aria-label="Expand sidebar"
-                title="Expand sidebar"
-                className="group relative flex size-10 shrink-0 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                <RetrievLogo className="size-8 transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0" />
-                <PanelLeft
-                  aria-hidden="true"
-                  className="absolute size-5 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-                />
-              </button>
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <button
+                      type="button"
+                      onClick={onToggle}
+                      aria-label="Expand sidebar"
+                      className="group relative flex size-10 shrink-0 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    />
+                  }
+                >
+                  <RetrievLogo className="size-8 transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0" />
+                  <PanelLeft
+                    aria-hidden="true"
+                    className="absolute size-5 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  />
+                </TooltipTrigger>
+                <TooltipContent side="right">Expand sidebar</TooltipContent>
+              </Tooltip>
             )}
           </div>
         </div>
 
         <nav className="my-5 flex flex-col gap-1">
           {navigation.map(({ label, icon: Icon, path }) => (
-            <NavLink
-              to={path}
-              key={label}
-              aria-label={label}
-              title={label}
-              className={({ isActive }) =>
-                `flex gap-3 items-center ${collapsed ? "justify-center" : "justify-start"} p-3 cursor-pointer rounded-sm transition-colors ${
-                  isActive
-                    ? "bg-surface-dim text-sidebar-accent-foreground"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent"
-                }`
-              }
-            >
-              <Icon className="size-5 shrink-0" strokeWidth={1.8} />
-              <span className={collapsed ? "hidden" : "inline"}>{label}</span>
-            </NavLink>
+            <Tooltip key={label} disabled={!collapsed}>
+              <TooltipTrigger
+                render={
+                  <NavLink
+                    to={path}
+                    aria-label={label}
+                    className={({ isActive }) =>
+                      `flex gap-3 items-center ${collapsed ? "justify-center" : "justify-start"} p-3 cursor-pointer rounded-sm transition-colors ${
+                        isActive
+                          ? "bg-surface-dim text-sidebar-accent-foreground"
+                          : "text-sidebar-foreground hover:bg-sidebar-accent"
+                      }`
+                    }
+                  />
+                }
+              >
+                <Icon className="size-5 shrink-0" strokeWidth={1.8} />
+                <span className={collapsed ? "hidden" : "inline"}>{label}</span>
+              </TooltipTrigger>
+              <TooltipContent side="right">{label}</TooltipContent>
+            </Tooltip>
           ))}
         </nav>
 
         <div className="mt-auto">
-          <NavLink
-            to={"/settings"}
-            aria-label="Settings"
-            title="Settings"
-            className={({ isActive }) =>
-              `cursor-pointer flex gap-3 p-3 items-center ${collapsed ? "justify-center" : "justify-start"} rounded-sm text-sidebar-accent-foreground ${
-                isActive
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent"
-              }`
-            }
-          >
-            <Settings className="size-5 shrink-0" strokeWidth={1.8} />
-            <span className={collapsed ? "hidden" : "inline"}>Settings</span>
-          </NavLink>
+          <Tooltip disabled={!collapsed}>
+            <TooltipTrigger
+              render={
+                <NavLink
+                  to={"/settings"}
+                  aria-label="Settings"
+                  className={({ isActive }) =>
+                    `cursor-pointer flex gap-3 p-3 items-center ${collapsed ? "justify-center" : "justify-start"} rounded-sm text-sidebar-accent-foreground ${
+                      isActive
+                        ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                        : "text-sidebar-foreground hover:bg-sidebar-accent"
+                    }`
+                  }
+                />
+              }
+            >
+              <Settings className="size-5 shrink-0" strokeWidth={1.8} />
+              <span className={collapsed ? "hidden" : "inline"}>Settings</span>
+            </TooltipTrigger>
+            <TooltipContent side="right">Settings</TooltipContent>
+          </Tooltip>
         </div>
       </aside>
     </>

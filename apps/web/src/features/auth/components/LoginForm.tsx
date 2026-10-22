@@ -7,6 +7,11 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { authClient } from "@/lib/authClient";
 import { GoogleLogoIcon, GithubLogoIcon } from "@phosphor-icons/react";
 import { Spinner } from "@/components/ui/spinner";
@@ -150,18 +155,29 @@ const LoginForm = () => {
                   aria-invalid={fieldState.invalid}
                   className="p-2 focus:outline-none"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
-                >
-                  {showPassword ? (
-                    <EyeOff className="size-4" />
-                  ) : (
-                    <Eye className="size-4" />
-                  )}
-                </button>
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
+                      />
+                    }
+                  >
+                    {showPassword ? (
+                      <EyeOff className="size-4" />
+                    ) : (
+                      <Eye className="size-4" />
+                    )}
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {showPassword ? "Hide password" : "Show password"}
+                  </TooltipContent>
+                </Tooltip>
               </div>
 
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

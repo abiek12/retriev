@@ -1,4 +1,9 @@
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -234,22 +239,31 @@ export const ApiKeyForm = ({
               errors.apiKey ? `${id}-key-error` : `${id}-key-help`
             }
           />
-          <Button
-            type="button"
-            disabled={isPending}
-            variant="ghost"
-            size="icon"
-            className="absolute right-1 top-1"
-            aria-label={showKey ? "Hide API key" : "Show API key"}
-            aria-pressed={showKey}
-            onClick={() => setShowKey((visible) => !visible)}
-          >
-            {showKey ? (
-              <EyeOff aria-hidden="true" />
-            ) : (
-              <Eye aria-hidden="true" />
-            )}
-          </Button>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  type="button"
+                  disabled={isPending}
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-1 top-1"
+                  aria-label={showKey ? "Hide API key" : "Show API key"}
+                  aria-pressed={showKey}
+                  onClick={() => setShowKey((visible) => !visible)}
+                />
+              }
+            >
+              {showKey ? (
+                <EyeOff aria-hidden="true" />
+              ) : (
+                <Eye aria-hidden="true" />
+              )}
+            </TooltipTrigger>
+            <TooltipContent>
+              {showKey ? "Hide API key" : "Show API key"}
+            </TooltipContent>
+          </Tooltip>
         </div>
         {errors.apiKey ? (
           <p

@@ -8,6 +8,11 @@ import {
 
 import { Button } from "@/components/ui/button";
 import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -89,19 +94,25 @@ export const AppPagination = ({
         <Pagination className="mx-0 w-auto">
           <PaginationContent>
             <PaginationItem>
-              <Button
-                variant="outline"
-                size="icon"
-                className="cursor-pointer"
-                disabled={!canGoPrevious}
-                onClick={() => {
-                  if (canGoPrevious) {
-                    onPageChange(page - 1);
-                  }
-                }}
-              >
-                <ChevronLeft className="size-4" />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger render={<span className="inline-flex" />}>
+                  <Button
+                    aria-label="Previous page"
+                    variant="outline"
+                    size="icon"
+                    className="cursor-pointer"
+                    disabled={!canGoPrevious}
+                    onClick={() => {
+                      if (canGoPrevious) {
+                        onPageChange(page - 1);
+                      }
+                    }}
+                  >
+                    <ChevronLeft className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Previous page</TooltipContent>
+              </Tooltip>
             </PaginationItem>
 
             <PaginationItem>
@@ -115,19 +126,25 @@ export const AppPagination = ({
             </PaginationItem>
 
             <PaginationItem>
-              <Button
-                variant="outline"
-                size="icon"
-                disabled={!canGoNext}
-                className="cursor-pointer"
-                onClick={() => {
-                  if (canGoNext) {
-                    onPageChange(page + 1);
-                  }
-                }}
-              >
-                <ChevronRight className="size-4" />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger render={<span className="inline-flex" />}>
+                  <Button
+                    aria-label="Next page"
+                    variant="outline"
+                    size="icon"
+                    disabled={!canGoNext}
+                    className="cursor-pointer"
+                    onClick={() => {
+                      if (canGoNext) {
+                        onPageChange(page + 1);
+                      }
+                    }}
+                  >
+                    <ChevronRight className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Next page</TooltipContent>
+              </Tooltip>
             </PaginationItem>
           </PaginationContent>
         </Pagination>
