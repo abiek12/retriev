@@ -4,6 +4,7 @@ import {
   Database,
   LayoutDashboard,
   MessageSquare,
+  PanelLeft,
   Puzzle,
   Settings,
 } from "lucide-react";
@@ -43,16 +44,34 @@ const navigation = [
   },
 ];
 
-export const AppSidebar = () => {
+type AppSidebarProps = {
+  collapsed: boolean;
+  onToggle: () => void;
+};
+
+export const AppSidebar = ({ collapsed, onToggle }: AppSidebarProps) => {
   return (
-    <div className="w-16 shrink-0 h-full flex flex-col bg-sidebar px-2 py-5 select-none border-r lg:w-xs lg:px-4">
-      <div className="header flex items-center justify-center lg:justify-start gap-2 w-full my-2">
-        <div className="logo cursor-pointer">
-          <RetrievLogo className="size-8" />
+    <div
+      className={`shrink-0 h-full flex flex-col bg-sidebar px-2 py-5 select-none border-r transition-[width] duration-200 ${collapsed ? "w-16" : "w-16 lg:w-64 xl:w-xs"} lg:px-4`}
+    >
+      <div className="header flex items-center justify-center lg:justify-between gap-2 w-full my-2">
+        <div className="flex gap-2">
+          <div className="logo cursor-pointer">
+            <RetrievLogo className="size-8" />
+          </div>
+          <h1 className="hidden text-2xl font-semibold tracking-tight font-heading lg:block">
+            Retriev
+          </h1>
         </div>
-        <h1 className="hidden text-2xl font-semibold tracking-tight font-heading lg:block">
-          Retriev
-        </h1>
+
+        <button
+          type="button"
+          aria-label="Collapse sidebar"
+          className="rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
+          onClick={onToggle}
+        >
+          <PanelLeft aria-hidden="true" className="size-5" />
+        </button>
       </div>
 
       <nav className="my-5 flex flex-col gap-1">

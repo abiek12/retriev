@@ -3,10 +3,12 @@ import { AppHeader } from "@/components/header/AppHeader";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { ApiKeySetupReminder } from "@/features/settings/components/ApiKeySetupReminder";
+import { useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedLayout = () => {
   const { isAuthenticated, isLoading } = useCurrentUser();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   if (isLoading) {
     return <AppLoader label="Loading your workspace..." />;
@@ -18,7 +20,10 @@ const ProtectedLayout = () => {
 
   return (
     <div className="flex h-screen">
-      <AppSidebar />
+      <AppSidebar
+        collapsed={sidebarCollapsed}
+        onToggle={() => setSidebarCollapsed((data) => !data)}
+      />
       <div className="flex min-w-0 flex-1 flex-col">
         <AppHeader />
 
