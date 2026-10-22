@@ -1,6 +1,11 @@
 import { AgentCard } from "../components/AgentCard";
 import { AgentFormModal } from "../components/AgentFormModal";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { Plus } from "lucide-react";
 import { AppPagination } from "@/components/common/AppPagination";
 import { AgentResponseDto } from "@repo/shared/contracts";
@@ -66,13 +71,21 @@ export const AgentPage = () => {
           </p>
         </div>
 
-        <Button
-          className="cursor-pointer p-5 rounded-sm"
-          onClick={() => setAgentModalOpen(true)}
-        >
-          <Plus className="mr-2" />
-          <div className="flex items-center justify-center">Create</div>
-        </Button>
+        <Tooltip>
+          <TooltipTrigger
+            render={
+              <Button
+                aria-label="Create a new agent"
+                className="cursor-pointer p-5 rounded-sm"
+                onClick={() => setAgentModalOpen(true)}
+              />
+            }
+          >
+            <Plus className="mr-2" />
+            <div className="flex items-center justify-center">Create</div>
+          </TooltipTrigger>
+          <TooltipContent>Create a new agent</TooltipContent>
+        </Tooltip>
       </div>
 
       {/* Agent List */}

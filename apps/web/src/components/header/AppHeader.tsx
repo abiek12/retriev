@@ -2,6 +2,7 @@ import { Bell, CircleHelp, Search, SquareMenu } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { UserMenu } from "./UserMenu";
+import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
 
 export const AppHeader = () => {
   return (
@@ -23,32 +24,53 @@ export const AppHeader = () => {
 
         {/* Header Actions */}
         <div className="flex shrink-0 items-center gap-2">
-          <Button
-            className="hidden cursor-pointer sm:inline-flex"
-            variant="ghost"
-            size="icon"
-            aria-label="Notifications"
-          >
-            <Bell className="h-5 w-5" />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  className="hidden cursor-pointer sm:inline-flex"
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Notifications"
+                />
+              }
+            >
+              <Bell className="h-5 w-5" />
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Notifications</TooltipContent>
+          </Tooltip>
 
-          <Button
-            className="hidden cursor-pointer sm:inline-flex"
-            variant="ghost"
-            size="icon"
-            aria-label="Help"
-          >
-            <CircleHelp className="h-5 w-5" />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  className="hidden cursor-pointer sm:inline-flex"
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Help"
+                />
+              }
+            >
+              <CircleHelp className="h-5 w-5" />
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Help</TooltipContent>
+          </Tooltip>
 
-          <Button
-            className="hidden cursor-pointer sm:inline-flex"
-            variant="ghost"
-            size="icon"
-            aria-label="Applications"
-          >
-            <SquareMenu className="h-5 w-5" />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  className="hidden cursor-pointer sm:inline-flex"
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Documentations"
+                />
+              }
+            >
+              <SquareMenu className="h-5 w-5" />
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Documentations</TooltipContent>
+          </Tooltip>
 
           {/* Drop down menu */}
           <UserMenu />

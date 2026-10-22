@@ -12,6 +12,7 @@ import {
 import { authClient } from "@/lib/authClient";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
 
 export const UserMenu = () => {
   const navigate = useNavigate();
@@ -34,11 +35,19 @@ export const UserMenu = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <button
-          type="button"
-          className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
-          aria-label="Open user menu"
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <DropdownMenuTrigger
+              render={
+                <button
+                  type="button"
+                  className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
+                  aria-label="Open user menu"
+                />
+              }
+            />
+          }
         >
           {isLoggingOut ? (
             <div className="flex h-8 w-8 items-center justify-center">
@@ -50,8 +59,9 @@ export const UserMenu = () => {
               <AvatarFallback>AP</AvatarFallback>
             </Avatar>
           )}
-        </button>
-      </DropdownMenuTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">Open user menu</TooltipContent>
+      </Tooltip>
 
       <DropdownMenuContent align="end" sideOffset={8} className="w-52">
         <DropdownMenuGroup>
