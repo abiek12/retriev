@@ -155,7 +155,6 @@ The frontend and backend are developed independently while sharing common contra
 
 <img width="1288" height="838" alt="image" src="https://github.com/user-attachments/assets/4be2ad19-b9cd-41fd-9792-0af4d9547177" />
 
-
 ````
 
 The architecture will evolve as the project develops.
