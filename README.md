@@ -153,7 +153,8 @@ The frontend and backend are developed independently while sharing common contra
 
 ## Database Design
 
-<img width="1345" height="698" alt="image" src="https://github.com/user-attachments/assets/d9821470-af94-4f89-be35-11f03d140752" />
+<img width="1288" height="838" alt="image" src="https://github.com/user-attachments/assets/4be2ad19-b9cd-41fd-9792-0af4d9547177" />
+
 
 ````
 
