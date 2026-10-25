@@ -1,4 +1,4 @@
-import { index, pgTable, uuid, varchar } from "drizzle-orm/pg-core";
+import { index, pgTable, text, uuid, varchar } from "drizzle-orm/pg-core";
 import {
   auditColumns,
   knowledgeBaseStatusEnum,
@@ -17,6 +17,7 @@ export const knowledgeBase = pgTable(
     title: varchar("title").notNull(),
     description: varchar("description"),
     status: knowledgeBaseStatusEnum("status").default("queued").notNull(),
+    errorMessage: text("error_message"),
     ...auditColumns,
   },
   (table) => [index("knowledge_bases_user_id_idx").on(table.userId)],

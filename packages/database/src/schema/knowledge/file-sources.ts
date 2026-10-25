@@ -1,4 +1,4 @@
-import { bigint, pgTable, uuid, varchar } from "drizzle-orm/pg-core";
+import { bigint, pgTable, text, uuid, varchar } from "drizzle-orm/pg-core";
 import { auditColumns } from "../common/audit";
 import { knowledgeBase } from "./knowledge-bases";
 
@@ -10,9 +10,10 @@ export const fileSource = pgTable("file_sources", {
     .references(() => knowledgeBase.id, {
       onDelete: "cascade",
     }),
-  fileName: varchar("file_name").notNull(),
+  fileName: varchar("file_name"),
   storageUrl: varchar("storage_url").notNull(),
-  mimeType: varchar("mime_type").notNull(),
-  sizeBytes: bigint("size_bytes", { mode: "number" }).notNull(),
+  mimeType: varchar("mime_type"),
+  sizeBytes: bigint("size_bytes", { mode: "number" }),
+  sourceUrl: text("source_url"),
   ...auditColumns,
 });

@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const knowledgeTypeSchema = z.enum(["text", "file", "url"]);
+export const knowledgeTypeSchema = z.enum(["text", "file"]);
 export const knowledgeStatusSchema = z.enum([
   "uploading",
   "queued",
@@ -63,13 +63,10 @@ export const getKnowledgeResponseSchema = z.discriminatedUnion("type", [
   }),
   knowledgeResponseSchema.extend({
     type: z.literal("file"),
-    fileName: z.string(),
-    mimeType: knowledgeFileMimeTypeSchema,
-    sizeBytes: z.number().int().positive(),
-  }),
-  knowledgeResponseSchema.extend({
-    type: z.literal("url"),
-    url: knowledgeUrlSchema,
+    fileName: z.string().nullable(),
+    mimeType: knowledgeFileMimeTypeSchema.nullable(),
+    sizeBytes: z.number().int().positive().nullable(),
+    sourceUrl: knowledgeUrlSchema.nullable(),
   }),
 ]);
 

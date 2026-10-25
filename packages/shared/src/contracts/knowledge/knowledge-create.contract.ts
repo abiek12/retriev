@@ -55,13 +55,19 @@ export const knowledgeUploadSchema = z.object({
   expiresAt: z.string().datetime(),
 });
 
-export const createKnowledgeResponseSchema = z.discriminatedUnion("type", [
+// URL imports are file sources; only local uploads receive an upload URL.
+export const createKnowledgeResponseSchema = z.union([
   knowledgeResponseSchema.extend({ type: z.literal("text") }),
   knowledgeResponseSchema.extend({
     type: z.literal("file"),
+    sourceUrl: z.null(),
     upload: knowledgeUploadSchema,
   }),
-  knowledgeResponseSchema.extend({ type: z.literal("url") }),
+  knowledgeResponseSchema.extend({
+    type: z.literal("file"),
+    sourceUrl: knowledgeUrlSchema,
+    upload: z.never().optional(),
+  }),
 ]);
 
 export type CreateKnowledgeRequestDto = z.infer<
