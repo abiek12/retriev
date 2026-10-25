@@ -2,27 +2,19 @@ import z from "zod";
 import { agentStatusSchema } from "../../types/enums/agent.enum";
 import { agentResponseSchema } from "./agent.contract";
 import { apiResponseSchema } from "../api";
+import {
+  createPaginatedResponseSchema,
+  paginationRequestSchema,
+} from "../common";
 
-export const agentListRequestSchema = z.object({
-  page: z.coerce.number().int().min(1).default(1),
-
-  limit: z.coerce.number().int().min(1).max(100).default(20),
-
+export const agentListRequestSchema = paginationRequestSchema.extend({
   search: z.string().trim().min(1).optional(),
 
   status: agentStatusSchema.optional(),
 });
 
-export const agentListResponseSchema = z.object({
-  data: z.array(agentResponseSchema),
-
-  pagination: z.object({
-    page: z.number().int(),
-    limit: z.number().int(),
-    total: z.number().int(),
-    totalPages: z.number().int(),
-  }),
-});
+export const agentListResponseSchema =
+  createPaginatedResponseSchema(agentResponseSchema);
 
 export const getAgentListResponseSchema = apiResponseSchema(
   agentListResponseSchema,
