@@ -1,8 +1,7 @@
 import z from "zod";
 
 export const knowledgeTypeSchema = z.enum(["text", "file", "url"]);
-export const knowledgeStatusSchema = z.enum(["active", "inactive"]);
-export const knowledgeProcessingStatusSchema = z.enum([
+export const knowledgeStatusSchema = z.enum([
   "uploading",
   "queued",
   "processing",
@@ -52,7 +51,6 @@ export const knowledgeResponseSchema = z.object({
   description: z.string().nullable(),
   type: knowledgeTypeSchema,
   status: knowledgeStatusSchema,
-  processingStatus: knowledgeProcessingStatusSchema,
   errorMessage: z.string().nullable(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),

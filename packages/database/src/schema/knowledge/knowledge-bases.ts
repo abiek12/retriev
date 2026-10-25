@@ -16,7 +16,7 @@ export const knowledgeBase = pgTable(
     type: knowledgeBaseTypeEnum("type").default("text").notNull(),
     title: varchar("title").notNull(),
     description: varchar("description"),
-    status: knowledgeBaseStatusEnum("status").default("active").notNull(),
+    status: knowledgeBaseStatusEnum("status").default("queued").notNull(),
     ...auditColumns,
   },
   (table) => [index("knowledge_bases_user_id_idx").on(table.userId)],

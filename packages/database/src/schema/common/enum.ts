@@ -32,8 +32,11 @@ export const knowledgeBaseTypeEnum = pgEnum("knowledge_base_type", [
   "youtube_video",
 ]);
 export const knowledgeBaseStatusEnum = pgEnum("knowledge_base_status", [
-  "active",
-  "inactive",
+  "uploading",
+  "queued",
+  "processing",
+  "ready",
+  "failed",
 ]);
 export const conversationStatusEnum = pgEnum("conversation_status", [
   "active",

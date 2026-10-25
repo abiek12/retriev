@@ -4,7 +4,6 @@ import {
   paginationRequestSchema,
 } from "../common";
 import {
-  knowledgeProcessingStatusSchema,
   knowledgeResponseSchema,
   knowledgeStatusSchema,
   knowledgeTypeSchema,
@@ -14,7 +13,6 @@ export const knowledgeListRequestSchema = paginationRequestSchema.extend({
   search: z.string().trim().min(1).max(100).optional(),
   type: knowledgeTypeSchema.optional(),
   status: knowledgeStatusSchema.optional(),
-  processingStatus: knowledgeProcessingStatusSchema.optional(),
 });
 
 export const knowledgeListResponseSchema = createPaginatedResponseSchema(
