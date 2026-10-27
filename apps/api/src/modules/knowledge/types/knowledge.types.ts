@@ -1,12 +1,13 @@
 import { knowledgeBase, textSource } from "@repo/database";
-import { InferSelectModel } from "drizzle-orm";
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 export type Knowledge = InferSelectModel<typeof knowledgeBase>;
-export type NewTextSource = InferSelectModel<typeof textSource>;
+type NewKnowledge = InferInsertModel<typeof knowledgeBase>;
+type NewTextSource = InferInsertModel<typeof textSource>;
 
-export type NewTextKnowledge = Pick<Knowledge, "title" | "description"> &
+export type NewTextKnowledge = Pick<NewKnowledge, "title" | "description"> &
   Pick<NewTextSource, "content">;
-export type UpdateKnowledge = Partial<InferSelectModel<typeof knowledgeBase>>;
+export type UpdateKnowledge = Partial<InferInsertModel<typeof knowledgeBase>>;
 
 export type KnowledgeListResult = {
   records: Knowledge[];
