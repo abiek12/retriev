@@ -81,20 +81,3 @@ export type DeleteKnowledgeRequestDto = z.infer<
 export type DeleteKnowledgeResponseDto = z.infer<
   typeof deleteKnowledgeResponseSchema
 >;
-
-// Compatibility for the existing indexing endpoints until the worker replaces them.
-/** @deprecated Use createKnowledgeRequestSchema for new knowledge sources. */
-export const indexKnowledgeSourceSchema = z.discriminatedUnion("type", [
-  z.object({ type: z.literal("text"), text: z.string().min(5) }),
-  z.object({ type: z.literal("file"), filePath: z.string().min(1) }),
-]);
-
-/** @deprecated Used only by the existing indexing endpoints. */
-export type IndexKnowledgeSourceRequest = z.infer<
-  typeof indexKnowledgeSourceSchema
->;
-
-/** @deprecated Use createKnowledgeRequestSchema for new knowledge sources. */
-export const indexDocumentSchema = indexKnowledgeSourceSchema;
-/** @deprecated Used only by the existing indexing endpoints. */
-export type IndexDocumentRequest = IndexKnowledgeSourceRequest;
