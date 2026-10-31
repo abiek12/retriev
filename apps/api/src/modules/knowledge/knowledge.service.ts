@@ -211,11 +211,23 @@ class KnowledgeService
     id: string,
     userId: string,
   ): Promise<DeleteKnowledgeResponseDto> => {
-    void id;
-    void userId;
-    throw new HTTPException(503, {
-      message: "Not implemented yet",
-    });
+    const deletedRecord = await this.repository.deleteById(id, userId);
+
+    if (!deletedRecord) {
+      throw new HTTPException(404, { message: "Knowledge not found!" });
+    }
+
+    const targetCachePattern = createCacheKey("knowledge", userId, "*");
+    try {
+      await this.cacheProvider.deleteByPattern(targetCachePattern);
+    } catch (error) {
+      logger.error(error, "Failed to invalidate knowledge cache");
+      throw new HTTPException(500, {
+        message: "Error while invalidating knowledge cache!",
+      });
+    }
+
+    return null;
   };
 
   completeFileUpload = async (id: string, userId: string): Promise<void> => {
