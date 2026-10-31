@@ -9,11 +9,12 @@ import {
   UpdateKnowledgeResponseDto,
 } from "@repo/shared";
 import { BaseService } from "../../core/services";
-import { IKnowledgeRepository, IKnowledgeService } from "./types";
+import { IKnowledgeRepository, IKnowledgeService, Knowledge } from "./types";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "@/common/utils";
 import { ICacheProvider } from "@/infrastructure/cache/types/cache.interface";
 import { createCacheKey } from "@/common/utils/cache-key.util";
+import { CACHE_LIST_API_TTL } from "@/common/constants/app.constants";
 
 class KnowledgeService
   extends BaseService<IKnowledgeRepository>
@@ -99,12 +100,46 @@ class KnowledgeService
     userId: string,
     query: KnowledgeListRequestDto,
   ): Promise<KnowledgeListResponseDto> => {
-    void userId;
-    void query;
+    // 1. Prepare cache key
+    const cacheParts = [String(query.page), String(query.limit)];
+    if (query.search) cacheParts.push(`search:${query.search}`);
+    if (query.status) cacheParts.push(`status:${query.status}`);
+    if (query.type) cacheParts.push(`type:${query.type}`);
 
-    throw new HTTPException(503, {
-      message: "Not implemented yet",
+    const cacheKey = createCacheKey(
+      "knowledge",
+      userId,
+      "lists",
+      ...cacheParts,
+    );
+
+    // 2. Cache check
+    const cached =
+      await this.cacheProvider.get<KnowledgeListResponseDto>(cacheKey);
+    if (cached) return cached;
+
+    // 3. Fetch data
+    const { records, total } = await this.repository.findMany(userId, query);
+
+    // 4. Format
+    const data: KnowledgeResponseDto[] = records.map(this.toResponseDto);
+    const responseData: KnowledgeListResponseDto = {
+      data,
+      pagination: {
+        page: query.page,
+        limit: query.limit,
+        total,
+        totalPages: Math.ceil(total / query.limit),
+      },
+    };
+
+    // 5. Update cache
+    await this.cacheProvider.set(cacheKey, responseData, {
+      ttl: CACHE_LIST_API_TTL,
     });
+
+    // 6. Return response
+    return responseData;
   };
 
   getById = async (
@@ -149,6 +184,18 @@ class KnowledgeService
       message: "Not implemented yet",
     });
   };
+
+  // Private methods
+  private toResponseDto = (record: Knowledge): KnowledgeResponseDto => ({
+    id: record.id,
+    title: record.title,
+    type: record.type,
+    description: record.description,
+    status: record.status,
+    errorMessage: record.errorMessage,
+    createdAt: record.createdAt.toDateString(),
+    updatedAt: record.updatedAt.toDateString(),
+  });
 }
 
 export default KnowledgeService;

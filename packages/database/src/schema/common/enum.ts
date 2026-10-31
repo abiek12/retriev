@@ -28,8 +28,6 @@ export const agentStatusEnum = pgEnum("agent_status", ["active", "inactive"]);
 export const knowledgeBaseTypeEnum = pgEnum("knowledge_base_type", [
   "text",
   "file",
-  "web",
-  "youtube_video",
 ]);
 export const knowledgeBaseStatusEnum = pgEnum("knowledge_base_status", [
   "uploading",
