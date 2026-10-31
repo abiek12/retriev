@@ -123,8 +123,8 @@ class KnowledgeRepository
   };
 
   updateById = async (
-    userId: string,
     id: string,
+    userId: string,
     payload: UpdateKnowledge,
   ): Promise<Knowledge | null> => {
     const [record] = await this.db
@@ -137,8 +137,8 @@ class KnowledgeRepository
   };
 
   deleteById = async (
-    userId: string,
     id: string,
+    userId: string,
   ): Promise<Pick<Knowledge, "id"> | null> => {
     const [record] = await this.db
       .delete(knowledgeBase)

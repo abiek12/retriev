@@ -19,14 +19,14 @@ export interface IKnowledgeRepository extends IBaseRepository {
   findById: (userId: string, id: string) => Promise<KnowledgeDetails | null>;
 
   updateById: (
-    userId: string,
     id: string,
+    userId: string,
     payload: UpdateKnowledge,
   ) => Promise<Knowledge | null>;
 
   deleteById: (
-    userId: string,
     id: string,
+    userId: string,
   ) => Promise<Pick<Knowledge, "id"> | null>;
 
   markFailed: (

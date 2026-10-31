@@ -186,12 +186,25 @@ class KnowledgeService
     userId: string,
     payload: UpdateKnowledgeRequestDto,
   ): Promise<UpdateKnowledgeResponseDto> => {
-    void id;
-    void userId;
-    void payload;
-    throw new HTTPException(503, {
-      message: "Not implemented yet",
-    });
+    // 1. Check if exist and update
+    const record = await this.repository.updateById(id, userId, payload);
+
+    if (!record)
+      throw new HTTPException(404, { message: "Knowledge not found!" });
+
+    // 2. Invalidate cache
+    const targetCachePattern = createCacheKey("knowledge", userId, "*");
+    try {
+      await this.cacheProvider.deleteByPattern(targetCachePattern);
+    } catch (error) {
+      logger.error(error, "Failed to invalidate agent cache");
+      throw new HTTPException(500, {
+        message: "Error while invalidate cache!",
+      });
+    }
+
+    // 3. Return
+    return record;
   };
 
   delete = async (
