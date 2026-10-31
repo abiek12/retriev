@@ -14,16 +14,16 @@ class KnowledgeController {
     const userId: string = c.get("userId");
     const payload: CreateKnowledgeRequestDto = await c.req.json();
 
-    const result = await this.knowledgeService.create(userId, payload);
+    const res = await this.knowledgeService.create(userId, payload);
 
-    return c.json(ApiResponse.success(result), 201);
+    return c.json(ApiResponse.success(res));
   };
 
   list = async (c: Context, query: KnowledgeListRequestDto) => {
     const userId = c.get("userId");
-    const result = await this.knowledgeService.list(userId, query);
+    const res = await this.knowledgeService.list(userId, query);
 
-    return c.json(ApiResponse.success(result));
+    return c.json(ApiResponse.success(res));
   };
 
   getById = async (c: Context) => {
@@ -34,9 +34,9 @@ class KnowledgeController {
       throw new Error("Knowledge base ID is required");
     }
 
-    const result = await this.knowledgeService.getById(id, userId);
+    const agent = await this.knowledgeService.getById(id, userId);
 
-    return c.json(ApiResponse.success(result));
+    return c.json(ApiResponse.success(agent));
   };
 
   update = async (c: Context) => {
@@ -45,18 +45,18 @@ class KnowledgeController {
     const payload = await c.req.json();
 
     if (!id) {
-      throw new Error("Knowledge base ID is required");
+      throw new Error("Agent ID is required");
     }
 
     const validatedPayload = updateKnowledgeRequestSchema.parse(payload);
 
-    const result = await this.knowledgeService.update(
+    const agent = await this.knowledgeService.update(
       id,
       userId,
       validatedPayload,
     );
 
-    return c.json(ApiResponse.success(result));
+    return c.json(ApiResponse.success(agent));
   };
 
   delete = async (c: Context) => {
@@ -77,11 +77,7 @@ class KnowledgeController {
     const userId = c.get("userId");
     const id = c.req.param("id");
 
-    if (!id) {
-      throw new Error("Knowledge base Id is required!");
-    }
-
-    const result = await this.knowledgeService.completeFileUpload(id, userId);
+    const result = await this.knowledgeService.completeFileUpload(userId, id);
 
     return c.json(ApiResponse.success(result), 202);
   };

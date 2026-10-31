@@ -15,12 +15,15 @@ class KnowledgeRepository
   extends BaseRepository
   implements IKnowledgeRepository
 {
-  createText = async (payload: NewTextKnowledge): Promise<Knowledge> => {
+  createText = async (
+    userId: string,
+    payload: NewTextKnowledge,
+  ): Promise<Knowledge> => {
     return this.database.transaction(async (tx) => {
       const [newKnowledgeBase] = await tx
         .insert(knowledgeBase)
         .values({
-          userId: payload.userId,
+          userId,
           title: payload.title,
           description: payload.description,
           type: "text",
