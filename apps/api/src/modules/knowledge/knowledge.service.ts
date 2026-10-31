@@ -2,6 +2,7 @@ import {
   CreateKnowledgeRequestDto,
   CreateKnowledgeResponseDto,
   DeleteKnowledgeResponseDto,
+  GetKnowledgeResponseDto,
   KnowledgeListRequestDto,
   KnowledgeListResponseDto,
   KnowledgeResponseDto,
@@ -9,12 +10,20 @@ import {
   UpdateKnowledgeResponseDto,
 } from "@repo/shared";
 import { BaseService } from "../../core/services";
-import { IKnowledgeRepository, IKnowledgeService, Knowledge } from "./types";
+import {
+  IKnowledgeRepository,
+  IKnowledgeService,
+  Knowledge,
+  KnowledgeDetails,
+} from "./types";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "@/common/utils";
 import { ICacheProvider } from "@/infrastructure/cache/types/cache.interface";
 import { createCacheKey } from "@/common/utils/cache-key.util";
-import { CACHE_LIST_API_TTL } from "@/common/constants/app.constants";
+import {
+  CACHE_DETAIL_API_TTL,
+  CACHE_LIST_API_TTL,
+} from "@/common/constants/app.constants";
 
 class KnowledgeService
   extends BaseService<IKnowledgeRepository>
@@ -118,11 +127,11 @@ class KnowledgeService
       await this.cacheProvider.get<KnowledgeListResponseDto>(cacheKey);
     if (cached) return cached;
 
-    // 3. Fetch data
+    // 3. Fetch data from db
     const { records, total } = await this.repository.findMany(userId, query);
 
-    // 4. Format
-    const data: KnowledgeResponseDto[] = records.map(this.toResponseDto);
+    // 4. Prepare returning response data
+    const data: KnowledgeResponseDto[] = records.map(this.toListResponseDto);
     const responseData: KnowledgeListResponseDto = {
       data,
       pagination: {
@@ -145,12 +154,31 @@ class KnowledgeService
   getById = async (
     id: string,
     userId: string,
-  ): Promise<KnowledgeResponseDto> => {
-    void id;
-    void userId;
-    throw new HTTPException(503, {
-      message: "Not implemented yet",
+  ): Promise<GetKnowledgeResponseDto> => {
+    // 1. Prepare cache keys parts
+    const cacheKey = createCacheKey("knowledge", userId, "detail", id);
+
+    // 2. Cache check
+    const cached =
+      await this.cacheProvider.get<GetKnowledgeResponseDto>(cacheKey);
+    if (cached) return cached;
+
+    // 3. Fetch data from db
+    const record = await this.repository.findById(userId, id);
+
+    if (!record)
+      throw new HTTPException(404, { message: "Knowledge not found!" });
+
+    // 4. Prepare returning response data
+    const responseData = this.toDetailResponseDto(record);
+
+    // 5. Update cache
+    await this.cacheProvider.set(cacheKey, responseData, {
+      ttl: CACHE_DETAIL_API_TTL,
     });
+
+    // 6. Return
+    return responseData;
   };
 
   update = async (
@@ -186,7 +214,7 @@ class KnowledgeService
   };
 
   // Private methods
-  private toResponseDto = (record: Knowledge): KnowledgeResponseDto => ({
+  private toListResponseDto = (record: Knowledge): KnowledgeResponseDto => ({
     id: record.id,
     title: record.title,
     type: record.type,
@@ -196,6 +224,46 @@ class KnowledgeService
     createdAt: record.createdAt.toDateString(),
     updatedAt: record.updatedAt.toDateString(),
   });
+
+  private toDetailResponseDto = (
+    record: KnowledgeDetails,
+  ): GetKnowledgeResponseDto => {
+    const baseResponse = {
+      id: record.knowledge.id,
+      title: record.knowledge.title,
+      description: record.knowledge.description,
+      status: record.knowledge.status,
+      errorMessage: record.knowledge.errorMessage,
+      createdAt: record.knowledge.createdAt.toISOString(),
+      updatedAt: record.knowledge.updatedAt.toISOString(),
+    };
+
+    if (record.type === "text") {
+      return {
+        ...baseResponse,
+        type: "text",
+        content: record.source.content,
+      };
+    }
+
+    const mimeType = record.source.mimeType;
+    if (
+      mimeType !== null &&
+      mimeType !== "application/pdf" &&
+      mimeType !== "text/plain"
+    ) {
+      throw new Error(`Unsupported file MIME type: ${mimeType}`);
+    }
+
+    return {
+      ...baseResponse,
+      type: "file",
+      fileName: record.source.fileName,
+      mimeType,
+      sizeBytes: record.source.sizeBytes,
+      sourceUrl: record.source.sourceUrl,
+    };
+  };
 }
 
 export default KnowledgeService;

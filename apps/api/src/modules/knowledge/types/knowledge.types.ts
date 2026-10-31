@@ -18,8 +18,14 @@ export type KnowledgeListResult = {
   total: number;
 };
 
-export type KnowledgeDetails = {
-  knowledge: Knowledge;
-  textSource: TextSource | null;
-  fileSource: FileSource | null;
-};
+export type KnowledgeDetails =
+  | {
+      type: "text";
+      knowledge: Knowledge;
+      source: TextSource;
+    }
+  | {
+      type: "file";
+      knowledge: Knowledge;
+      source: FileSource;
+    };

@@ -2,9 +2,9 @@ import {
   CreateKnowledgeRequestDto,
   CreateKnowledgeResponseDto,
   DeleteKnowledgeResponseDto,
+  GetKnowledgeResponseDto,
   KnowledgeListRequestDto,
   KnowledgeListResponseDto,
-  KnowledgeResponseDto,
   UpdateKnowledgeRequestDto,
   UpdateKnowledgeResponseDto,
 } from "@repo/shared";
@@ -21,7 +21,7 @@ export interface IKnowledgeService extends IBaseService {
     query: KnowledgeListRequestDto,
   ): Promise<KnowledgeListResponseDto>;
 
-  getById(id: string, userId: string): Promise<KnowledgeResponseDto>;
+  getById(id: string, userId: string): Promise<GetKnowledgeResponseDto>;
 
   update(
     id: string,

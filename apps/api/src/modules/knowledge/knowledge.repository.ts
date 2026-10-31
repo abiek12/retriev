@@ -81,19 +81,45 @@ class KnowledgeRepository
     userId: string,
     id: string,
   ): Promise<KnowledgeDetails | null> => {
-    const [record] = await this.database
-      .select({
-        knowledge: knowledgeBase,
-        textSource,
-        fileSource,
-      })
+    const [knowledge] = await this.database
+      .select()
       .from(knowledgeBase)
-      .leftJoin(textSource, eq(textSource.knowledgeBaseId, knowledgeBase.id))
-      .leftJoin(fileSource, eq(fileSource.knowledgeBaseId, knowledgeBase.id))
       .where(and(eq(knowledgeBase.id, id), eq(knowledgeBase.userId, userId)))
       .limit(1);
 
-    return record ?? null;
+    if (!knowledge) {
+      return null;
+    }
+
+    switch (knowledge.type) {
+      case "text": {
+        const [source] = await this.database
+          .select()
+          .from(textSource)
+          .where(eq(textSource.knowledgeBaseId, knowledge.id))
+          .limit(1);
+
+        if (!source) {
+          throw new Error(`Text source is missing for knowledge base ${id}`);
+        }
+
+        return { type: "text", knowledge, source };
+      }
+
+      case "file": {
+        const [source] = await this.database
+          .select()
+          .from(fileSource)
+          .where(eq(fileSource.knowledgeBaseId, knowledge.id))
+          .limit(1);
+
+        if (!source) {
+          throw new Error(`File source is missing for knowledge base ${id}`);
+        }
+
+        return { type: "file", knowledge, source };
+      }
+    }
   };
 
   updateById = async (
