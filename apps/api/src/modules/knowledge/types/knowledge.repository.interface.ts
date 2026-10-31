@@ -9,7 +9,7 @@ import {
 } from "./knowledge.types";
 
 export interface IKnowledgeRepository extends IBaseRepository {
-  createText: (userId: string, payload: NewTextKnowledge) => Promise<Knowledge>;
+  createText: (payload: NewTextKnowledge) => Promise<Knowledge>;
 
   findMany: (
     userId: string,
@@ -27,5 +27,11 @@ export interface IKnowledgeRepository extends IBaseRepository {
   deleteById: (
     userId: string,
     id: string,
+  ) => Promise<Pick<Knowledge, "id"> | null>;
+
+  markFailed: (
+    id: string,
+    userId: string,
+    errorMessage: string,
   ) => Promise<Pick<Knowledge, "id"> | null>;
 }

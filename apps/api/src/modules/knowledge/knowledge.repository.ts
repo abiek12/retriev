@@ -15,15 +15,12 @@ class KnowledgeRepository
   extends BaseRepository
   implements IKnowledgeRepository
 {
-  createText = async (
-    userId: string,
-    payload: NewTextKnowledge,
-  ): Promise<Knowledge> => {
+  createText = async (payload: NewTextKnowledge): Promise<Knowledge> => {
     return this.database.transaction(async (tx) => {
       const [newKnowledgeBase] = await tx
         .insert(knowledgeBase)
         .values({
-          userId,
+          userId: payload.userId,
           title: payload.title,
           description: payload.description,
           type: "text",
@@ -119,6 +116,23 @@ class KnowledgeRepository
   ): Promise<Pick<Knowledge, "id"> | null> => {
     const [record] = await this.db
       .delete(knowledgeBase)
+      .where(and(eq(knowledgeBase.id, id), eq(knowledgeBase.userId, userId)))
+      .returning({ id: knowledgeBase.id });
+
+    return record ?? null;
+  };
+
+  markFailed = async (
+    id: string,
+    userId: string,
+    errorMessage: string,
+  ): Promise<Pick<Knowledge, "id"> | null> => {
+    const [record] = await this.db
+      .update(knowledgeBase)
+      .set({
+        errorMessage,
+        status: "failed",
+      })
       .where(and(eq(knowledgeBase.id, id), eq(knowledgeBase.userId, userId)))
       .returning({ id: knowledgeBase.id });
 

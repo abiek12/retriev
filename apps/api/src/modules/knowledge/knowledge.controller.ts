@@ -14,16 +14,16 @@ class KnowledgeController {
     const userId: string = c.get("userId");
     const payload: CreateKnowledgeRequestDto = await c.req.json();
 
-    const res = await this.knowledgeService.create(userId, payload);
+    const result = await this.knowledgeService.create(userId, payload);
 
-    return c.json(ApiResponse.success(res));
+    return c.json(ApiResponse.success(result));
   };
 
   list = async (c: Context, query: KnowledgeListRequestDto) => {
     const userId = c.get("userId");
-    const res = await this.knowledgeService.list(userId, query);
+    const result = await this.knowledgeService.list(userId, query);
 
-    return c.json(ApiResponse.success(res));
+    return c.json(ApiResponse.success(result));
   };
 
   getById = async (c: Context) => {
@@ -34,9 +34,9 @@ class KnowledgeController {
       throw new Error("Knowledge base ID is required");
     }
 
-    const agent = await this.knowledgeService.getById(id, userId);
+    const result = await this.knowledgeService.getById(id, userId);
 
-    return c.json(ApiResponse.success(agent));
+    return c.json(ApiResponse.success(result));
   };
 
   update = async (c: Context) => {
@@ -50,13 +50,13 @@ class KnowledgeController {
 
     const validatedPayload = updateKnowledgeRequestSchema.parse(payload);
 
-    const agent = await this.knowledgeService.update(
+    const result = await this.knowledgeService.update(
       id,
       userId,
       validatedPayload,
     );
 
-    return c.json(ApiResponse.success(agent));
+    return c.json(ApiResponse.success(result));
   };
 
   delete = async (c: Context) => {
@@ -77,7 +77,11 @@ class KnowledgeController {
     const userId = c.get("userId");
     const id = c.req.param("id");
 
-    const result = await this.knowledgeService.completeFileUpload(userId, id);
+    if (!id) {
+      throw new Error("Knowledge base Id is required!");
+    }
+
+    const result = await this.knowledgeService.completeFileUpload(id, userId);
 
     return c.json(ApiResponse.success(result), 202);
   };
