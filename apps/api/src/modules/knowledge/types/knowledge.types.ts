@@ -7,8 +7,12 @@ type NewTextSource = InferInsertModel<typeof textSource>;
 type TextSource = InferSelectModel<typeof textSource>;
 type FileSource = InferSelectModel<typeof fileSource>;
 
-export type NewTextKnowledge = Pick<NewKnowledge, "title" | "description"> &
+export type NewTextKnowledge = Pick<
+  NewKnowledge,
+  "userId" | "title" | "description"
+> &
   Pick<NewTextSource, "content">;
+
 export type UpdateKnowledge = Partial<
   Pick<NewKnowledge, "title" | "description">
 >;

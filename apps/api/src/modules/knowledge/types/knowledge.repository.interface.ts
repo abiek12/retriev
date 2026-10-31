@@ -9,7 +9,7 @@ import {
 } from "./knowledge.types";
 
 export interface IKnowledgeRepository extends IBaseRepository {
-  createText: (userId: string, payload: NewTextKnowledge) => Promise<Knowledge>;
+  createText: (payload: NewTextKnowledge) => Promise<Knowledge>;
 
   findMany: (
     userId: string,

@@ -8,8 +8,11 @@ import {
   updateKnowledgeRequestSchema,
 } from "@repo/shared";
 import { knowledgeController } from "./knowledge.module";
+import { authMiddlware } from "@/common/middlewares/auth.middleware";
 
 const router = new Hono();
+
+router.use("*", authMiddlware);
 
 // Create
 router.post(
