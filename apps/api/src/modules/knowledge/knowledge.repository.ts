@@ -3,6 +3,7 @@ import { BaseRepository } from "../../core/repositories";
 import type {
   IKnowledgeRepository,
   Knowledge,
+  KnowledgeBaseStatus,
   KnowledgeDetails,
   KnowledgeListResult,
   NewTextKnowledge,
@@ -78,8 +79,8 @@ class KnowledgeRepository
   };
 
   findById = async (
-    userId: string,
     id: string,
+    userId: string,
   ): Promise<KnowledgeDetails | null> => {
     const [knowledge] = await this.database
       .select()
@@ -148,16 +149,17 @@ class KnowledgeRepository
     return record ?? null;
   };
 
-  markFailed = async (
+  updateStatus = async (
     id: string,
     userId: string,
-    errorMessage: string,
+    status: KnowledgeBaseStatus,
+    message?: string,
   ): Promise<Pick<Knowledge, "id"> | null> => {
     const [record] = await this.db
       .update(knowledgeBase)
       .set({
-        errorMessage,
-        status: "failed",
+        status,
+        errorMessage: message ?? "",
       })
       .where(and(eq(knowledgeBase.id, id), eq(knowledgeBase.userId, userId)))
       .returning({ id: knowledgeBase.id });

@@ -58,11 +58,13 @@ export const knowledgeUploadSchema = z.object({
 // URL imports are file sources; only local uploads receive an upload URL.
 export const createKnowledgeResponseSchema = z.union([
   knowledgeResponseSchema.extend({ type: z.literal("text") }),
+  // File upload
   knowledgeResponseSchema.extend({
     type: z.literal("file"),
     sourceUrl: z.null(),
     upload: knowledgeUploadSchema,
   }),
+  // External url
   knowledgeResponseSchema.extend({
     type: z.literal("file"),
     sourceUrl: knowledgeUrlSchema,

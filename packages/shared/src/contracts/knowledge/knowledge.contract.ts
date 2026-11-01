@@ -18,10 +18,9 @@ export const MAX_KNOWLEDGE_FILE_SIZE_BYTES = 10 * 1024 * 1024;
 export const MAX_KNOWLEDGE_TEXT_LENGTH = 1_000_000;
 
 export const knowledgeUrlSchema = z
-  .string()
+  .url()
   .trim()
   .max(8192)
-  .url()
   .refine((value) => {
     try {
       const url = new URL(value);

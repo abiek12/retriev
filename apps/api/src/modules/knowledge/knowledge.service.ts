@@ -90,9 +90,10 @@ class KnowledgeService
       // publish message
     } catch (error) {
       // Failed to queue knowledge for processing
-      await this.repository.markFailed(
+      await this.repository.updateStatus(
         returnData.id,
         userId,
+        "failed",
         "Failed to queue knowledge for processing",
       );
       logger.error(error, "Failed to publish message queue");
@@ -230,12 +231,54 @@ class KnowledgeService
     return null;
   };
 
-  completeFileUpload = async (id: string, userId: string): Promise<void> => {
-    void id;
-    void userId;
-    throw new HTTPException(503, {
-      message: "Not implemented yet",
-    });
+  completeFileUpload = async (
+    id: string,
+    userId: string,
+  ): Promise<{ id: string }> => {
+    // 1. Verify the knowledge-base
+    const knowledgeBase = await this.repository.findById(id, userId);
+    if (!knowledgeBase)
+      throw new HTTPException(404, { message: "Knowledge not found!" });
+
+    // 2. Verify the file in object storage, file size and mime type
+    try {
+      // object storate call
+    } catch (error) {
+      logger.error(error, "Failed to verify file from object storage");
+      throw new HTTPException(500, {
+        message: "Error while verifying file from object storage!",
+      });
+    }
+
+    // 3. Publish into message queue
+    try {
+      // publish message
+    } catch (error) {
+      // Failed to queue knowledge for processing
+      await this.repository.updateStatus(
+        knowledgeBase.knowledge.id,
+        userId,
+        "failed",
+        "Failed to queue knowledge for processing",
+      );
+      logger.error(error, "Failed to publish message queue");
+      throw new HTTPException(503, {
+        message: "Knowledge was created but could not be queued",
+      });
+    }
+
+    // 4. Mark the knowledge status into queued if successfully published otherwise failed.
+    await this.repository.updateStatus(
+      knowledgeBase.knowledge.id,
+      userId,
+      "queued",
+      "Successfully published in to message queue!",
+    );
+
+    // 5. Return
+    return {
+      id: knowledgeBase.knowledge.id,
+    };
   };
 
   // Private methods

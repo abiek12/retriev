@@ -31,5 +31,5 @@ export interface IKnowledgeService extends IBaseService {
 
   delete(id: string, userId: string): Promise<DeleteKnowledgeResponseDto>;
 
-  completeFileUpload(id: string, userId: string): Promise<void>;
+  completeFileUpload(id: string, userId: string): Promise<{ id: string }>;
 }

@@ -2,6 +2,7 @@ import { KnowledgeListRequestDto } from "@repo/shared";
 import type { IBaseRepository } from "../../../core/repositories";
 import {
   Knowledge,
+  KnowledgeBaseStatus,
   KnowledgeDetails,
   KnowledgeListResult,
   NewTextKnowledge,
@@ -16,7 +17,7 @@ export interface IKnowledgeRepository extends IBaseRepository {
     query: KnowledgeListRequestDto,
   ) => Promise<KnowledgeListResult>;
 
-  findById: (userId: string, id: string) => Promise<KnowledgeDetails | null>;
+  findById: (id: string, userId: string) => Promise<KnowledgeDetails | null>;
 
   updateById: (
     id: string,
@@ -29,9 +30,10 @@ export interface IKnowledgeRepository extends IBaseRepository {
     userId: string,
   ) => Promise<Pick<Knowledge, "id"> | null>;
 
-  markFailed: (
+  updateStatus: (
     id: string,
     userId: string,
-    errorMessage: string,
+    status: KnowledgeBaseStatus,
+    message?: string,
   ) => Promise<Pick<Knowledge, "id"> | null>;
 }

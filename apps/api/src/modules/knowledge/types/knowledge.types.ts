@@ -1,5 +1,14 @@
-import { fileSource, knowledgeBase, textSource } from "@repo/database";
-import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import {
+  fileSource,
+  knowledgeBase,
+  knowledgeBaseStatusEnum,
+  textSource,
+} from "@repo/database";
+import type {
+  InferEnum,
+  InferInsertModel,
+  InferSelectModel,
+} from "drizzle-orm";
 
 export type Knowledge = InferSelectModel<typeof knowledgeBase>;
 type NewKnowledge = InferInsertModel<typeof knowledgeBase>;
@@ -29,3 +38,5 @@ export type KnowledgeDetails =
       knowledge: Knowledge;
       source: FileSource;
     };
+
+export type KnowledgeBaseStatus = InferEnum<typeof knowledgeBaseStatusEnum>;
