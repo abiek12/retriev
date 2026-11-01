@@ -8,8 +8,12 @@ import {
   updateKnowledgeRequestSchema,
 } from "@repo/shared";
 import { knowledgeController } from "./knowledge.module";
+import { authMiddlware } from "@/common/middlewares/auth.middleware";
 
 const router = new Hono();
+
+// Apply agent auth session middleware to all agent endpoints
+router.use("*", authMiddlware);
 
 // Create
 router.post(
