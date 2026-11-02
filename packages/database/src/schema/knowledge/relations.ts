@@ -4,7 +4,7 @@ import { agent } from "../agents";
 import { fileSource } from "./file-sources";
 import { textSource } from "./text-sources";
 import { user } from "../auth";
-import { agentKnowledgeBase } from "./agent_knowledge_bases";
+import { agentKnowledgeBase } from "./agent-knowledge-bases";
 
 export const knowledgeBasesRelations = defineRelations(
   {
