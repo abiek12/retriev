@@ -165,7 +165,7 @@ class KnowledgeService
     if (cached) return cached;
 
     // 3. Fetch data from db
-    const record = await this.repository.findById(userId, id);
+    const record = await this.repository.findById(id, userId);
 
     if (!record)
       throw new HTTPException(404, { message: "Knowledge not found!" });
