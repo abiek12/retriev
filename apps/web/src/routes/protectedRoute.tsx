@@ -3,7 +3,7 @@ import { AgentPage } from "@/features/agents/pages/AgentPage";
 import { ConversationsPage } from "@/pages/ConversationsPage";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { IntegrationsPage } from "@/pages/IntegrationsPage";
-import { KnowledgeBasePage } from "@/pages/KnowledgeBasePage";
+import { KnowledgeBasePage } from "@/features/knowledge/pages/KnowledgeBasePage";
 import { SettingsPage } from "@/features/settings/pages/SettingsPage";
 import { UsagePage } from "@/pages/UsagePage";
 import type { RouteObject } from "react-router-dom";

@@ -69,7 +69,7 @@ export const AppSidebar = ({ collapsed, onToggle }: AppSidebarProps) => {
         </>
       )}
       <aside
-        className={`${collapsed ? "relative w-16 lg:w-16 lg:px-2" : "fixed inset-y-0 left-0 z-50 w-72 lg:static lg:inset-auto lg:z-auto lg:w-64 xl:w-xs lg:px-4"} shrink-0 h-full flex flex-col bg-sidebar px-2 py-5 select-none border-r transition-[width] duration-200`}
+        className={`${collapsed ? "relative w-16 lg:w-16 lg:px-2" : "fixed inset-y-0 left-0 z-50 w-72 lg:static lg:inset-auto lg:z-auto lg:w-64 xl:w-2xs lg:px-4"} shrink-0 h-full flex flex-col bg-sidebar px-2 py-5 select-none border-r transition-[width] duration-200`}
       >
         <div
           className={`header flex items-center gap-2 w-full my-2 ${collapsed ? "justify-center" : "justify-between"}`}
