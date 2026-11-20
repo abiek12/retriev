@@ -1,6 +1,5 @@
 import { AgentResponseDto } from "@repo/shared/contracts";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import { statusStyles } from "../types";
 import {
   Tooltip,
   TooltipTrigger,
@@ -14,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { statusStyles } from "@/utils/common.types";
 
 type AgentCardProps = {
   agent: AgentResponseDto;
