@@ -1,3 +1,16 @@
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { statusStyles } from "@/utils/common.types";
 import { formatRelativeDate } from "@/utils/formatDate";
 import { KnowledgeResponseDto } from "@repo/shared/contracts";
@@ -5,9 +18,15 @@ import { knowledgeBaseTypes } from "../types";
 
 type KnowledgeProps = {
   knowledgeBase: KnowledgeResponseDto;
+  onEdit: (knowledgeBase: KnowledgeResponseDto) => void;
+  onDelete: (knowledgeBase: KnowledgeResponseDto) => void;
 };
 
-export const KnowledgeCard = ({ knowledgeBase }: KnowledgeProps) => {
+export const KnowledgeCard = ({
+  knowledgeBase,
+  onEdit,
+  onDelete,
+}: KnowledgeProps) => {
   const status = statusStyles[knowledgeBase.status];
   const knowledgeTypeAssets = knowledgeBaseTypes[knowledgeBase.type];
   const formattedDate = formatRelativeDate(knowledgeBase.updatedAt);
@@ -25,13 +44,56 @@ export const KnowledgeCard = ({ knowledgeBase }: KnowledgeProps) => {
           <span>{knowledgeTypeAssets.label}</span>
         </div>
 
-        {/* status */}
-        <div
-          className={`flex items-center justify-between gap-2 rounded-sm
-         px-2 py-0.5 text-xs ${status.bg} border ${status.border}`}
-        >
-          <span className={`size-1.5 rounded-full ${status.dot}`} />
-          <span className={`${status.text}`}>{knowledgeBase.status}</span>
+        {/* status + action */}
+        <div className="relative flex h-8 items-center">
+          <div
+            className={`flex items-center justify-between gap-2 rounded-sm
+           px-2 py-0.5 text-xs transition-transform duration-200 ease-out
+           group-hover:-translate-x-10 ${status.bg} border ${status.border}`}
+          >
+            <span className={`size-1.5 rounded-full ${status.dot}`} />
+            <span className={`${status.text}`}>{knowledgeBase.status}</span>
+          </div>
+
+          {/* Actions */}
+          <DropdownMenu>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <DropdownMenuTrigger
+                    type="button"
+                    aria-label={`Actions for ${knowledgeBase.title}`}
+                    className="absolute right-0 top-0 flex size-8 translate-x-2 cursor-pointer items-center justify-center rounded-md text-muted-foreground opacity-0 transition-all duration-200 ease-out hover:bg-surface-container-high hover:text-foreground group-hover:translate-x-0 group-hover:opacity-100 data-popup-open:translate-x-0 data-popup-open:opacity-100"
+                    onClick={(event) => event.stopPropagation()}
+                  />
+                }
+              >
+                <MoreHorizontal className="size-4" />
+                <span className="sr-only">Knowledge base actions</span>
+              </TooltipTrigger>
+              <TooltipContent>Knowledge base actions</TooltipContent>
+            </Tooltip>
+
+            <DropdownMenuContent align="end" className="w-36">
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => onEdit(knowledgeBase)}
+              >
+                <Pencil className="mr-2 size-4" />
+                Edit
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem
+                className="text-destructive focus:text-destructive cursor-pointer"
+                onClick={() => onDelete(knowledgeBase)}
+              >
+                <Trash2 className="mr-2 size-4" />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 

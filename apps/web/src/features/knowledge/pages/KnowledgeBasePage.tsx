@@ -61,6 +61,12 @@ export const KnowledgeBasePage = () => {
             <KnowledgeCard
               key={knowledgeBase.id}
               knowledgeBase={knowledgeBase}
+              onEdit={(knowledgeBase) =>
+                console.log("Edit knowledge base:", knowledgeBase.id)
+              }
+              onDelete={(knowledgeBase) =>
+                console.log("Delete knowledge base:", knowledgeBase.id)
+              }
             />
           ))}
         </div>
