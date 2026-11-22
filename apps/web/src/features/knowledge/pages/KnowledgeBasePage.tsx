@@ -53,11 +53,17 @@ export const KnowledgeBasePage = () => {
         </Tooltip>
       </div>
 
-      {/* Knowledge List */}
+      {/* Knowledge list container */}
       <div className="min-h-0 flex-1 overflow-y-auto pr-4">
-        {knowledgeBases.map((knowledgeBase) => (
-          <KnowledgeCard knowledgeBase={knowledgeBase} />
-        ))}
+        {/* Knowledge List */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {knowledgeBases.map((knowledgeBase) => (
+            <KnowledgeCard
+              key={knowledgeBase.id}
+              knowledgeBase={knowledgeBase}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Pagination */}
