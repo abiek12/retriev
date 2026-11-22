@@ -1,9 +1,30 @@
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
 import { Plus } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getKnowledgeBases } from "../api/mock-knowledge";
+import { KnowledgeResponseDto } from "@repo/shared";
+import { KnowledgeCard } from "../components/KnowledgeCard";
 
 export const KnowledgeBasePage = () => {
   // const [knowledgeModalOpen, setKnowledgeModalOpen] = useState(false);
+  const [knowledgeBases, setKnowledgeBase] = useState<KnowledgeResponseDto[]>(
+    [],
+  );
+
+  useEffect(() => {
+    const fetchKnowledgeBases = async () => {
+      const resData = await getKnowledgeBases({
+        page: 1,
+        limit: 10,
+      });
+
+      setKnowledgeBase(resData.data);
+    };
+
+    fetchKnowledgeBases();
+  }, []);
+
   return (
     <div className="">
       {/* Header */}
@@ -33,7 +54,11 @@ export const KnowledgeBasePage = () => {
       </div>
 
       {/* Knowledge List */}
-      <div className="min-h-0 flex-1 overflow-y-auto pr-4"></div>
+      <div className="min-h-0 flex-1 overflow-y-auto pr-4">
+        {knowledgeBases.map((knowledgeBase) => (
+          <KnowledgeCard knowledgeBase={knowledgeBase} />
+        ))}
+      </div>
 
       {/* Pagination */}
 

@@ -24,11 +24,11 @@ export const KnowledgeCard = ({ knowledgeBase }: KnowledgeProps) => {
 
         {/* status */}
         <div
-          className="flex item-center justify-between gap-2 rounded-sm border
-        bg-sidebar-accent px-2 py-0.5 text-xs"
+          className={`flex items-center justify-between gap-2 rounded-sm
+         px-2 py-0.5 text-xs ${status.bg} border ${status.border}`}
         >
           <span className={`size-1.5 rounded-full ${status.dot}`} />
-          <span className="text-background">{knowledgeBase.status}</span>
+          <span className={`${status.text}`}>{knowledgeBase.status}</span>
         </div>
       </div>
 

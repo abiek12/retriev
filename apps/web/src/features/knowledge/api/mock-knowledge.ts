@@ -133,8 +133,8 @@ export const getKnowledgeBases = async ({
   page,
   limit,
 }: KnowledgeListRequestDto): Promise<KnowledgeListResponseDto> => {
-  const start = 1;
-  const end = 2;
+  const start = (page - 1) * limit;
+  const end = page * limit;
 
   return new Promise((resolve) => {
     setTimeout(() => {
