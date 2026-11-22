@@ -49,7 +49,7 @@ export const KnowledgeCard = ({
           <div
             className={`flex items-center justify-between gap-2 rounded-sm
            px-2 py-0.5 text-xs transition-transform duration-200 ease-out
-           group-hover:-translate-x-10 ${status.bg} border ${status.border}`}
+           group-hover:-translate-x-10 group-focus-within:-translate-x-10 group-has-data-popup-open:-translate-x-10 ${status.bg} border ${status.border}`}
           >
             <span className={`size-1.5 rounded-full ${status.dot}`} />
             <span className={`${status.text}`}>{knowledgeBase.status}</span>
@@ -63,15 +63,15 @@ export const KnowledgeCard = ({
                   <DropdownMenuTrigger
                     type="button"
                     aria-label={`Actions for ${knowledgeBase.title}`}
-                    className="absolute right-0 top-0 flex size-8 translate-x-2 cursor-pointer items-center justify-center rounded-md text-muted-foreground opacity-0 transition-all duration-200 ease-out hover:bg-surface-container-high hover:text-foreground group-hover:translate-x-0 group-hover:opacity-100 data-popup-open:translate-x-0 data-popup-open:opacity-100"
+                    className="absolute right-0 top-0 flex size-8 translate-x-2 opacity-0 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-all duration-200 ease-out hover:bg-surface-container-high hover:text-foreground group-hover:translate-x-0 group-hover:opacity-100 group-focus-within:translate-x-0 group-focus-within:opacity-100 data-popup-open:translate-x-0 data-popup-open:opacity-100"
                     onClick={(event) => event.stopPropagation()}
                   />
                 }
               >
                 <MoreHorizontal className="size-4" />
-                <span className="sr-only">Knowledge base actions</span>
+                <span className="sr-only">actions</span>
               </TooltipTrigger>
-              <TooltipContent>Knowledge base actions</TooltipContent>
+              <TooltipContent>actions</TooltipContent>
             </Tooltip>
 
             <DropdownMenuContent align="end" className="w-36">

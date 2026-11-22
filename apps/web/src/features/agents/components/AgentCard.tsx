@@ -47,7 +47,7 @@ export const AgentCard = ({ agent, onEdit, onDelete }: AgentCardProps) => {
               flex items-center gap-2 rounded-sm border
               bg-sidebar-accent px-2 py-0.5 text-xs
               transition-transform duration-200 ease-out
-              group-hover:-translate-x-10
+              group-hover:-translate-x-10 group-focus-within:-translate-x-10 group-has-data-popup-open:-translate-x-10
             "
           >
             <span className={`size-1.5 rounded-full ${status.dot}`} />
@@ -63,7 +63,7 @@ export const AgentCard = ({ agent, onEdit, onDelete }: AgentCardProps) => {
                   <DropdownMenuTrigger
                     type="button"
                     aria-label={`Actions for ${agent.name}`}
-                    className="absolute right-0 top-0 flex size-8 translate-x-2 cursor-pointer items-center justify-center rounded-md text-muted-foreground opacity-0 transition-all duration-200 ease-out hover:bg-surface-container-high hover:text-foreground group-hover:translate-x-0 group-hover:opacity-100 data-popup-open:translate-x-0 data-popup-open:opacity-100"
+                    className="absolute right-0 top-0 flex size-8 translate-x-2 cursor-pointer items-center justify-center rounded-md text-muted-foreground opacity-0 transition-all duration-200 ease-out hover:bg-surface-container-high hover:text-foreground group-hover:translate-x-0 group-hover:opacity-100 group-focus-within:translate-x-0 group-focus-within:opacity-100 data-popup-open:translate-x-0 data-popup-open:opacity-100"
                     onClick={(event) => event.stopPropagation()}
                   />
                 }
