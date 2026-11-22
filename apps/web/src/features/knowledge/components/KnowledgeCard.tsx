@@ -47,12 +47,13 @@ export const KnowledgeCard = ({
         {/* status + action */}
         <div className="relative flex h-8 items-center">
           <div
-            className={`flex items-center justify-between gap-2 rounded-sm
+            className="flex items-center justify-between gap-2 rounded-sm border
+            bg-sidebar-accent
            px-2 py-0.5 text-xs transition-transform duration-200 ease-out
-           group-hover:-translate-x-10 group-focus-within:-translate-x-10 group-has-data-popup-open:-translate-x-10 ${status.bg} border ${status.border}`}
+           group-hover:-translate-x-10 group-focus-within:-translate-x-10 group-has-data-popup-open:-translate-x-10"
           >
             <span className={`size-1.5 rounded-full ${status.dot}`} />
-            <span className={`${status.text}`}>{knowledgeBase.status}</span>
+            <span className="text-foreground">{knowledgeBase.status}</span>
           </div>
 
           {/* Actions */}
