@@ -1,4 +1,3 @@
-import { AgentResponseDto } from "@repo/shared/contracts";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import {
   Tooltip,
@@ -14,12 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { statusStyles } from "@/utils/common.types";
-
-type AgentCardProps = {
-  agent: AgentResponseDto;
-  onEdit: (agent: AgentResponseDto) => void;
-  onDelete: (agent: AgentResponseDto) => void;
-};
+import { AgentCardProps } from "../types";
 
 export const AgentCard = ({ agent, onEdit, onDelete }: AgentCardProps) => {
   const status = statusStyles[agent.status];

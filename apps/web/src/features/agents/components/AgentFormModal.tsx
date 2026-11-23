@@ -11,7 +11,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
-  AgentResponseDto,
   CreateAgentRequestDto,
   createAgentRequestSchema,
 } from "@repo/shared/contracts";
@@ -22,12 +21,7 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { useCreateAgent, useUpdateAgent } from "../hooks/useAgents";
-
-type AgentFormModalProps = {
-  open: boolean;
-  selectedAgent?: AgentResponseDto | null;
-  onClose: () => void;
-};
+import { AgentFormModalProps } from "../types";
 
 export const AgentFormModal = ({
   open,
