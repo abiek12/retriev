@@ -4,10 +4,13 @@ import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getKnowledgeBases } from "../api/mock-knowledge";
 import { KnowledgeResponseDto } from "@repo/shared";
+import { KnowledgeFormModal } from "../components/KnowledgeFormModal";
 import { KnowledgeCard } from "../components/KnowledgeCard";
 
 export const KnowledgeBasePage = () => {
-  // const [knowledgeModalOpen, setKnowledgeModalOpen] = useState(false);
+  const [knowledgeModalOpen, setKnowledgeModalOpen] = useState(false);
+  const [selectedKnowledge, setSelectedKnowledge] =
+    useState<KnowledgeResponseDto | null>(null);
   const [knowledgeBases, setKnowledgeBase] = useState<KnowledgeResponseDto[]>(
     [],
   );
@@ -41,9 +44,12 @@ export const KnowledgeBasePage = () => {
           <TooltipTrigger
             render={
               <Button
-                aria-label="Create a new agent"
+                aria-label="Create a new knowledge source"
                 className="cursor-pointer p-5 rounded-sm"
-                onClick={() => console.log("test")}
+                onClick={() => {
+                  setSelectedKnowledge(null);
+                  setKnowledgeModalOpen(true);
+                }}
               />
             }
           >
@@ -61,9 +67,10 @@ export const KnowledgeBasePage = () => {
             <KnowledgeCard
               key={knowledgeBase.id}
               knowledgeBase={knowledgeBase}
-              onEdit={(knowledgeBase) =>
-                console.log("Edit knowledge base:", knowledgeBase.id)
-              }
+              onEdit={(knowledgeBase) => {
+                setSelectedKnowledge(knowledgeBase);
+                setKnowledgeModalOpen(true);
+              }}
               onDelete={(knowledgeBase) =>
                 console.log("Delete knowledge base:", knowledgeBase.id)
               }
@@ -74,7 +81,18 @@ export const KnowledgeBasePage = () => {
 
       {/* Pagination */}
 
-      {/* Modal */}
+      <KnowledgeFormModal
+        open={knowledgeModalOpen}
+        selectedKnowledge={selectedKnowledge}
+        onClose={() => setKnowledgeModalOpen(false)}
+        onSaved={(saved) =>
+          setKnowledgeBase((current) =>
+            current.some((item) => item.id === saved.id)
+              ? current.map((item) => (item.id === saved.id ? saved : item))
+              : [saved, ...current],
+          )
+        }
+      />
     </div>
   );
 };
