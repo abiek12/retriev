@@ -3,6 +3,8 @@ import type {
   CreateKnowledgeRequestDto,
   CreateKnowledgeResponseDto,
   GetKnowledgeResponseDto,
+  KnowledgeListRequestDto,
+  KnowledgeListResponseDto,
   SuccessResponse,
   UpdateKnowledgeRequestDto,
   UpdateKnowledgeResponseDto,
@@ -34,4 +36,14 @@ export const getKnowledge = async (id: string) => {
 
 export const completeKnowledgeUpload = async (id: string) => {
   await apiClient.post(`/knowledge-bases/${id}/upload-complete`);
+};
+
+export const getKnowledgeBases = async (
+  params: KnowledgeListRequestDto,
+  signal?: AbortSignal,
+): Promise<KnowledgeListResponseDto> => {
+  const response = await apiClient.get<
+    SuccessResponse<KnowledgeListResponseDto>
+  >("/knowledge-bases", { params, signal });
+  return response.data.data;
 };
