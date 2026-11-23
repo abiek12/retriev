@@ -47,3 +47,7 @@ export const getKnowledgeBases = async (
   >("/knowledge-bases", { params, signal });
   return response.data.data;
 };
+
+export const deleteKnowledge = async (id: string): Promise<void> => {
+  await apiClient.delete(`/knowledge-bases/${id}`);
+};

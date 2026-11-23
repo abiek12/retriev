@@ -8,11 +8,14 @@ import { AppPagination } from "@/components/common/AppPagination";
 import { KnowledgeCardSkeleton } from "../components/KnowledgeCardSkeleton";
 import { KnowledgeResponseDto } from "@repo/shared";
 import { KnowledgeFormModal } from "../components/KnowledgeFormModal";
+import { KnowledgeDeleteModal } from "../components/KnowledgeDeleteModal";
 import { KnowledgeCard } from "../components/KnowledgeCard";
 
 export const KnowledgeBasePage = () => {
   const [knowledgeModalOpen, setKnowledgeModalOpen] = useState(false);
   const [selectedKnowledge, setSelectedKnowledge] =
+    useState<KnowledgeResponseDto | null>(null);
+  const [knowledgeToDelete, setKnowledgeToDelete] =
     useState<KnowledgeResponseDto | null>(null);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -102,9 +105,7 @@ export const KnowledgeBasePage = () => {
                   setSelectedKnowledge(knowledgeBase);
                   setKnowledgeModalOpen(true);
                 }}
-                onDelete={(knowledgeBase) =>
-                  console.log("Delete knowledge base:", knowledgeBase.id)
-                }
+                onDelete={setKnowledgeToDelete}
               />
             ))}
           </div>
@@ -126,6 +127,17 @@ export const KnowledgeBasePage = () => {
             isFetching={isFetching}
           />
         </div>
+      )}
+
+      {knowledgeToDelete && (
+        <KnowledgeDeleteModal
+          open
+          knowledge={knowledgeToDelete}
+          onClose={() => setKnowledgeToDelete(null)}
+          onDeleted={() => {
+            if (knowledgeBases.length === 1 && page > 1) setPage(page - 1);
+          }}
+        />
       )}
 
       <KnowledgeFormModal
