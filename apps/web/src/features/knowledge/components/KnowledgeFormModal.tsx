@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { FileText, Link, Text } from "lucide-react";
-import { useForm, type UseFormRegisterReturn } from "react-hook-form";
+import {
+  Controller,
+  useForm,
+  type Control,
+  type FieldValues,
+  type FieldPath,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
@@ -40,39 +46,70 @@ const ErrorMessage = ({ message }: { message?: string }) =>
     </p>
   ) : null;
 
-function MetadataFields({
-  title,
-  description,
-  titleError,
-  descriptionError,
+function FormTextField<T extends FieldValues>({
+  control,
+  name,
+  label,
+  placeholder,
+  multiline = false,
 }: {
-  title: UseFormRegisterReturn;
-  description: UseFormRegisterReturn;
-  titleError?: string;
-  descriptionError?: string;
+  control: Control<T>;
+  name: FieldPath<T>;
+  label: string;
+  placeholder: string;
+  multiline?: boolean;
+}) {
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field, fieldState }) => {
+        // These wrappers do not forward refs in React 18; use controlled values.
+        const props = {
+          id: `knowledge-${name}`,
+          name: field.name,
+          value: String(field.value ?? ""),
+          onChange: field.onChange,
+          onBlur: field.onBlur,
+          placeholder,
+          "aria-invalid": fieldState.invalid,
+        };
+        return (
+          <Field>
+            <FieldLabel htmlFor={props.id}>{label}</FieldLabel>
+            {multiline ? (
+              <Textarea {...props} rows={name === "content" ? 8 : undefined} />
+            ) : (
+              <Input {...props} type={name === "url" ? "url" : "text"} />
+            )}
+            <ErrorMessage message={fieldState.error?.message} />
+          </Field>
+        );
+      }}
+    />
+  );
+}
+
+function MetadataFields<T extends FieldValues>({
+  control,
+}: {
+  control: Control<T>;
 }) {
   return (
     <>
-      <Field>
-        <FieldLabel htmlFor="knowledge-title">Title *</FieldLabel>
-        <Input
-          {...title}
-          id="knowledge-title"
-          placeholder="Customer support FAQ"
-          aria-invalid={!!titleError}
-        />
-        <ErrorMessage message={titleError} />
-      </Field>
-      <Field>
-        <FieldLabel htmlFor="knowledge-description">Description</FieldLabel>
-        <Textarea
-          {...description}
-          id="knowledge-description"
-          placeholder="Describe this knowledge source"
-          aria-invalid={!!descriptionError}
-        />
-        <ErrorMessage message={descriptionError} />
-      </Field>
+      <FormTextField
+        control={control}
+        name={"title" as FieldPath<T>}
+        label="Title *"
+        placeholder="Customer support FAQ"
+      />
+      <FormTextField
+        control={control}
+        name={"description" as FieldPath<T>}
+        label="Description"
+        placeholder="Describe this knowledge source"
+        multiline
+      />
     </>
   );
 }
@@ -201,12 +238,7 @@ function CreateKnowledgeForm({ onClose, onSaved, onBusyChange }: FormProps) {
       noValidate
     >
       <fieldset disabled={pending} className="flex min-w-0 flex-col gap-5">
-        <MetadataFields
-          title={form.register("title")}
-          description={form.register("description")}
-          titleError={form.formState.errors.title?.message}
-          descriptionError={form.formState.errors.description?.message}
-        />
+        <MetadataFields control={form.control} />
         <fieldset className="flex min-w-0 flex-col gap-2">
           <legend className="mb-2 text-sm font-medium">Source type</legend>
           <div className="grid grid-cols-3 gap-1 rounded-lg border bg-muted/40 p-1">
@@ -235,32 +267,21 @@ function CreateKnowledgeForm({ onClose, onSaved, onBusyChange }: FormProps) {
           </div>
         </fieldset>
         {type === "text" && (
-          <Field>
-            <FieldLabel htmlFor="knowledge-content">Content *</FieldLabel>
-            <Textarea
-              {...form.register("content")}
-              id="knowledge-content"
-              rows={8}
-              placeholder="Enter your knowledge content"
-              aria-invalid={form.getFieldState("content").invalid}
-            />
-            <ErrorMessage
-              message={form.getFieldState("content").error?.message}
-            />
-          </Field>
+          <FormTextField
+            control={form.control}
+            name="content"
+            label="Content *"
+            placeholder="Enter your knowledge content"
+            multiline
+          />
         )}
         {type === "url" && (
-          <Field>
-            <FieldLabel htmlFor="knowledge-url">Source URL *</FieldLabel>
-            <Input
-              {...form.register("url")}
-              id="knowledge-url"
-              type="url"
-              placeholder="https://example.com/document.pdf"
-              aria-invalid={form.getFieldState("url").invalid}
-            />
-            <ErrorMessage message={form.getFieldState("url").error?.message} />
-          </Field>
+          <FormTextField
+            control={form.control}
+            name="url"
+            label="Source URL *"
+            placeholder="https://example.com/document.pdf"
+          />
         )}
         {type === "file" && (
           <Field>
@@ -327,7 +348,17 @@ function EditKnowledgeForm({
 }: FormProps & { knowledge: KnowledgeResponseDto }) {
   const [submitError, setSubmitError] = useState<string>();
   const form = useForm<UpdateKnowledgeRequestDto>({
-    resolver: zodResolver(updateKnowledgeRequestSchema),
+    resolver: (values, context, options) =>
+      zodResolver(updateKnowledgeRequestSchema)(
+        {
+          ...values,
+          description: values.description?.trim()
+            ? values.description
+            : undefined,
+        },
+        context,
+        options,
+      ),
     defaultValues: {
       title: knowledge.title,
       description: knowledge.description ?? "",
@@ -361,15 +392,7 @@ function EditKnowledgeForm({
       })}
     >
       <fieldset disabled={pending} className="flex min-w-0 flex-col gap-5">
-        <MetadataFields
-          title={form.register("title")}
-          description={form.register("description", {
-            setValueAs: (value: string) =>
-              value.trim() === "" ? undefined : value,
-          })}
-          titleError={form.formState.errors.title?.message}
-          descriptionError={form.formState.errors.description?.message}
-        />
+        <MetadataFields control={form.control} />
         <p className="text-sm text-muted-foreground">
           You can update the title and description. Create a new knowledge
           source to change its content or type.
