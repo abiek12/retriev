@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { knowledgeKeys, useKnowledgeBases } from "../hooks/useKnowledgeBases";
 import { AppPagination } from "@/components/common/AppPagination";
-import { Spinner } from "@/components/ui/spinner";
+import { KnowledgeCardSkeleton } from "../components/KnowledgeCardSkeleton";
 import { KnowledgeResponseDto } from "@repo/shared";
 import { KnowledgeFormModal } from "../components/KnowledgeFormModal";
 import { KnowledgeCard } from "../components/KnowledgeCard";
@@ -73,10 +73,14 @@ export const KnowledgeBasePage = () => {
           </div>
         ) : isLoading ? (
           <div
-            role="status"
-            className="flex min-h-52 items-center justify-center gap-2"
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            aria-busy="true"
+            aria-live="polite"
           >
-            <Spinner /> Loading knowledge bases…
+            <span className="sr-only">Loading knowledge bases…</span>
+            {Array.from({ length: Math.min(pageSize, 12) }).map((_, index) => (
+              <KnowledgeCardSkeleton key={index} />
+            ))}
           </div>
         ) : knowledgeBases.length === 0 ? (
           <div className="flex min-h-52 flex-col items-center justify-center gap-2 rounded-lg border border-dashed">
