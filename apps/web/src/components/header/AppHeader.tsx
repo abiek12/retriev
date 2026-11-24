@@ -1,10 +1,12 @@
-import { Bell, CircleHelp, Search, SquareMenu } from "lucide-react";
+import { CircleHelp, Moon, Search, SquareMenu, Sun } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { UserMenu } from "./UserMenu";
 import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
+import { useTheme } from "next-themes";
 
 export const AppHeader = () => {
+  const { theme, setTheme } = useTheme();
   return (
     <header className="flex h-16 shrink-0 items-center border-b bg-background px-4 sm:px-10">
       <div className="flex w-full items-center justify-between gap-3 sm:gap-6">
@@ -23,8 +25,8 @@ export const AppHeader = () => {
         </div>
 
         {/* Header Actions */}
-        <div className="flex shrink-0 items-center gap-2">
-          <Tooltip>
+        <div className="flex s  hrink-0 items-center gap-2">
+          {/*<Tooltip>
             <TooltipTrigger
               render={
                 <Button
@@ -38,7 +40,7 @@ export const AppHeader = () => {
               <Bell className="h-5 w-5" />
             </TooltipTrigger>
             <TooltipContent side="bottom">Notifications</TooltipContent>
-          </Tooltip>
+          </Tooltip>*/}
 
           <Tooltip>
             <TooltipTrigger
@@ -70,6 +72,23 @@ export const AppHeader = () => {
               <SquareMenu className="h-5 w-5" />
             </TooltipTrigger>
             <TooltipContent side="bottom">Documentations</TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  className="hidden cursor-pointer sm:inline-flex"
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Toggle-theme"
+                  onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                />
+              }
+            >
+              {theme === "light" ? <Sun /> : <Moon />}
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Toggle Theme</TooltipContent>
           </Tooltip>
 
           {/* Drop down menu */}

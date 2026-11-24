@@ -1,12 +1,6 @@
-import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useId } from "react";
-
-const themes = [
-  { value: "light", label: "Light", icon: Sun },
-  { value: "dark", label: "Dark", icon: Moon },
-  { value: "system", label: "System", icon: Monitor },
-] as const;
+import { themes } from "../types";
 
 export const AppearanceSettings = () => {
   const { theme, setTheme } = useTheme();

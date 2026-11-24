@@ -2,6 +2,7 @@ import type {
   CreateApiKeyRequestDto,
   GetApiKeyResponseDto,
 } from "@repo/shared";
+import { Monitor, Moon, Sun } from "lucide-react";
 
 export type ApiKeyType = CreateApiKeyRequestDto["type"];
 export type ApiKeyProvider = CreateApiKeyRequestDto["provider"];
@@ -26,3 +27,9 @@ export const apiKeyProviders: { value: ApiKeyProvider; label: string }[] = [
 
 export const providerLabel = (provider: ApiKeyProvider) =>
   apiKeyProviders.find(({ value }) => value === provider)?.label ?? provider;
+
+export const themes = [
+  { value: "light", label: "Light", icon: Sun },
+  { value: "dark", label: "Dark", icon: Moon },
+  { value: "system", label: "System", icon: Monitor },
+] as const;
