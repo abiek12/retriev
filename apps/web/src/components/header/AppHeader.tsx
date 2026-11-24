@@ -6,7 +6,9 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
 import { useTheme } from "next-themes";
 
 export const AppHeader = () => {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const nextTheme = resolvedTheme === "dark" ? "light" : "dark";
+  const themeLabel = `Switch to ${nextTheme} theme`;
   return (
     <header className="flex h-16 shrink-0 items-center border-b bg-background px-4 sm:px-10">
       <div className="flex w-full items-center justify-between gap-3 sm:gap-6">
@@ -25,7 +27,7 @@ export const AppHeader = () => {
         </div>
 
         {/* Header Actions */}
-        <div className="flex s  hrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           {/*<Tooltip>
             <TooltipTrigger
               render={
@@ -78,17 +80,22 @@ export const AppHeader = () => {
             <TooltipTrigger
               render={
                 <Button
-                  className="hidden cursor-pointer sm:inline-flex"
+                  className="cursor-pointer"
+                  type="button"
                   variant="ghost"
                   size="icon"
-                  aria-label="Toggle-theme"
-                  onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                  aria-label={themeLabel}
+                  onClick={() => setTheme(nextTheme)}
                 />
               }
             >
-              {theme === "light" ? <Sun /> : <Moon />}
+              {resolvedTheme === "dark" ? (
+                <Sun className="size-5" aria-hidden="true" />
+              ) : (
+                <Moon className="size-5" aria-hidden="true" />
+              )}
             </TooltipTrigger>
-            <TooltipContent side="bottom">Toggle Theme</TooltipContent>
+            <TooltipContent side="bottom">{themeLabel}</TooltipContent>
           </Tooltip>
 
           {/* Drop down menu */}
